@@ -25,7 +25,7 @@ const Login = () => {
             <input type='email' name='email' placeholder='Email' onChange={handleChange} required />
             <input type='password' name='password' placeholder='Password' onChange={handleChange} required />
             <button>Login</button>
-            <Link to="/register">Register</Link>
+            <h4>Do not have an account? <Link to='/register'>Register</Link></h4>
         </form>
     );
 };
