@@ -8,9 +8,7 @@ const Logout = () => {
         navigate('/');
     };
 
-    return (
-        <button onClick={handleClick}>Logout</button>
-    );
+    return <button onClick={handleClick}>Logout</button>;
 };
 
 export default Logout;

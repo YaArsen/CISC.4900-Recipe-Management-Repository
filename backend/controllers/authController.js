@@ -8,7 +8,7 @@ exports.register = async (req, res) => {
 
     try {
         if (await User.findOne({ email: email })) return res.status(400).json({ message: 'Email already exists' });
-        const user = new User({ name: name, email: email, password: await bcrypt.hash(password, 10), favorites: new Set(), liked: new Set(), commented: new Set() });
+        const user = new User({ name: name, email: email, password: await bcrypt.hash(password, 10), favorites: [], liked: [], commented: [] });
         await user.save();
         res.status(201).json({ message: 'User registered' });
     } catch (error) {

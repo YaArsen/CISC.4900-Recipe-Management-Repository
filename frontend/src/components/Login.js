@@ -1,20 +1,16 @@
+import Fetch from './Fetch';
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
 const Login = () => {
-    const [user, setUser] = useState({ email: '', password: '' });
+    const [user, setUser] = useState(null);
     const navigate = useNavigate();
 
-    const handleClick = async () => {
-        const res = await fetch('/api/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(user)
-        });
-
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const res = await Fetch('/api/auth/login', { method: 'POST', body: user });
         const data = await res.json();
-        if (!data.ok) alert(data.message);
-
+        if (!data.ok) return alert(data.message);
         localStorage.setItem('token', data.token);
         navigate('/profile');
     };
@@ -24,10 +20,10 @@ const Login = () => {
     };
 
     return (
-        <form onClick={handleClick}>
-            <h4>Login</h4>
-            <input type='email' name='email' placeholder='Email' onChange={handleChange} />
-            <input type='password' name='password' placeholder='Password' onChange={handleChange} />
+        <form onSubmit={handleSubmit}>
+            <h2>Login</h2>
+            <input type='email' name='email' placeholder='Email' onChange={handleChange} required />
+            <input type='password' name='password' placeholder='Password' onChange={handleChange} required />
             <button>Login</button>
             <Link to="/register">Register</Link>
         </form>

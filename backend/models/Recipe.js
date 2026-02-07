@@ -1,5 +1,13 @@
 const mongoose = require('mongoose');
 
+const commentSchema = new mongoose.Schema({
+    username: { type: String },
+    parentId: { type: mongoose.Schema.Types.ObjectId },
+    content: { type: String, required: true },
+    user: { type: mongoose.Schema.Types.ObjectId },
+    timestamp: { type: Date, default: Date.now }
+});
+
 const recipeSchema = new mongoose.Schema({
     title: { type: String, required: true, index: true },
     ingredients: { type: String, required: true },
@@ -10,8 +18,7 @@ const recipeSchema = new mongoose.Schema({
     category: { type: String, required: true, index: true },
     difficulty: { type: String, required: true, index: true },
     likes: { type: Number, default: 0, index: true },
-    likedBy: { type: [mongoose.Schema.Types.ObjectId], set: (v) => [...new Set(v)] },
-    comments:  [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
+    comments:  [commentSchema],
     username: { type: String },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     timestamp: { type: Date, default: Date.now }

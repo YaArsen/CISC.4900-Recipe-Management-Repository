@@ -1,6 +1,5 @@
 const User = require('../models/User');
 const Recipe = require('../models/Recipe');
-const Comment = require('../models/Comment');
 
 exports.postRecipe = async (req, res) => {
     const { name, userId } = req.user;
@@ -17,8 +16,8 @@ exports.postRecipe = async (req, res) => {
             category: category,
             difficuly: difficuly,
             likes: 0,
-            likedBy: new Set(),
-            comments: new Map(),
+            likedBy: [],
+            comments: [],
             username: name,
             user: userId,
             timestamp: new Date()
@@ -57,6 +56,7 @@ exports.updateRecipe = async (req, res) => {
 
     try {
         const recipe = await Recipe.findById({ _id: recipeId });
+        if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
 
         recipe.title = title || recipe.title;
         recipe.cookingTime = cookingTime || recipe.cookingTime;
@@ -64,7 +64,7 @@ exports.updateRecipe = async (req, res) => {
         recipe.instructions = instructions || recipe.instructions;
         recipe.isPublic = isPublic;
         recipe.category = category;
-        recipe.difficuly = difficuly;
+        recipe.difficulty = difficuly;
 
         await recipe.save();
         res.status(200).json({ recipe });
@@ -91,13 +91,14 @@ exports.toggleLike = async (req, res) => {
 
     try {
         const recipe = await Recipe.findById({ _id: recipeId });
+        if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
 
-        if (!recipe.likedBy.has(userId)) {
+        if (!recipe.likedBy.id(userId)) {
             recipe.likes++;
-            recipe.likedBy.add(userId);
+            recipe.likedBy.push(userId);
         } else {
             recipe.likes--;
-            recipe.likedBy.delete(userId);
+            recipe.likedBy.pull(userId);
         }
 
         await recipe.save();
@@ -112,23 +113,25 @@ exports.postComment = async (req, res) => {
     const { parentId, content } = req.body;
     const { recipeId } = req.params;
 
+    const comment = {
+        username: name,
+        parentId: parentId,
+        content: content,
+        user: userId,
+        timestamp: new Date()
+    };
+
     try {
-        const comment = new Comment({
-            username: name,
-            parentId: parentId,
-            content: content,
-            user: userId,
-            timestamp: new Date()
-        });
-
-        await comment.save();
-
         const recipe = await Recipe.findById({ _id: recipeId });
-        recipe.comments.set(comment._id, comment);
+        if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
+
+        recipe.comments.push(comment);
         await recipe.save();
 
         const user = User.findById({ _id: userId });
-        user.commented.add(recipeId);
+        if (!user) return res.status(404).json({ message: 'User not found' });
+
+        user.commented.push(recipeId);
         await user.save();
         res.status(201).json({ recipe });
     } catch (error) {
@@ -142,7 +145,11 @@ exports.updateComment = async (req, res) => {
 
     try {
         const recipe = await Recipe.findById({ _id: recipeId });
-        const comment = recipe.comments.get(commentId);
+        if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
+
+        const comment = recipe.comments.id(commentId);
+        if (!comment) return res.status(404).json({ message: 'Comment not found' });
+
         comment.content = content;
         recipe.save();
         res.status(200).json({ recipe });
@@ -170,12 +177,13 @@ exports.deleteComment = async (req, res) => {
 
     try {
         const recipe = await Recipe.findById({ _id: recipeId });
+        if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
 
         while (topLevelComment !== null) {
-            for (const x of recipe.comments.entries()) {
-                if (equals(topLevelComment, x.getValue().parentId)) {
-                    stack.push(x.getValue()._id);
-                    array.push(x.getValue()._id);
+            for (let i = 0; i < recipe.comments.length; i++) {
+                if (equals(topLevelComment, recipe.comments[i].parentId)) {
+                    stack.push(recipe.comments[i]._id);
+                    array.push(recipe.comments[i]._id);
                 }
             }
 
@@ -187,17 +195,21 @@ exports.deleteComment = async (req, res) => {
         }
 
         for (let i = 0; i < array.length; i++) {
-            for (const x of recipe.comments.entries()) {
-                if (x.getValue()._id.toString() === array[i].toString()) {
-                    x.delete();
+            for (let j = 0; j < recipe.comments.length; j++) {
+                if (recipe.comments[i]._id.toString() === array[i].toString()) {
+                    recipe.comments[i].remove();
                     break;
                 }
             }
         }
 
         const user = User.findById({ _id: userId });
-        user.commented.delete(recipeId);
-        await user.save();
+        if (!user) return res.status(404).json({ message: 'User not found' });
+
+        if (recipe.comments.filter(comment => (comment.user.toString() === user._id.toString()).length > 1)) {
+            user.commented.id(recipeId).remove();
+            await user.save();
+        }
         res.status(200).json(recipe.comments);
     } catch (error) {
         res.status(500).json({ message: error.message });

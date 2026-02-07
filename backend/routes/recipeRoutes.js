@@ -15,6 +15,6 @@ router.post('/:recipeId/comments', verifyToken, recipeController.postComment);
 router.put('/:recipeId/comments/:commentId', verifyToken, recipeController.updateComment);
 router.delete('/:recipeId/comments/:commentId', verifyToken, recipeController.deleteComment);
 
-router.get('/search', verifyToken, recipeController.searchRecipes);
+router.post('/search', verifyToken, recipeController.searchRecipes);
 
 module.exports = router;
