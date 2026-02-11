@@ -23,15 +23,20 @@ exports.postRecipe = async (req, res) => {
     });
 
     await recipe.save();
-    res.status(201).json({ message: 'Recipe added successfully', recipe });
+
+    const recipes = await Recipe.find();
+    res.status(201).json({ message: 'Recipe added successfully', recipes });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-exports.getAllRecipes = async (req, res) => {
+exports.getAllUserRecipes = async (req, res) => {
+  const { userId } = req.user;
+
   try {
-    const recipes = await Recipe.find();
+    let recipes = await Recipe.find();
+    recipes = recipes.filter(recipe => userId.toString() === recipe.user.toString());
     res.status(200).json(recipes);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -66,7 +71,9 @@ exports.updateRecipe = async (req, res) => {
     recipe.difficulty = difficulty;
 
     await recipe.save();
-    res.status(200).json({ message: 'Recipe updated successfully', recipe });
+
+    const recipes = await Recipe.find();
+    res.status(200).json({ message: 'Recipe updated successfully', recipes });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

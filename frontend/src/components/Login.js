@@ -10,7 +10,7 @@ const Login = () => {
         e.preventDefault();
         const res = await Fetch('/api/auth/login', { method: 'POST', body: user });
         const data = await res.json();
-        if (!data.ok) return alert(data.message);
+        if (!res.ok) return alert(data.message);
         localStorage.setItem('token', data.token);
         navigate('/profile');
     };
@@ -20,13 +20,15 @@ const Login = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h2>Login</h2>
-            <input type='email' name='email' placeholder='Email' onChange={handleChange} required />
-            <input type='password' name='password' placeholder='Password' onChange={handleChange} required />
-            <button>Login</button>
-            <h4>Do not have an account? <Link to='/register'>Register</Link></h4>
-        </form>
+        <div className='login-container'>
+            <form onSubmit={handleSubmit}>
+                <h2>Login</h2>
+                <input type='email' name='email' placeholder='Email' onChange={handleChange} required />
+                <input type='password' name='password' placeholder='Password' onChange={handleChange} required />
+                <button>Login</button>
+                <h4>Do not have an account? <Link to='/register'>Register</Link></h4>
+            </form>
+        </div>
     );
 };
 

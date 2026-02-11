@@ -1,8 +1,8 @@
-import ToggleButton from './ToggleButton';
 import Search from './Search';
 import Recipes from './Recipes';
+import ToggleButton from './ToggleButton';
+import { useState, useEffect } from "react";
 import { jwtDecode } from 'jwt-decode';
-import { useState, useEffect } from 'react';
 
 const Profile = () => {
     const [user, setUser] = useState(null);
@@ -17,20 +17,28 @@ const Profile = () => {
     }, [token]);
 
     useEffect(() => {
-        if (isClicked) {
-        setIsRecipesPage(true);
-        setIsSearchPage(false);
-        setIsClicked(false);
+        const component = localStorage.getItem('component');
+
+        if (component) {
+            localStorage.removeItem('component');
+
+            if (component === 'search') {
+                setIsSearchPage(true);
+                setIsRecipesPage(false);
+            } else {
+                setIsRecipesPage(true);
+                setIsSearchPage(false);
+            }
         }
-    }, [isClicked, setIsClicked]);
+    }, []);
 
-
-    if (!token || !user) return <p>Loading...</p>;
+    if (!user || !token) return <p>Loading...</p>;
 
     return (
         <div className='profile-header'>
             <h2>Welcome, {user.name}</h2>
             <ToggleButton />
+
             <button
                 className='search-page-btn' 
                 onClick={() => {
@@ -40,6 +48,7 @@ const Profile = () => {
             >
                 Search
             </button>
+
             <button
                 className='recipes-page-btn' 
                 onClick={() => {
@@ -49,8 +58,9 @@ const Profile = () => {
             >
                 Recipes
             </button>
-            {isSearchPage && <Search userId={user._id} />}
-            {isRecipesPage && <Recipes userId={user._id} />}
+
+            {isSearchPage && <Search />}
+            {isRecipesPage && <Recipes />}
         </div>
     );
 };

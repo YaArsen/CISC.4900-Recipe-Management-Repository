@@ -1,10 +1,15 @@
-import Fetch from '.Fetch';
+import Fetch from './Fetch';
+import AddRecipe from './AddRecipe';
+import EditRecipe from './EditRecipe';
 import DeleteRecipe from './DeleteRecipe';
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 
 const Recipes = () => {
     const [recipes, setRecipes] = useState([]);
+    const [recipeId, setRecipeId] = useState(null);
+    const [isAddRecipePage, setIsAddRecipePage] = useState(false);
+    const [isEditRecipePage, setIsEditRecipePage] = useState(false);
     const token = localStorage.getItem('token');
     const navigate = useNavigate();
 
@@ -21,32 +26,45 @@ const Recipes = () => {
 
     if (!recipes) return <p>Loading...</p>;
 
+    if (isAddRecipePage) return <AddRecipe setIsAddRecipePage={setIsAddRecipePage} setRecipes={setRecipes} />;
+    if (isEditRecipePage) return <EditRecipe recipeId={recipeId} setIsEditRecipePage={setIsEditRecipePage} setRecipes={setRecipes} />;
+
     return (
         <>
             <div className='recipesobj'></div>
-            <h3>Your recipes</h3>
-            <button onClick={() => navigate('/add-recipe')}></button>
+            <h3>Your Recipes</h3>
+            <button className='add-recipe-btn' onClick={() => setIsAddRecipePage(true)}>Add a New Recipe</button>
 
             {recipes.length === 0 ? (
                 <p>No recipes yet!</p>
             ) : (
-                <ul>
+                <div className='recipes-list'>
                     {recipes.map((recipe) => (
-                        <li key={recipe._id}>
-                            <img src={recipe.photoReference} alt={recipe.title} style={{ maxWidth: '100px' }} />
+                        <div key={recipe._id}>
+                            <img src={recipe.photoReference} alt='recipe' />
                             <h4>{recipe.title}</h4>
-                            {recipe.isPublic ? <h4>PUBLIC</h4> : <h4>PRIVATE</h4>}
-                            <h4>{recipe.username}</h4>
-                            <h4>{new Date(recipe.timestamp).toLocaleTimeString()}</h4>
-                            <div>
-                                <button onClick={() => navigate(`/recipe/${userId}/${recipe._id}`)}>View</button>
-                                <button onClick={() => navigate(`/edit-recipe/${recipe._id}`)}>Edit</button>
-                                <DeleteRecipe recipeId={recipe._id} setRecipes={setRecipes} />
-                                <button onClick={() => navigate(`/comments/${userId}/${recipe._id}`)}>Comments</button>
-                            </div>
-                        </li>
+
+                            <button 
+                                className='view-recipe-btn' 
+                                onClick={() => navigate(`/recipe/recipes/${recipe._id}`)}
+                            >
+                                View
+                            </button>
+
+                            <button 
+                                className='edit-recipe-btn' 
+                                onClick={() => {
+                                    setRecipeId(recipe._id);
+                                    setIsEditRecipePage(true);
+                                }}
+                            >
+                                Edit
+                            </button>
+
+                            <DeleteRecipe recipeId={recipe._id} setRecipes={setRecipes} />
+                        </div>
                     ))}
-                </ul>
+                </div>
             )}
         </>
     );

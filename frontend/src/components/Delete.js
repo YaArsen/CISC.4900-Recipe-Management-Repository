@@ -5,15 +5,15 @@ const Delete = () => {
     const token = localStorage.getItem('token');
     const navigate = useNavigate();
 
-    const handleClick = async () => {
+    const deleteAccount = async () => {
         const res = await Fetch('/api/auth/delete', { method: 'DELETE', token });
         const data = await res.json();
-        if (!data.ok) return alert(data.message);
+        if (!res.ok) return alert(data.message);
         localStorage.removeItem('token');
         navigate('/');
     };
 
-    return <button onClick={handleClick}>Delete account</button>
+    return <button onClick={deleteAccount}>Delete account</button>;
 };
 
 export default Delete;

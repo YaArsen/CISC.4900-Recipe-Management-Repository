@@ -1,9 +1,8 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
+import RecipeView from './components/RecipeView';
 import Profile from './components/Profile';
-import AddRecipe from './components/AddRecipe';
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const App = () => {
     return (
@@ -11,8 +10,8 @@ const App = () => {
             <Routes>
                 <Route path='/' element={<Login />} />
                 <Route path='/register' element={<Register />} />
+                <Route path='/recipe/:component/:recipeId' element={<RecipeView />} />
                 <Route path='/profile' element={<Profile />} />
-                <Route path='/add-recipe' element={<AddRecipe />} />
             </Routes>
         </BrowserRouter>
     );

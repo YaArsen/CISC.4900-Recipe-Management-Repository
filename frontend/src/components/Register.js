@@ -8,11 +8,9 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         const res = await Fetch('/api/auth/register', { method: 'post', body: user });
         const data = await res.json();
-        if (!data.ok) return alert(data.message);
-
+        if (!res.ok) return alert(data.message);
         navigate('/');
     };
 

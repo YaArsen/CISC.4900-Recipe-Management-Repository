@@ -4,49 +4,153 @@
 }
 
 body {
+    background: #2A7B9B;
+    background: linear-gradient(
+        281deg, 
+        rgba(42, 123, 155, 1) 0%,
+        rgba(198, 205, 52, 1) 0%, 
+        rgba(196, 204, 53, 1) 0%, 
+        rgba(237, 221, 83, 1) 0%, 
+        rgba(212, 217, 63, 1) 81%, 
+        rgba(212, 217, 63, 1) 86%
+    );
     font-weight: 300;
     font-family: Arial, sans-serif;
-    justify-content: center;
+}
+
+.login-container {
+    text-align: center;
     display: flex;
+    justify-content: center;
     align-items: center;
     height: 100vh;
     flex-direction: column;
 }
 
 input, button {
-    width: 100%;
-    padding: 15px;
-    margin-bottom: 10px;
-    font-size: 15px;
-    border: 2px solid #444;
+    height: 40px;
+    width: 400px;
+    display: block;
     border-radius: 5px;
-    background: #fff;
-    outline: none;
-}
-
-form h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 24px;
-    font-weight: 400;
+    margin-top: 5px;
 }
 
 button:hover {
-    background-color: #444;
+    background: #333;
     cursor: pointer;
 }
 
-input:focus, button:focus {
-    border-color: #777;
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+.hamb-btn, .nav-menu {
+    float: right;
+    height: 50px;
+    width: 50px;
+    margin-right: 40px;
 }
 
-a {
-    color: #a0a0a0;
-    text-decoration: none;
+.nav-menu {
+    position: relative;
+    top: 10px;
+    height: 500px;
+    width: 150px;
+    border: 5px solid #111;
+    background: #222;
+    left: 38px;
+    border-radius: 5px;
 }
 
-a:hover {
-    color: #333;
-    text-decoration: underline;
+.nav-menu button {
+    height: 45px;
+    width: 150px;
+    border-radius: 10px;
+}
+
+.add-recipe-btn {
+    position: relative;
+    left: 1500px;
+    bottom: -200px;
+}
+
+.profile-header {
+    height: 100px;
+    background: #333;
+    background: linear-gradient(180deg, rgba(51, 51, 51, 1) 0%, rgba(198, 205, 52, 1) 100%, rgba(196, 204, 53, 1) 19%, rgba(237, 221, 83, 1) 4%, rgba(212, 217, 63, 1) 57%, rgba(212, 217, 63, 1) 100%, rgba(15, 12, 12, 1) 74%);
+    border: 2px solid #222;
+}
+
+.profile-header h2{
+    position: relative;
+    top: 10px;
+    left: 10px;
+    color: #fff;
+    width: 200px;
+}
+
+.bar {
+    height: 5px;
+    width: 35px;
+    background-color: #000;
+    margin: 6px;
+    display: block;
+}
+
+h3 {
+    position: relative;
+    left: 200px;
+    bottom: -200px;
+    width: 150px;
+}
+
+p {
+    position: relative;
+    top: 400px;
+    left: 1000px;
+    width: 150px;
+}
+
+.search-page-btn {
+    display: inline;
+    position: relative;
+    left: 500px;
+}
+
+.recipes-page-btn {
+    display: inline;
+    position: relative;
+    left: 650px;
+}
+
+.searchobj {
+    position: relative;
+    bottom: -10px;
+    left: 500px;
+    height: 5px;
+    width: 400px;
+    background-color: #333;
+}
+
+.recipesobj {
+    position: relative;
+    bottom: -10px;
+    left: 1050px;
+    height: 5px;
+    width: 400px;
+    background-color: #333;
+}
+
+.search-results {
+    position: relative;
+    bottom: -100px;
+    left: 750px;
+    width: 10px;
+}
+
+h4 {
+    width: 150px;
+}
+
+.login-container h4 {
+    width: 400px;
+    position: relative;
+    left: -68px;
+    bottom: -5px;
 }

@@ -4,7 +4,7 @@ const verifyToken = require('../middleware/verifyToken');
 const router = express.Router();
 
 router.post('/', verifyToken, recipeController.postRecipe);
-router.get('/', verifyToken, recipeController.getAllRecipes);
+router.get('/', verifyToken, recipeController.getAllUserRecipes);
 router.get('/:recipeId', verifyToken, recipeController.getRecipe);
 router.put('/:recipeId', verifyToken, recipeController.updateRecipe);
 router.delete('/:recipeId', verifyToken, recipeController.deleteRecipe);
