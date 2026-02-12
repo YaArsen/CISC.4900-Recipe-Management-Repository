@@ -35,9 +35,21 @@ exports.getAllUserRecipes = async (req, res) => {
   const { userId } = req.user;
 
   try {
-    let recipes = await Recipe.find();
-    recipes = recipes.filter(recipe => userId.toString() === recipe.user.toString());
+    const recipes = await Recipe.find({ user: userId });
     res.status(200).json(recipes);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.isActivated = async (req, res) => {
+  const { userId } = req.user;
+  const { recipeId } = req.params;
+
+  try {
+    const user = await User.findById({ _id: userId });
+    if (user.liked.includes(recipeId)) return res.status(200).json('activated');
+    res.status(200).json('notActivated');
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -100,6 +112,7 @@ exports.toggleLike = async (req, res) => {
     const recipe = await Recipe.findById({ _id: recipeId });
     if (!recipe) return res.status(404).json({ message: 'Recipe not found.' });
     const isLiked = user.liked.includes(recipeId);
+    let isActivated = 'notActivated';
 
     if (isLiked) {
       recipe.likes -= 1;
@@ -107,11 +120,12 @@ exports.toggleLike = async (req, res) => {
     } else {
       recipe.likes += 1;
       user.liked.push(recipeId);
+      isActivated = 'activated';
     }
 
     await recipe.save();
     await user.save();
-    res.status(200).json(recipe);
+    res.status(200).json({ recipe, isActivated });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -232,7 +246,7 @@ exports.deleteComment = async (req, res) => {
 };
 
 exports.searchRecipes = async (req, res) => {
-  const { title, cookingTime, difficulty, category, likes } = req.body;
+  const { title, cookingTime, difficulty, category, likes, timestamp } = req.body;
   const query = { isPublic: true };
 
   if (title.trim()) query.title = { $regex: title.trim(), $options: 'i' };
@@ -246,12 +260,16 @@ exports.searchRecipes = async (req, res) => {
     (cookingTime !== '' && !isNaN(cookingTime) && Number(cookingTime) >= 0) || 
     difficulty || 
     category || 
-    (likes !== '' && !isNaN(likes) && Number(likes) >= 0);
+    (likes !== '' && !isNaN(likes) && Number(likes) >= 0) || 
+    timestamp;
 
   if (!hasFilters) return res.status(400).json({ message: 'Enter some text or apply at least one filter' });
 
   try {
-    const recipes = await Recipe.find(query);
+    let recipeQuery = Recipe.find(query);
+    if (timestamp) recipeQuery = recipeQuery.sort({ timestamp: timestamp });
+    const recipes = await recipeQuery.exec();
+
     res.status(200).json(recipes);
   } catch (error) {
     res.status(500).json({ message: error.message });

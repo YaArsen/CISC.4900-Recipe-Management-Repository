@@ -31,7 +31,7 @@ const EditRecipe = ({ recipeId, setIsEditRecipePage, setRecipes }) => {
     return (
         <>
             <h2>Edit Recipe</h2>
-            <RecipeForm initialData={recipe} onSubmit={handleFormSubmit} />
+            <RecipeForm initialData={recipe} onSubmit={handleFormSubmit} setIsEditRecipePage={setIsEditRecipePage} />
         </>
     );
 };

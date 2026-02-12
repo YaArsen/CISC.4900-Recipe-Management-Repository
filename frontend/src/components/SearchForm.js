@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const SearchForm = ({ onSubmit }) => {
-    const initialData = { title: '', cookingTime: '', likes: '', difficulty: '', category: '' };
+    const initialData = { title: '', cookingTime: '', likes: '', difficulty: '', category: '', timestamp: '' };
     const [recipe, setRecipe] = useState(initialData);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
 
@@ -63,6 +63,16 @@ const SearchForm = ({ onSubmit }) => {
                     <label htmlFor='dinner'>Dinner</label>
                     <input 
                         type='radio' name='difficulty' onChange={handleChange} value='Hard' checked={recipe.difficulty === 'Hard'} id='hard'
+                    />
+
+                    <label htmlFor='desc'>Recent</label>
+                    <input 
+                        type='radio' name='timestamp' onChange={handleChange} value='desc' checked={recipe.timestamp === 'desc'} id='desc'
+                    />
+
+                    <label htmlFor='asc'>Old</label>
+                    <input 
+                        type='radio' name='timestamp' onChange={handleChange} value='asc' checked={recipe.timestamp === 'asc'} id='asc'
                     />
 
                     <button 

@@ -16,7 +16,7 @@ const AddRecipe = ({ setIsAddRecipePage, setRecipes }) => {
     return (
         <>
             <h2>Add Recipe</h2>
-            <RecipeForm onSubmit={handleFormSubmit} />
+            <RecipeForm onSubmit={handleFormSubmit} setIsAddRecipePage={setIsAddRecipePage} />
         </>
     );
 

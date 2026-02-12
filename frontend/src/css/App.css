@@ -154,3 +154,18 @@ h4 {
     left: -68px;
     bottom: -5px;
 }
+
+.like-btn-activated {
+    width: 50px;
+    display: inline;
+    background-color: aqua;
+}
+
+.like-btn {
+    width: 50px;
+    display: inline;
+}
+
+.recipe-likes {
+    display: inline;
+}

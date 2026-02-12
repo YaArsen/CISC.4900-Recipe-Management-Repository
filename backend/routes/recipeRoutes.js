@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.post('/', verifyToken, recipeController.postRecipe);
 router.get('/', verifyToken, recipeController.getAllUserRecipes);
+router.get('/isActivated/:recipeId', verifyToken, recipeController.isActivated);
 router.get('/:recipeId', verifyToken, recipeController.getRecipe);
 router.put('/:recipeId', verifyToken, recipeController.updateRecipe);
 router.delete('/:recipeId', verifyToken, recipeController.deleteRecipe);

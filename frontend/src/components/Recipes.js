@@ -2,8 +2,8 @@ import Fetch from './Fetch';
 import AddRecipe from './AddRecipe';
 import EditRecipe from './EditRecipe';
 import DeleteRecipe from './DeleteRecipe';
+import RecipeDetails from './RecipeDetails';
 import { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
 
 const Recipes = () => {
     const [recipes, setRecipes] = useState([]);
@@ -11,7 +11,6 @@ const Recipes = () => {
     const [isAddRecipePage, setIsAddRecipePage] = useState(false);
     const [isEditRecipePage, setIsEditRecipePage] = useState(false);
     const token = localStorage.getItem('token');
-    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchRecipes = async () => {
@@ -40,19 +39,10 @@ const Recipes = () => {
             ) : (
                 <div className='recipes-list'>
                     {recipes.map((recipe) => (
-                        <div key={recipe._id}>
-                            <img src={recipe.photoReference} alt='recipe' />
-                            <h4>{recipe.title}</h4>
+                        <>
+                            <RecipeDetails recipe={recipe} component={'recipes'} />
 
                             <button 
-                                className='view-recipe-btn' 
-                                onClick={() => navigate(`/recipe/recipes/${recipe._id}`)}
-                            >
-                                View
-                            </button>
-
-                            <button 
-                                className='edit-recipe-btn' 
                                 onClick={() => {
                                     setRecipeId(recipe._id);
                                     setIsEditRecipePage(true);
@@ -62,7 +52,7 @@ const Recipes = () => {
                             </button>
 
                             <DeleteRecipe recipeId={recipe._id} setRecipes={setRecipes} />
-                        </div>
+                        </>
                     ))}
                 </div>
             )}
