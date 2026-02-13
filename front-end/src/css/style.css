@@ -169,3 +169,14 @@ h4 {
 .recipe-likes {
     display: inline;
 }
+
+.notification {
+    position: relative;
+    float: right;
+    left: -500px;
+}
+
+.notification h2 {
+    width: 500px;
+    color: #32CD32;
+}

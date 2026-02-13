@@ -1,21 +1,21 @@
 const express = require('express');
 const recipeController = require('../controllers/recipeController');
-const verifyToken = require('../middleware/verifyToken');
+const auth = require('../middleware/auth');
 const router = express.Router();
 
-router.post('/', verifyToken, recipeController.postRecipe);
-router.get('/', verifyToken, recipeController.getAllUserRecipes);
-router.get('/isActivated/:recipeId', verifyToken, recipeController.isActivated);
-router.get('/:recipeId', verifyToken, recipeController.getRecipe);
-router.put('/:recipeId', verifyToken, recipeController.updateRecipe);
-router.delete('/:recipeId', verifyToken, recipeController.deleteRecipe);
+router.post('/', auth, recipeController.postRecipe);
+router.get('/', auth, recipeController.getAllUserRecipes);
+router.get('/isActivated/:recipeId', auth, recipeController.isActivated);
+router.get('/:recipeId', auth, recipeController.getRecipe);
+router.put('/:recipeId', auth, recipeController.updateRecipe);
+router.delete('/:recipeId', auth, recipeController.deleteRecipe);
 
-router.post('/:recipeId/likes', verifyToken, recipeController.toggleLike);
+router.post('/:recipeId/likes', auth, recipeController.toggleLike);
 
-router.post('/:recipeId/comments', verifyToken, recipeController.postComment);
-router.put('/:recipeId/comments/:commentId', verifyToken, recipeController.updateComment);
-router.delete('/:recipeId/comments/:commentId', verifyToken, recipeController.deleteComment);
+router.post('/:recipeId/comments', auth, recipeController.postComment);
+router.put('/:recipeId/comments/:commentId', auth, recipeController.updateComment);
+router.delete('/:recipeId/comments/:commentId', auth, recipeController.deleteComment);
 
-router.post('/search', verifyToken, recipeController.searchRecipes);
+router.post('/search', auth, recipeController.searchRecipes);
 
 module.exports = router;

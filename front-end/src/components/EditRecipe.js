@@ -2,7 +2,7 @@ import Fetch from './Fetch';
 import RecipeForm from './RecipeForm';
 import { useState, useEffect } from 'react';
 
-const EditRecipe = ({ recipeId, setIsEditRecipePage, setRecipes }) => {
+const EditRecipe = ({ setMessage, recipeId, setIsEditRecipePage, setRecipes }) => {
     const [recipe, setRecipe] = useState(null);
     const token = localStorage.getItem('token');
 
@@ -21,8 +21,8 @@ const EditRecipe = ({ recipeId, setIsEditRecipePage, setRecipes }) => {
         const res = await Fetch(`/api/recipes/${recipeId}`, { method: 'PUT', token, body: recipe });
         const data = await res.json();
         if (!res.ok) return alert(data.message);
+        setMessage(data.message);
         setRecipes(data.recipes);
-        alert('Recipe edited successfully');
         setIsEditRecipePage(false);
     };
 

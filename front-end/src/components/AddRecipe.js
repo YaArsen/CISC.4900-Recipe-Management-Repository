@@ -1,14 +1,14 @@
 import Fetch from './Fetch';
 import RecipeForm from './RecipeForm';
 
-const AddRecipe = ({ setIsAddRecipePage, setRecipes }) => {
+const AddRecipe = ({ setMessage, setIsAddRecipePage, setRecipes }) => {
     const token = localStorage.getItem('token');
 
     const handleFormSubmit = async (recipe) => {
         const res = await Fetch('/api/recipes', { method: 'POST', token, body: recipe });
         const data = await res.json();
         if (!res.ok) return alert(data.message);
-        alert('Recipe added successfully');
+        setMessage(data.message);
         setRecipes(data.recipes);
         setIsAddRecipePage(false);
     };
