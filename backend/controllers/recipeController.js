@@ -48,8 +48,8 @@ exports.isActivated = async (req, res) => {
 
   try {
     const user = await User.findById({ _id: userId });
-    if (user.liked.includes(recipeId)) return res.status(200).json('activated');
-    res.status(200).json('notActivated');
+    if (user.liked.includes(recipeId)) return res.status(200).json(true);
+    res.status(200).json(false);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -112,7 +112,7 @@ exports.toggleLike = async (req, res) => {
     const recipe = await Recipe.findById({ _id: recipeId });
     if (!recipe) return res.status(404).json({ message: 'Recipe not found.' });
     const isLiked = user.liked.includes(recipeId);
-    let isActivated = 'notActivated';
+    let isActivated = false;
 
     if (isLiked) {
       recipe.likes -= 1;
@@ -120,7 +120,7 @@ exports.toggleLike = async (req, res) => {
     } else {
       recipe.likes += 1;
       user.liked.push(recipeId);
-      isActivated = 'activated';
+      isActivated = true;
     }
 
     await recipe.save();

@@ -13,7 +13,7 @@ const ToggleLike = ({ isActivated, recipeId, setRecipe, setIsActivated }) => {
 
     return (
         <>
-            {isActivated === 'activated' ? (
+            {isActivated ? (
                 <button className='like-btn-activated' onClick={toggleLike}>Like</button>
             ) : (
                 <button className='like-btn' onClick={toggleLike}>Like</button>

@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const RecipeView = () => {
     const [recipe, setRecipe] = useState(null);
-    const [isActivated, setIsActivated] = useState(null);
+    const [isActivated, setIsActivated] = useState(false);
     const { page, recipeId } = useParams();
     const navigate = useNavigate();
  
