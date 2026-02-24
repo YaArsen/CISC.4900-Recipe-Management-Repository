@@ -54,7 +54,7 @@ const Register = () => {
                 <p style={{ color: isUpperCaseLetter ? 'green' : 'red' }}>Upper case letter</p>
                 <p style={{ color: isSpecialSymbol ? 'green' : 'red' }}>Special symbol</p>
                 <p style={{ color: isNumber ? 'green' : 'red' }}>Number</p>
-                <p style={{ color: isLengthTenOrMore ? 'green' : 'red' }}>Min 10 symbols</p>
+                <p style={{ color: isLengthEightOrMore ? 'green' : 'red' }}>Min 8 symbols</p>
             </>}
             <input type='password' name='repeatPassword' placeholder='Repeat password' onChange={handleChange} required />
             <button type='submit'>Register</button>
