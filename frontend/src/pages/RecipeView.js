@@ -48,9 +48,7 @@ const RecipeView = () => {
                     <li key={ingredient}>{ingredient}</li>
                 ))}
             </ul>
-            <h4 className='instructions'>Instructions:<br/>
-                <span className='instructions-content'>{recipe.instructions}</span>
-            </h4>
+            <h4 className='instructions'>Instructions:<br/>{recipe.instructions}</h4>
             <h4 className='category'>Category: {recipe.category}</h4>
             <h4 className='difficulty'>Difficulty: {recipe.difficulty}</h4>
             <ToggleLike isActivated={isActivated} recipeId={recipe._id} setRecipe={setRecipe} setIsActivated={setIsActivated} />

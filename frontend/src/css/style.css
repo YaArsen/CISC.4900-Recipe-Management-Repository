@@ -321,10 +321,6 @@ p.recipes-p {
     margin-top: 40px;
 }
 
-.instructions-content {
-  white-space: pre-wrap;
-}
-
 .cooking-time {
     float: right;
     position: relative;
@@ -350,6 +346,7 @@ p.recipes-p {
 .instructions {
     margin-bottom: 10px;
     width: 500px;
+    white-space: pre-wrap;
 }
 
 .title {
