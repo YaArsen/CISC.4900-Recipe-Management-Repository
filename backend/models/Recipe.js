@@ -14,7 +14,7 @@ const recipeSchema = new mongoose.Schema({
     instructions: { type: String, required: true },
     photoReference: { type: String, required: true },
     isPublic: { type: Boolean, default: true },
-    cookingTime: { type: String, required: true, index: true },
+    cookingTime: { type: Number, required: true, index: true },
     category: { type: String, required: true, index: true },
     difficulty: { type: String, required: true, index: true },
     likes: { type: Number, default: 0, index: true },

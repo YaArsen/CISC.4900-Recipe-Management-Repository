@@ -82,16 +82,16 @@ const SearchForm = ({ onSubmit }) => {
           ))}
 
           <p className='form-p'>Difficulty</p>
-          {['Easy', 'Medium', 'Hard'].map(level => (
-            <label key={level}>
+          {['Easy', 'Medium', 'Hard'].map(difficulty => (
+            <label key={difficulty}>
               <input
                 type='radio'
                 name='difficulty'
-                value={level}
-                checked={recipe.difficulty === level}
+                value={difficulty}
+                checked={recipe.difficulty === difficulty}
                 onChange={handleChange}
               />
-              {level}
+              {difficulty}
             </label>
           ))}
 

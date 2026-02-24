@@ -12,7 +12,7 @@ exports.postRecipe = async (req, res) => {
       instructions: instructions,
       photoReference: photoReference,
       isPublic: isPublic,
-      cookingTime: cookingTime,
+      cookingTime: Number(cookingTime),
       category: category,
       difficulty: difficulty,
       likes: 0,
@@ -73,12 +73,12 @@ exports.updateRecipe = async (req, res) => {
   try {
     const recipe = await Recipe.findById({ _id: recipeId });
 
-    recipe.title = title || recipe.title;
-    recipe.ingredients = ingredients || recipe.ingredients;
-    recipe.instructions = instructions || recipe.instructions;
-    recipe.photoReference = photoReference || recipe.photoReference;
+    recipe.title = title;
+    recipe.ingredients = ingredients;
+    recipe.instructions = instructions;
+    recipe.photoReference = photoReference;
     recipe.isPublic = isPublic;
-    recipe.cookingTime = cookingTime || recipe.cookingTime;
+    recipe.cookingTime = Number(cookingTime);
     recipe.category = category;
     recipe.difficulty = difficulty;
 
@@ -258,8 +258,8 @@ exports.searchRecipes = async (req, res) => {
       }
     }
 
-    const hasFilters = Object.keys(query).length > 1;
-    if (!hasFilters) return res.status(400).json({ message: 'Enter some text or apply at least one filter' });
+    const hasMoreThanOne = Object.keys(query).length > 1;
+    if (!hasMoreThanOne) return res.status(400).json({ message: 'Enter some text or apply at least one filter' });
 
   try {
     const recipes = await Recipe.find(query).sort({ timestamp: -1 });
