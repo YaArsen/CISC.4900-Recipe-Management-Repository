@@ -1,0 +1,392 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background: #2A7B9B;
+    background: linear-gradient(
+        281deg, 
+        rgba(42, 123, 155, 1) 0%,
+        rgba(198, 205, 52, 1) 0%, 
+        rgba(196, 204, 53, 1) 0%, 
+        rgba(237, 221, 83, 1) 0%, 
+        rgba(212, 217, 63, 1) 81%, 
+        rgba(212, 217, 63, 1) 86%
+    );
+    font-weight: 300;
+    font-family: Arial, sans-serif;
+}
+
+.register-container,
+.login-container {
+    background: white;
+    width: 100%;
+    max-width: 400px;
+    margin: 400px auto;
+    padding: 60px;
+    border: 1px solid;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.register-container button,
+.login-container button {
+    width: 405px;
+}
+
+.register-container input,
+.login-container input {
+    height: 50px;
+    width: 400px;
+    display: block;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.register-container h2,
+.login-container h2 {
+    text-align: center;
+}
+
+.register-container p {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+input:not(input[type='radio'], .register-container input, .login-container input),
+button {
+    height: 50px;
+    width: 500px;
+    display: block;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+button:hover {
+    background: #333;
+    cursor: pointer;
+}
+
+.hamb-btn, .nav-menu {
+    float: right;
+    height: 50px;
+    width: 50px;
+    margin-right: 40px;
+}
+
+.nav-menu {
+    position: relative;
+    top: 10px;
+    height: 500px;
+    width: 150px;
+    border: 5px solid #111;
+    background: #222;
+    left: 38px;
+    border-radius: 5px;
+}
+
+.nav-menu button {
+    height: 45px;
+    width: 150px;
+    border-radius: 10px;
+}
+
+.add-recipe-btn {
+    float: right;
+    margin-right: 50px;
+    position: relative;
+    bottom: 50px;
+}
+
+.profile-header {
+    height: 100px;
+    background: #333;
+    background: linear-gradient(180deg, rgba(51, 51, 51, 1) 0%, rgba(198, 205, 52, 1) 100%, rgba(196, 204, 53, 1) 19%, rgba(237, 221, 83, 1) 4%, rgba(212, 217, 63, 1) 57%, rgba(212, 217, 63, 1) 100%, rgba(15, 12, 12, 1) 74%);
+    border: 2px solid #222;
+}
+
+.profile-header h2:not(h2.search-h2, h2.notification){
+    position: relative;
+    top: 10px;
+    left: 10px;
+    color: #fff;
+    width: 200px;
+}
+
+.bar {
+    height: 5px;
+    width: 35px;
+    background-color: #000;
+    margin: 6px;
+    display: block;
+}
+
+h3 {
+    position: relative;
+    left: 200px;
+    bottom: -200px;
+    width: 150px;
+}
+
+p:not(p.form-p, p.recipes-p, .register-container p) {
+    text-align: center;
+    margin-top: 200px;
+}
+
+.search-page-btn {
+    display: inline;
+    position: relative;
+    left: 500px;
+}
+
+.recipes-page-btn {
+    display: inline;
+    position: relative;
+    left: 650px;
+}
+
+.searchobj {
+    position: relative;
+    bottom: -10px;
+    left: 500px;
+    height: 5px;
+    width: 500px;
+    background-color: #333;
+}
+
+.recipesobj {
+    position: relative;
+    bottom: -10px;
+    left: 1151px;
+    height: 5px;
+    width: 500px;
+    background-color: #333;
+}
+
+h4 {
+    width: 150px;
+}
+
+.like-btn-activated {
+    width: 100px;
+    display: inline;
+    background-color: aqua;
+}
+
+.like-btn {
+    width: 100px;
+    display: inline;
+}
+
+.recipe-likes {
+    display: inline;
+    margin-left: 5px;
+}
+
+h2.notification {
+    position: fixed;
+    margin-left: 500px;
+    width: 500px;
+    color: #32CD32;
+}
+
+.recipe-form-btn {
+    float: right;
+    margin-bottom: 15px;
+    height: 50px;
+    width: 50px;
+}
+
+.recipe-form-ingredient-btn {
+    float: right;
+    height: 50px;
+    width: 50px;
+}
+
+.recipe-form {
+    background: white;
+    width: 100%;
+    max-width: 500px;
+    margin: 60px auto;
+    padding: 60px;
+    border: 1px solid;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.recipe-form textarea {
+    width: 500px;
+    height: 50px;
+    margin-top: 10px;
+    resize: vertical;
+}
+
+input[type='radio'] {
+    margin: 10px;
+}
+
+.form-p {
+    margin: 10px;
+    font-weight: bold;
+}
+
+h1 {
+    margin: 50px;
+}
+
+.search-results {
+    width: 100%;
+    max-width: 750px;
+    margin: 60px auto;
+    padding: 60px;
+}
+
+.search-results input[type='text'] {
+    display: inline;
+}
+
+.search-results button[type='submit'] {
+    display: inline;
+    width: 100px;
+    height: 55px;
+    margin-left: 5px;
+}
+
+.search-results button[type='button'] {
+    display: inline;
+    height: 55px;
+    width: 100px;
+    margin-left: 5px;
+}
+
+h2.search-h2 {
+    position: fixed;
+    left: 720px;
+    bottom: 800px;
+}
+
+.filters {
+    background: white;
+    width: 100%;
+    max-width: 500px;
+    margin: 60px auto;
+    padding: 60px;
+    border: 1px solid;
+    margin-left: 720px;
+    position: fixed;
+    bottom: 200px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.filters input[type='number'],
+.filters input[type='date'] {
+    display: inline;
+    width: 240px;
+    margin-left: 5px;
+}
+
+p.recipes-p {
+    position: relative;
+    left: 1000px;
+    bottom: -200px;
+    width: 150px;
+}
+
+.recipe-view {
+    background: white;
+    width: 100%;
+    max-width: 500px;
+    margin: 60px auto;
+    padding: 60px;
+    border: 1px solid;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.recipe-view img {
+    width: 500px;
+}
+
+.recipe-view button:not(.like-btn, .like-btn-activated) {
+    float: right;
+    height: 50px;
+    width: 50px;
+    margin-bottom: 10px;
+    position: relative;
+    bottom: 20px;
+    left: 20px;
+}
+
+.recipe-view h4:not(.date, .category, .difficulty) {
+    width: 500px;
+    margin-top: 40px;
+}
+
+.instructions-content {
+  white-space: pre-wrap;
+}
+
+.cooking-time {
+    float: right;
+    position: relative;
+    left: 300px;
+}
+
+.date {
+    width: 200px;
+}
+
+.category {
+    float: right;
+    width: 200px;
+}
+
+.difficulty {
+    float: right;
+    position: relative;
+    bottom: -20px;
+    left: 150px;
+}
+
+.instructions {
+    margin-bottom: 10px;
+    width: 500px;
+}
+
+.title {
+    position: relative;
+    left: 225px;
+}
+
+.recipe-details {
+    background: white;
+    float: left;
+    padding: 60px;
+    margin-top: 50px;
+    margin-right: 50px;
+    margin-left: 50px;
+    border: 1px solid;
+    cursor: pointer;
+    height: 300px;
+    width: 250px;
+    transition: height 0.3s ease, width 0.3s ease;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: column;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.recipe-details:hover {
+    height: 350px;
+    width: 300px;
+}
+
+.recipe-details button {
+    height: 20px;
+    width: 100px;
+}
+
+.recipe-details h4 {
+    width: 100%;
+    margin: 10px 0;
+}
