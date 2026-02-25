@@ -20,7 +20,7 @@ exports.login = async (req, res) => {
 
     try {
         const user = await User.findOne({ email: email });
-        if (!user || !await bcrypt.compare(password, user.password)) return res.status(401).json({ message: 'Email or password does not match' });
+        if (!user || !await bcrypt.compare(password, user.password)) return res.status(401).json({ message: 'User with the data not found' });
 
         const token = jwt.sign(
             { userId: user._id, name: user.name, email: user.email, favorites: user.favorites, liked: user.liked, commented: user.commented }, 
