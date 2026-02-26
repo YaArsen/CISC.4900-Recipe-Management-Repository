@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 const RecipeView = () => {
     const [recipe, setRecipe] = useState(null);
     const [isActivated, setIsActivated] = useState(null);
-    const { page, recipeId } = useParams();
+    const { page, userId, recipeId } = useParams();
     const navigate = useNavigate();
  
     useEffect(() => {
@@ -56,6 +56,7 @@ const RecipeView = () => {
             <h4 className='cooking-time'>{recipe.cookingTime} min</h4>
             <h4>Posted by {recipe.username}</h4>
             <h4 className='date'>{new Date(recipe.timestamp).toLocaleString()}</h4>
+            <button onClick={() => navigate(`/${userId}/${recipe._id}/comments`)}>Comments</button>
         </div>
     );
 };

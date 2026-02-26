@@ -59,8 +59,8 @@ const Profile = () => {
                 Recipes
             </button>
 
-            {isSearchPage && <Search />}
-            {isRecipesPage && <Recipes />}
+            {isSearchPage && <Search userId={user.userId} />}
+            {isRecipesPage && <Recipes userId={user.userId} />}
         </div>
     );
 };

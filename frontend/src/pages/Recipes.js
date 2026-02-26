@@ -7,7 +7,7 @@ import Notification from '../components/Notification';
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 
-const Recipes = () => {
+const Recipes = ({ userId }) => {
     const [recipes, setRecipes] = useState([]);
     const [recipeId, setRecipeId] = useState(null);
     const [isAddRecipePage, setIsAddRecipePage] = useState(false);
@@ -46,7 +46,7 @@ const Recipes = () => {
                 <>
                     {recipes.map((recipe) => (
                         <div className='recipe-details' key={recipe._id}>
-                            <div onClick={() => navigate(`/profile/recipes/${recipe._id}`)}>
+                            <div onClick={() => navigate(`/profile/recipes/${userId}/${recipe._id}`)}>
                                 <h4>{recipe.isPublic ? 'Public' : 'Private'}</h4>
                                 <RecipeDetails recipe={recipe} />
                             </div>
