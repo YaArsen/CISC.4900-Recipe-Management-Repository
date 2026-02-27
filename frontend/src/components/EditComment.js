@@ -7,7 +7,7 @@ const EditComment = ({ recipeId, commentId, currentContent, setComments }) => {
 
     useEffect(() => setContent(currentContent), [currentContent]);
 
-    const updateComment = async () => {
+    const updateComment = async (e) => {
         e.preventDefault();
         if (!content.trim()) return;
 
@@ -21,15 +21,17 @@ const EditComment = ({ recipeId, commentId, currentContent, setComments }) => {
         }
     };
 
-    if (isEditing)
-        return
+    if (isEditing) {
+        return (
             <form onSubmit={updateComment}>
                 <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder='Edit comment...' required />
                 <button type='submit'>Save</button>
                 <button onClick={() => setIsEditing(false)}>Cancel</button>
-            </form>;
+            </form>
+        );
+    }
 
-    return <button onClick={setIsEditing(true)}>Edit</button>;
+    return <button onClick={() => setIsEditing(true)}>Edit</button>;
 };
 
 export default EditComment;

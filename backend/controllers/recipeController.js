@@ -151,8 +151,8 @@ exports.postComment = async (req, res) => {
     await recipe.save();
 
     const user = await User.findById({ _id: userId });
-    if (!user.commented.has(recipeId)) user.commented.set(recipeId, 0);
-    user.commented.get(recipeId)++;
+    if (!user.commented.has(recipeId.toString())) user.commented.set(recipeId.toString(), 0);
+    user.commented.set(recipeId.toString(), user.commented.get(recipeId.toString()) + 1);
     await user.save();
 
     res.status(201).json(recipe.comments);
@@ -179,16 +179,6 @@ exports.updateComment = async (req, res) => {
   }
 };
 
-const equals = (obj1, obj2) => {
-    if (!obj1 && !obj2) {
-        return true;
-    } else if (!obj1 || !obj2) {
-        return false;
-    } else {
-        return obj1.toString() === obj2.toString();
-    }
-};
-
 exports.deleteComment = async (req, res) => {
   const { userId } = req.user;
   const { recipeId, commentId } = req.params;
@@ -203,11 +193,14 @@ exports.deleteComment = async (req, res) => {
     if (!comment) return res.status(404).json({ message: 'Comment not found' });
 
     while (topLevelCommentId !== null) {
-      for (let i = 0; i < recipe.comments.length; i++)
-        if (equals(topLevelCommentId, recipe.comments[i].parentId)) {
+      for (let i = 0; i < recipe.comments.length; i++) {
+        const parentId = recipe.comments[i].parentId;
+
+        if (!parentId ? false : topLevelCommentId.toString() === parentId.toString()) {
           stack1.push(recipe.comments[i]._id);
-          stack2.push(recipe.comments[i]._id);
+          stack2.push(recipe.comments[i]._id.toString());
         }
+      }
 
       if (stack1.length !== 0) {
         topLevelCommentId = stack1.pop();
@@ -216,10 +209,11 @@ exports.deleteComment = async (req, res) => {
       }
     }
 
-    const count = recipe.comments.filter(comment => comment.user.toString() === userId.toString() && stack2.includes(comment._id)).count;
+    const count = recipe.comments.filter(comment => comment.user.toString() === userId.toString() && stack2.includes(comment._id.toString())).length;
     const user = await User.findById({ _id: userId });
-    const userNumberOfComments = user.commented.get(recipeId) -= count;
-    if (userNumberOfComments === 0) user.commented.delete(recipeId);
+    const userNumberOfComments = user.commented.get(recipeId.toString());
+    user.commented.set(recipeId.toString(), userNumberOfComments - count);
+    if (user.commented.get(recipeId.toString()) === 0) user.commented.delete(recipeId.toString());
     await user.save();
 
     while (stack2.length !== 0) recipe.comments.pull(stack2.pop());

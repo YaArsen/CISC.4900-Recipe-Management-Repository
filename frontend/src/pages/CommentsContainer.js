@@ -24,8 +24,7 @@ const CommentsConatainer = () => {
 
     const postComment = async (parentId, content) => {
         try {
-            const newComment = { parentId, content };
-            const data = await fetchPostComment(recipeId, newComment);
+            const data = await fetchPostComment(recipeId, { parentId, content });
             setComments(data);
         } catch (error) {
             return alert(error);

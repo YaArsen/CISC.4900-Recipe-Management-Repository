@@ -12,7 +12,7 @@ const CommentForm = ({ parentId, onSubmit }) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <h4>{parentId ? `Reply to Comment ${parentId}` : 'Post a New Comment'}</h4>
+            <h4>{parentId ? 'Reply to Comment' : 'Post a New Comment'}</h4>
             <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder='Write your comment...' required />
             <button type='submit'>Send</button>
         </form>
