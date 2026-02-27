@@ -47,8 +47,8 @@ const Recipes = ({ userId }) => {
                     {recipes.map((recipe) => (
                         <div className='recipe-details' key={recipe._id}>
                             <div onClick={() => navigate(`/profile/recipes/${userId}/${recipe._id}`)}>
-                                <h4>{recipe.isPublic ? 'Public' : 'Private'}</h4>
                                 <RecipeDetails recipe={recipe} />
+                                <h4>{recipe.isPublic ? 'Public' : 'Private'}</h4>
                             </div>
                                 <button 
                                     onClick={() => {

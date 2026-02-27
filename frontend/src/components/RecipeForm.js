@@ -75,7 +75,6 @@ const RecipeForm = ({ initialData, onSubmit, setIsAddRecipePage, setIsEditRecipe
                 ))}
                 <button type='button' onClick={addIngredient}>+ Add Ingredient</button>
                 <textarea
-                    type='text'
                     name='instructions'
                     onChange={handleChange}
                     value={recipe.instructions}
