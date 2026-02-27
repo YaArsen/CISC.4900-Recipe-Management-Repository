@@ -30,7 +30,7 @@ const CommentItem = ({ userId, recipeId, comment, allComments, onAddReply, setCo
             </div>
 
             {showReplyForm && <CommentForm parentId={comment._id} onSubmit={handleReplySubmit} />}
-            {replies.length > 0 && <button onClick={() => setShowReplies(!showReplies)}>{showReplies ? 'Hide repls' : `Show repls ${replies.length}`}</button>}
+            {replies.length > 0 && <button onClick={() => setShowReplies(!showReplies)}>{showReplies ? 'Hide replies' : `Show replies ${replies.length}`}</button>}
 
             {showReplies && replies.map(reply => (
                 <CommentItem
