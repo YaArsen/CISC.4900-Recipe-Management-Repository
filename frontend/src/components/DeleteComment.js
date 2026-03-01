@@ -8,7 +8,6 @@ const DeleteComment = ({ recipeId, commentId, setComments }) => {
         } catch (error) {
             return alert(error);
         }
-
     };
 
     return <button onClick={deleteComment}>Delete</button>;

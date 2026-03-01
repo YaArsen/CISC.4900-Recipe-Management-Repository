@@ -25,7 +25,7 @@ const CommentItem = ({ userId, recipeId, comment, allComments, onAddReply, setCo
                         <DeleteComment recipeId={recipeId} commentId={comment._id} setComments={setComments} />
                     </>
                 )}
-                
+
                 <button onClick={() => setShowReplyForm(!showReplyForm)}>{showReplyForm ? 'Cancel Reply' : 'Reply'}</button>
             </div>
 

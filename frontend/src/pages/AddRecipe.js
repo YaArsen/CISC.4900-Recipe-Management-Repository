@@ -19,7 +19,6 @@ const AddRecipe = ({ setMessage, setIsAddRecipePage, setRecipes }) => {
             <RecipeForm onSubmit={postRecipe} setIsAddRecipePage={setIsAddRecipePage} />
         </>
     );
-
 };
 
 export default AddRecipe;

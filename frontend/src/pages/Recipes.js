@@ -29,7 +29,6 @@ const Recipes = ({ userId }) => {
     }, []);
 
     if (!recipes) return <p>Loading...</p>;
-
     if (isAddRecipePage) return <AddRecipe setMessage={setMessage} setIsAddRecipePage={setIsAddRecipePage} setRecipes={setRecipes} />;
     if (isEditRecipePage) return <EditRecipe setMessage={setMessage} recipeId={recipeId} setIsEditRecipePage={setIsEditRecipePage} setRecipes={setRecipes} />;
 
