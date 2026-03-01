@@ -4,7 +4,7 @@ import CommentForm from '../components/CommentForm';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-const CommentsConatainer = () => {
+const CommentsContainer = () => {
     const { userId, recipeId } = useParams();
     const [comments, setComments] = useState([]);
     const navigate = useNavigate();
@@ -57,4 +57,4 @@ const CommentsConatainer = () => {
     );
 };
 
-export default CommentsConatainer;
+export default CommentsContainer;
