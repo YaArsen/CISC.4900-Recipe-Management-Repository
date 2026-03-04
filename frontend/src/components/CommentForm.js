@@ -11,10 +11,22 @@ const CommentForm = ({ parentId, onSubmit }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h4>{parentId ? 'Reply to Comment' : 'Post a New Comment'}</h4>
-            <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder='Write your comment...' required />
-            <button type='submit'>Send</button>
+        <form onSubmit={handleSubmit} style={{ margin: '15px 0', padding: '10px', border: '1px solid #ddd', borderRadius: '4px' }}>
+            <h4 style={{ width: '200px' }}>{parentId ? 'Reply to Comment' : 'Post a New Comment'}</h4>
+            <textarea
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder='Write your comment...'
+                rows='3'
+                required
+                style={{ width: '100%', resize: 'vertical', padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }}
+            />
+            <button
+                type='submit'
+                style={{ padding: '8px 15px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+            >
+                Send
+            </button>
         </form>
     );
 };
