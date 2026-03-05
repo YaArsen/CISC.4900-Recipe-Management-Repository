@@ -8,13 +8,14 @@ import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 
 const Recipes = ({ userId }) => {
-    const [recipes, setRecipes] = useState([]);
-    const [recipeId, setRecipeId] = useState(null);
-    const [isAddRecipePage, setIsAddRecipePage] = useState(false);
-    const [isEditRecipePage, setIsEditRecipePage] = useState(false);
-    const [message, setMessage] = useState('');
+    const [recipes, setRecipes] = useState([]); // State to hold user's recipes
+    const [recipeId, setRecipeId] = useState(null); // State to hold the ID of a recipe being edited
+    const [isAddRecipePage, setIsAddRecipePage] = useState(false); // UI state to toggle Add Recipe view
+    const [isEditRecipePage, setIsEditRecipePage] = useState(false); // UI state to toggle Edit Recipe view
+    const [message, setMessage] = useState(''); // State for displaying user notifications
     const navigate = useNavigate();
 
+    // Effect hook to fetch all user recipes on component mount
     useEffect(() => {
         const getRecipes = async () => {
             try {
@@ -28,8 +29,10 @@ const Recipes = ({ userId }) => {
         getRecipes();
     }, []);
 
-    if (!recipes) return <p>Loading...</p>;
+    if (!recipes) return <p>Loading...</p>; // Loading state
+    // Conditional rendering for Add Recipe view
     if (isAddRecipePage) return <AddRecipe setMessage={setMessage} setIsAddRecipePage={setIsAddRecipePage} setRecipes={setRecipes} />;
+    // Conditional rendering for Edit Recipe view
     if (isEditRecipePage) return <EditRecipe setMessage={setMessage} recipeId={recipeId} setIsEditRecipePage={setIsEditRecipePage} setRecipes={setRecipes} />;
 
     return (
@@ -37,7 +40,7 @@ const Recipes = ({ userId }) => {
             <div className='recipesobj'></div>
             <h1>Your Recipes</h1>
             <button className='add-recipe-btn' onClick={() => setIsAddRecipePage(true)}>Add a New Recipe</button>
-            {message &&  setTimeout(() => setMessage(''), 2000) && <Notification message={message} />}
+            {message &&  setTimeout(() => setMessage(''), 2000) && <Notification message={message} />} {/* Display notification and clear it after 2 seconds */}
 
             {recipes.length === 0 ? (
                 <p className='recipes-p'>No recipes yet!</p>
@@ -45,20 +48,23 @@ const Recipes = ({ userId }) => {
                 <>
                     {recipes.map((recipe) => (
                         <div className='recipe-details' key={recipe._id}>
+                            {/* Clickable area to view full recipe details */}
                             <div onClick={() => navigate(`/profile/recipes/${userId}/${recipe._id}`)}>
                                 <RecipeDetails recipe={recipe} />
                                 <h4>{recipe.isPublic ? 'Public' : 'Private'}</h4>
                             </div>
-                                <button 
-                                    onClick={() => {
-                                        setRecipeId(recipe._id);
+                            {/* Edit button sets the active recipe ID and switches view */}
+                            <button 
+                                onClick={() => {
+                                    setRecipeId(recipe._id);
                                         setIsEditRecipePage(true);
-                                    }}
-                                >
-                                    Edit
-                                </button>
+                                }}
+                            >
+                                Edit
+                            </button>
 
-                                <DeleteRecipe setMessage={setMessage} recipeId={recipe._id} setRecipes={setRecipes} />
+                            {/* Delete component handles API call and state update */}
+                            <DeleteRecipe setMessage={setMessage} recipeId={recipe._id} setRecipes={setRecipes} />
                         </div>
                     ))}
                 </>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 const SearchForm = ({ onSubmit }) => {
+  // Define the initial shape of the search criteria for easy resetting
   const initialData = {
     title: '',
     cookingTime: '',
@@ -11,18 +12,21 @@ const SearchForm = ({ onSubmit }) => {
     endDate: ''
   };
 
-  const [recipe, setRecipe] = useState(initialData);
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [recipe, setRecipe] = useState(initialData); // State to manage all form field values
+  const [isFilterOpen, setIsFilterOpen] = useState(false); // State to toggle the visibility of advanced filters
 
+  // Handles form submission: prevents default reload and passes state to parent
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(recipe);
   };
 
+  // Generic change handler: updates the state based on the input's name attribute
   const handleChange = (e) => {
     setRecipe({ ...recipe, [e.target.name]: e.target.value });
   };
 
+  // Resets the search form to initial empty values
   const clear = () => {
     setRecipe(initialData);
   };
@@ -30,6 +34,7 @@ const SearchForm = ({ onSubmit }) => {
   return (
     <>
       <form className='search-results' onSubmit={handleSubmit}>
+        {/* Main search input for title */}
         <input
           type='text'
           name='title'
@@ -38,6 +43,7 @@ const SearchForm = ({ onSubmit }) => {
           placeholder='Search...'
         />
 
+        {/* Button to show advanced filters, hidden when filters are open */}
         {!isFilterOpen && (
           <button type='button' onClick={() => setIsFilterOpen(true)}>
             Open Filters
@@ -47,8 +53,10 @@ const SearchForm = ({ onSubmit }) => {
         <button type='submit'>Search</button>
       </form>
 
+      {/* Advanced Filters Section: conditionally rendered */}
       {isFilterOpen && (
         <div className='filters'>
+          {/* Numeric inputs for filters */}
           <input
             type='number'
             min='0'
@@ -67,6 +75,7 @@ const SearchForm = ({ onSubmit }) => {
             placeholder='Minimum likes'
           />
 
+          {/* Radio buttons for category */}
           <p className='form-p'>Category</p>
           {['Breakfast', 'Lunch', 'Dinner'].map(category => (
             <label key={category}>
@@ -81,6 +90,7 @@ const SearchForm = ({ onSubmit }) => {
             </label>
           ))}
 
+          {/* Radio buttons for difficulty */}
           <p className='form-p'>Difficulty</p>
           {['Easy', 'Medium', 'Hard'].map(difficulty => (
             <label key={difficulty}>
@@ -95,6 +105,7 @@ const SearchForm = ({ onSubmit }) => {
             </label>
           ))}
 
+          {/* Date range filters */}
           <p className='form-p'>Date Range</p>
           <input
             type='date'
@@ -110,6 +121,7 @@ const SearchForm = ({ onSubmit }) => {
             onChange={handleChange}
           />
 
+          {/* Action buttons for filters */}
           <button type='button' onClick={clear}>
             Clear
           </button>

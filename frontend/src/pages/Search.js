@@ -1,25 +1,26 @@
-import { fetchSearchRecipes } from '../api';
-import SearchForm from '../components/SearchForm';
+import { fetchSearchRecipes } from '../api'; // Import API function to fetch recipes
+import SearchForm from '../components/SearchForm'; // Import component for user search input
 import RecipeDetails from '../components/RecipeDetails';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react'; // Hook for managing state
+import { useNavigate } from 'react-router-dom'; // Hook for navigation/routing
 
 const Search = ({ userId }) => {
-    const [recipes, setRecipes] = useState([]);
-    const [isFetchedOk, setIsFetchedOk] = useState(false);
-    const navigate = useNavigate();
+    const [recipes, setRecipes] = useState([]); // State to store fetched recipes
+    const [isFetchedOk, setIsFetchedOk] = useState(false); // State to track if the API request has finished
+    const navigate = useNavigate(); // Initialize navigation function
 
+    // Async function to handle search submission
     const searchRecipes = async (recipe) => {
-        setIsFetchedOk(false);
-        setRecipes([]);
+        setIsFetchedOk(false); // Reset status before fetching
+        setRecipes([]); // Clear previous results
 
         try {
-            const data = await fetchSearchRecipes(recipe);
-            setRecipes(data);
-            setIsFetchedOk(true);
+            const data = await fetchSearchRecipes(recipe); // Fetch data from API
+            setRecipes(data); // Set results in state
+            setIsFetchedOk(true); // Mark fetch as complete
         } catch (error) {
-            alert(error);
-            setIsFetchedOk(true);
+            alert(error); // Alert error if request fails
+            setIsFetchedOk(true); // Mark fetch as complete anyway to hide loading state
             return;
         }
     };
@@ -27,9 +28,12 @@ const Search = ({ userId }) => {
     return (
         <>
             <div className='searchobj'></div>
-                <SearchForm onSubmit={searchRecipes} />
+                <SearchForm onSubmit={searchRecipes} /> {/* Search form component, calling searchRecipes on submission */}
+
+                {/* Conditional rendering: display recipes if found, or message if not */}
                 {isFetchedOk && recipes.length > 0 ? (
                     recipes.map((recipe) => (
+                        // Make each recipe clickable, navigating to the detailed view
                         <div onClick={() => navigate(`/profile/search/${userId}/${recipe._id}`)} className='recipe-details' key={recipe._id}>
                             <RecipeDetails recipe={recipe} />
                         </div>
