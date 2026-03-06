@@ -6,6 +6,7 @@ import RecipeDetails from '../components/RecipeDetails';
 import Notification from '../components/Notification';
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
+import threeVerticalDots from '../assets/three-dots-vertical.svg';
 
 const Recipes = ({ userId }) => {
     const [recipes, setRecipes] = useState([]); // State to hold user's recipes
@@ -13,6 +14,7 @@ const Recipes = ({ userId }) => {
     const [isAddRecipePage, setIsAddRecipePage] = useState(false); // UI state to toggle Add Recipe view
     const [isEditRecipePage, setIsEditRecipePage] = useState(false); // UI state to toggle Edit Recipe view
     const [message, setMessage] = useState(''); // State for displaying user notifications
+    const [isManaging, setIsManaging] = useState(false);
     const navigate = useNavigate();
 
     // Effect hook to fetch all user recipes on component mount
@@ -33,7 +35,7 @@ const Recipes = ({ userId }) => {
     // Conditional rendering for Add Recipe view
     if (isAddRecipePage) return <AddRecipe setMessage={setMessage} setIsAddRecipePage={setIsAddRecipePage} setRecipes={setRecipes} />;
     // Conditional rendering for Edit Recipe view
-    if (isEditRecipePage) return <EditRecipe setMessage={setMessage} recipeId={recipeId} setIsEditRecipePage={setIsEditRecipePage} setRecipes={setRecipes} />;
+    if (isEditRecipePage) return <EditRecipe setIsManaging={setIsManaging} setMessage={setMessage} recipeId={recipeId} setIsEditRecipePage={setIsEditRecipePage} setRecipes={setRecipes} />;
 
     return (
         <>
@@ -54,17 +56,26 @@ const Recipes = ({ userId }) => {
                                 <h4>{recipe.isPublic ? 'Public' : 'Private'}</h4>
                             </div>
                             {/* Edit button sets the active recipe ID and switches view */}
-                            <button 
-                                onClick={() => {
-                                    setRecipeId(recipe._id);
-                                        setIsEditRecipePage(true);
-                                }}
-                            >
-                                Edit
+                            <button className='manage-btn' onClick={() => setIsManaging(!isManaging)}>
+                                <img src={threeVerticalDots} alt='manage' />
                             </button>
+                    
+                            {isManaging && (
+                                <div className='is-managing-recipe-container'>
+                                    <button 
+                                        onClick={() => {
+                                            setRecipeId(recipe._id);
+                                            setIsEditRecipePage(true);
+                                        }}
+                                    >
+                                        Edit
+                                    </button>
 
-                            {/* Delete component handles API call and state update */}
-                            <DeleteRecipe setMessage={setMessage} recipeId={recipe._id} setRecipes={setRecipes} />
+                                    {/* Delete component handles API call and state update */}
+                                    <DeleteRecipe setMessage={setMessage} recipeId={recipe._id} setRecipes={setRecipes} />
+                                </div>
+                    )}
+                        
                         </div>
                     ))}
                 </>

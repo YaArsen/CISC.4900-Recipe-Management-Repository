@@ -122,11 +122,12 @@ const SearchForm = ({ onSubmit }) => {
           />
 
           {/* Action buttons for filters */}
-          <button type='button' onClick={clear}>
+          <button className='form-btn' type='button' onClick={clear}>
             Clear
           </button>
 
           <button
+            className='form-btn'
             type='button'
             onClick={() => {
               setIsFilterOpen(false);

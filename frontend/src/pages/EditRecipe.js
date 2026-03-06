@@ -2,7 +2,7 @@ import { fetchGetRecipe, fetchUpdateRecipe } from '../api';
 import RecipeForm from '../components/RecipeForm';
 import { useState, useEffect } from 'react';
 
-const EditRecipe = ({ setMessage, recipeId, setIsEditRecipePage, setRecipes }) => {
+const EditRecipe = ({ setIsManaging, setMessage, recipeId, setIsEditRecipePage, setRecipes }) => {
     const [recipe, setRecipe] = useState(null); // State to hold the recipe data fetched from the API
 
     // useEffect to fetch the recipe data when the component mounts or when recipeId changes
@@ -26,6 +26,7 @@ const EditRecipe = ({ setMessage, recipeId, setIsEditRecipePage, setRecipes }) =
             setMessage(data.message); // Set success message
             setRecipes(data.recipes); // Update parent state with new recipe list
             setIsEditRecipePage(false); // Close edit page/view
+            setIsManaging(false);
         } catch (error) {
             return alert(error); // Basic error handling for updates
         }

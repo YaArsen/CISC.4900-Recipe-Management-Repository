@@ -73,7 +73,7 @@ const RecipeForm = ({ initialData, onSubmit, setIsAddRecipePage, setIsEditRecipe
                         )}
                     </div>
                 ))}
-                <button type='button' onClick={addIngredient}>+ Add Ingredient</button>
+                <button className='form-btn' type='button' onClick={addIngredient}>+ Add Ingredient</button>
                 <textarea
                     name='instructions'
                     onChange={handleChange}
@@ -146,7 +146,7 @@ const RecipeForm = ({ initialData, onSubmit, setIsAddRecipePage, setIsEditRecipe
                         {difficulty}
                     </label>
                 ))}
-                <button type='submit'>Save recipe</button>
+                <button className='form-btn' type='submit'>Save recipe</button>
             </form>
         </>
     );

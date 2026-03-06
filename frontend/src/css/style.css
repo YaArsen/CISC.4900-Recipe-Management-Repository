@@ -31,7 +31,11 @@ body {
 
 .register-container button,
 .login-container button {
+    height: 50px;
     width: 405px;
+    display: block;
+    border-radius: 5px;
+    margin-top: 5px;
 }
 
 .register-container input,
@@ -54,10 +58,9 @@ body {
     left: 0;
 }
 
-input:not(input[type='radio'], 
+input:not(input[type='radio'],
 .register-container input, 
-.login-container input),
-button {
+.login-container input) {
     height: 50px;
     width: 500px;
     display: block;
@@ -65,7 +68,7 @@ button {
     margin-top: 5px;
 }
 
-button:hover {
+button:hover:not(.submit-btn, .close-btn, .action-btn, .manage-btn, .is-managing-container button) {
     background: #333;
     cursor: pointer;
 }
@@ -75,6 +78,9 @@ button:hover {
     height: 50px;
     width: 50px;
     margin-right: 40px;
+    display: block;
+    border-radius: 5px;
+    margin-top: 5px;
 }
 
 .nav-menu {
@@ -92,6 +98,8 @@ button:hover {
     height: 45px;
     width: 150px;
     border-radius: 10px;
+    display: block;
+    margin-top: 5px;
 }
 
 .add-recipe-btn {
@@ -99,6 +107,11 @@ button:hover {
     margin-right: 50px;
     position: relative;
     bottom: 50px;
+    height: 50px;
+    width: 500px;
+    display: block;
+    border-radius: 5px;
+    margin-top: 5px;
 }
 
 .profile-header {
@@ -140,7 +153,7 @@ h3 {
     width: 150px;
 }
 
-p:not(p.form-p, p.recipes-p, .register-container p) {
+p:not(p.form-p, p.recipes-p, .register-container p, .comment-text) {
     text-align: center;
     margin-top: 200px;
 }
@@ -149,12 +162,20 @@ p:not(p.form-p, p.recipes-p, .register-container p) {
     display: inline;
     position: relative;
     left: 500px;
+    height: 50px;
+    width: 500px;
+    border-radius: 5px;
+    margin-top: 5px;
 }
 
 .recipes-page-btn {
     display: inline;
     position: relative;
     left: 650px;
+    height: 50px;
+    width: 500px;
+    border-radius: 5px;
+    margin-top: 5px;
 }
 
 .searchobj {
@@ -175,19 +196,21 @@ p:not(p.form-p, p.recipes-p, .register-container p) {
     background-color: #333;
 }
 
-h4 {
-    width: 150px;
-}
-
 .like-btn-activated {
     width: 100px;
     display: inline;
     background-color: aqua;
+    height: 50px;
+    border-radius: 5px;
+    margin-top: 5px;
 }
 
 .like-btn {
     width: 100px;
     display: inline;
+    height: 50px;
+    border-radius: 5px;
+    margin-top: 5px;
 }
 
 .recipe-likes {
@@ -207,12 +230,18 @@ h2.notification {
     margin-bottom: 15px;
     height: 50px;
     width: 50px;
+    display: block;
+    border-radius: 5px;
+    margin-top: 5px;
 }
 
 .recipe-form-ingredient-btn {
     float: right;
     height: 50px;
     width: 50px;
+    display: block;
+    border-radius: 5px;
+    margin-top: 5px;
 }
 
 .recipe-form {
@@ -241,7 +270,7 @@ input[type='radio'] {
     font-weight: bold;
 }
 
-h1 {
+h1:not(.comments-title) {
     margin: 50px;
 }
 
@@ -261,6 +290,16 @@ h1 {
     width: 100px;
     height: 55px;
     margin-left: 5px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.form-btn {
+    height: 50px;
+    width: 500px;
+    display: block;
+    border-radius: 5px;
+    margin-top: 5px;
 }
 
 .search-results button[type='button'] {
@@ -268,6 +307,8 @@ h1 {
     height: 55px;
     width: 100px;
     margin-left: 5px;
+    border-radius: 5px;
+    margin-top: 5px;
 }
 
 h2.search-h2 {
@@ -325,6 +366,9 @@ p.recipes-p {
     position: relative;
     bottom: 20px;
     left: 20px;
+    display: block;
+    border-radius: 5px;
+    margin-top: 5px;
 }
 
 .recipe-view h4:not(.date, .category, .difficulty) {
@@ -349,6 +393,7 @@ p.recipes-p {
 
 .difficulty {
     float: right;
+    width: 150px;
     position: relative;
     bottom: -20px;
     left: 150px;
@@ -385,12 +430,6 @@ p.recipes-p {
     width: 300px;
 }
 
-.recipe-details button {
-    height: 20px;
-    width: 100px;
-    margin-left: 50px;
-}
-
 .recipe-details h4 {
     width: 100%;
     margin-left: 10px;
@@ -403,4 +442,251 @@ p.recipes-p {
 .recipe-details h1 {
     margin: 10px;
     text-align: center;
+}
+
+
+
+/* =========================================
+   CommentsContainer Styles
+   ========================================= */
+.comments-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: #f4f4f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.comments-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.comments-title {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.close-btn {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #555;
+  transition: background-color 0.2s;
+}
+
+.close-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.no-comments-msg {
+  text-align: center;
+  color: #666;
+  padding: 20px;
+  font-style: italic;
+}
+
+/* =========================================
+   CommentForm Styles
+   ========================================= */
+.comment-form {
+  background: white;
+  padding: 15px;
+  border-radius: 4px;
+  border: 1px solid #eee;
+  margin-bottom: 20px;
+}
+
+.comment-form h4 {
+  margin: 0 0 10px 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+.comment-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
+  font-family: inherit;
+}
+
+.comment-form textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0,123,255,0.2);
+}
+
+.submit-btn {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.submit-btn:hover {
+  background-color: #0056b3;
+}
+
+/* =========================================
+   CommentItem Styles
+   ========================================= */
+.comment-item {
+  margin-top: 15px;
+  padding-bottom: 10px;
+}
+
+/* Indentation for replies */
+.comment-item.is-reply {
+  margin-left: 20px;
+  border-left: 2px solid #ddd;
+  padding-left: 10px;
+}
+
+.comment-content-wrapper {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #eee;
+  position: relative;
+}
+
+.comment-item.is-reply .comment-content-wrapper {
+  background-color: #f9f9f9;
+}
+
+.comment-header {
+  margin: 0 0 8px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.comment-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-username {
+  font-weight: bold;
+  color: #333;
+  margin-right: 8px;
+}
+
+.comment-timestamp {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.comment-text {
+  margin: 5px 0;
+  color: #444;
+  line-height: 1.4;
+}
+
+.manage-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  opacity: 0.6;
+}
+
+.manage-btn:hover {
+  opacity: 1;
+}
+
+.manage-btn img {
+  height: 20px;
+  display: block;
+}
+
+.is-managing-container {
+  position: absolute;
+  top: 35px;
+  right: 10px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  min-width: 100px;
+}
+
+/* Styling for Edit/Delete buttons inside dropdown */
+.is-managing-container button {
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.is-managing-container button:hover {
+  background-color: #f0f0f0;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  padding: 0;
+  font-size: 0.9rem;
+  margin-top: 5px;
+  margin-right: 15px;
+}
+
+.action-btn:hover {
+  text-decoration: underline;
+}
+
+.is-managing-recipe-container {
+  position: absolute;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  min-width: 100px;
+}
+
+/* Styling for Edit/Delete buttons inside dropdown */
+.is-managing-recipe-container button {
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.is-managing-recipe-container button:hover {
+  background-color: #f0f0f0;
 }

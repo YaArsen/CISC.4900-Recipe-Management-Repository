@@ -2,10 +2,12 @@ import EditComment from './EditComment';
 import DeleteComment from './DeleteComment';
 import CommentForm from './CommentForm';
 import { useState } from 'react';
+import threeVerticalDots from '../assets/three-dots-vertical.svg';
 
 const CommentItem = ({ userId, recipeId, comment, allComments, onAddReply, setComments }) => {
     const [showReplyForm, setShowReplyForm] = useState(false);
     const [showReplies, setShowReplies] = useState(false);
+    const [isManaging, setIsManaging] = useState(false);
     const replies = allComments.filter(c => !c.parentId ? false : c.parentId.toString() === comment._id.toString());
 
     const handleReplySubmit = (content) => {
@@ -13,56 +15,50 @@ const CommentItem = ({ userId, recipeId, comment, allComments, onAddReply, setCo
         setShowReplyForm(false);
     };
 
+    
     return (
-        <div
-            style={{ 
-                marginLeft: comment.parentId ? '20px' : '0', 
-                borderLeft: comment.parentId ? '2px solid #ccc' : 'none', 
-                paddingLeft: comment.parentId ? '10px' : '0', 
-                marginTop: '15px',
-                paddingBottom: '10px'
-            }}
-        >
-            <div style={{ backgroundColor: comment.parentId ? '#f9f9f9' : '#fff', padding: '10px', borderRadius: '4px' }}>
-                <p style={{ margin: '0 0 10px 0' }}>
-                    {comment.username}
-                    {comment.content}
-                    <span style={{ color: '#333', fontSize: '0.8em', marginLeft: '10px' }}>
-                        {new Date(comment.timestamp).toLocaleString()}
-                    </span>
-                    {userId.toString() === comment.user.toString() && (
-                        <>
-                            <EditComment recipeId={recipeId} commentId={comment._id} currentContent={comment.content} setComments={setComments} />
+        <div className={`comment-item ${comment.parentId ? 'is-reply' : ''}`}>
+            <div className="comment-content-wrapper">
+                <div className="comment-header">
+                    <div className="comment-info">
+                        <span className="comment-username">{comment.username}</span>
+                        <span className="comment-timestamp">{new Date(comment.timestamp).toLocaleString()}</span>
+                    </div>
+                    
+                    <button className='manage-btn' onClick={() => setIsManaging(!isManaging)}>
+                        <img src={threeVerticalDots} alt='manage' />
+                    </button>
+                    
+                    {isManaging && userId.toString() === comment.user.toString() && (
+                        <div className='is-managing-container'>
+                            <EditComment setIsManaging={setIsManaging} recipeId={recipeId} commentId={comment._id} currentContent={comment.content} setComments={setComments} />
                             <DeleteComment recipeId={recipeId} commentId={comment._id} setComments={setComments} />
-                        </>
+                        </div>
                     )}
-                </p>
+                </div>
+            
+                <p className="comment-text"><pre>{comment.content}</pre></p>
 
-                <button
-                    style={{ background: 'none', border: 'none', color: '#007bff', cursor: 'pointer', padding: 0 }}
-                    onClick={() => setShowReplyForm(!showReplyForm)}>{showReplyForm ? 'Cancel Reply' : 'Reply'}
+                <button className="action-btn" onClick={() => setShowReplyForm(!showReplyForm)}>
+                    {showReplyForm ? 'Cancel Reply' : 'Reply'}
                 </button>
+                
+                {replies.length > 0 && (
+                    <button className="action-btn" onClick={() => setShowReplies(!showReplies)}>
+                        {showReplies ? 'Hide replies' : `Show replies (${replies.length})`}
+                    </button>
+                )}
             </div>
 
             {showReplyForm && <CommentForm parentId={comment._id} onSubmit={handleReplySubmit} />}
-            {replies.length > 0 && <button
-                style={{ background: 'none', border: 'none', color: '#007bff', cursor: 'pointer', padding: 0, marginLeft: '10px' }}
-                onClick={() => setShowReplies(!showReplies)}>{showReplies ? 'Hide replies' : `Show replies ${replies.length}`}
-            </button>}
-
-            {showReplies && <div style={{ marginTop: '10px' }}>
-                {replies.map(reply => (
-                    <CommentItem
-                        key={reply._id}
-                        userId={userId}
-                        recipeId={recipeId}
-                        comment={reply}
-                        allComments={allComments}
-                        onAddReply={onAddReply}
-                        setComments={setComments}
-                    />
-                ))}
-            </div>}
+            
+            {showReplies && (
+                <div style={{ marginTop: '10px' }}>
+                    {replies.map(reply => (
+                        <CommentItem key={reply._id} userId={userId} recipeId={recipeId} comment={reply} allComments={allComments} onAddReply={onAddReply} setComments={setComments} />
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

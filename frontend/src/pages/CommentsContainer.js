@@ -41,9 +41,12 @@ const CommentsContainer = () => {
     .sort((a, b) => b.timestamp - a.timestamp);
 
     return (
-        <div style={{ maxWidth: '800px', margin: '0 auto', padding: '30px', backgroundColor: '#f4f4f9', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)' }}>
-            <button onClick={() => navigate(-1)}>x</button>
-            <h1 style={{ margin: '0' }}>Recipe comments {comments.length}</h1> {/* Header displaying the total number of comments */}
+        <div className="comments-container">
+            <div className="comments-header-row">
+                <h1 className="comments-title">Recipe comments {comments.length}</h1> {/* Header displaying the total number of comments */}
+                <button className="close-btn" onClick={() => navigate(-1)}>x</button>
+            </div>
+
             <CommentForm parentId={undefined} onSubmit={(content) => postComment(undefined, content)} /> {/* Form to submit a new top-level comment */}
 
             <div style={{ marginTop: '30px' }}>
@@ -61,7 +64,7 @@ const CommentsContainer = () => {
                 ))}
 
                 {/* Message displayed when there are no comments */}
-                {topLevelComments.length === 0 && <p style={{ textAlign: 'center', color: '#333' }}>Be the first to share your thoughts!</p>}
+                {topLevelComments.length === 0 && <p className="no-comments-msg">Be the first to share your thoughts!</p>}
             </div>
         </div>
     );
