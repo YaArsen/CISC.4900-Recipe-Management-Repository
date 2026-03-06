@@ -1,3 +1,4 @@
+import SearchOutline from '../assets/search-outline.svg';
 import { useState } from 'react';
 
 const SearchForm = ({ onSubmit }) => {
@@ -50,7 +51,7 @@ const SearchForm = ({ onSubmit }) => {
           </button>
         )}
 
-        <button type='submit'>Search</button>
+        <button type='submit' style={{ position: 'absolute'}}><img style={{ width: '25px' }} src={SearchOutline} alt='Search' /></button>
       </form>
 
       {/* Advanced Filters Section: conditionally rendered */}
