@@ -103,15 +103,12 @@ button:hover:not(.submit-btn, .close-btn, .action-btn, .manage-btn, .is-managing
 }
 
 .add-recipe-btn {
-    float: right;
-    margin-right: 50px;
-    position: relative;
-    bottom: 50px;
+    position: absolute;
     height: 50px;
     width: 500px;
-    display: block;
     border-radius: 5px;
-    margin-top: 5px;
+    left: 1500px;
+    z-index: -1;
 }
 
 .profile-header {
