@@ -17,10 +17,7 @@ exports.register = async (req, res) => {
             const user = new User({
                 name: decoded.name,
                 email: decoded.email,
-                password: await bcrypt.hash(decoded.password, 10),
-                favorites: [],
-                liked: [],
-                commented: new Map()
+                password: await bcrypt.hash(decoded.password, 10)
             });
 
             await user.save(); // Save the new user document to the database

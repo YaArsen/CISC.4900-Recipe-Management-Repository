@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     favorites: [mongoose.Schema.Types.ObjectId],
     liked: [mongoose.Schema.Types.ObjectId],
-    commented: { type: Map, of: Number }
+    commented: { type: Map, of: Number, default: new Map() }
 });
 
 module.exports = mongoose.model('User', userSchema);

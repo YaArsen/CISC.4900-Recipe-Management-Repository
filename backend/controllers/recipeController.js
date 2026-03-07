@@ -15,11 +15,8 @@ exports.postRecipe = async (req, res) => {
       cookingTime: Number(cookingTime),
       category: category,
       difficulty: difficulty,
-      likes: 0,
-      comments: [],
       username: name,
-      user: userId,
-      timestamp: new Date()
+      user: userId
     });
 
     await recipe.save();
@@ -144,8 +141,7 @@ exports.postComment = async (req, res) => {
       username: name,
       parentId: parentId,
       content: content,
-      user: userId,
-      timestamp: new Date()
+      user: userId
     });
 
     await recipe.save();
