@@ -11,42 +11,43 @@ exports.register = async (req, res) => {
         if (await User.findOne({ email: email })) return res.status(400).json({ message: 'Email already exists' });
 
         if (verificationToken) {
-            const decoded = jwt.verify(verificationToken, process.env.JWT_SECRET);
+            const user = jwt.verify(verificationToken, process.env.JWT_SECRET);
 
-            // Create a new user instance with the provided data
-            const user = new User({
-                name: decoded.name,
-                email: decoded.email,
-                password: await bcrypt.hash(decoded.password, 10)
-            });
+            // Create a new user and save the new user document to the database
+            await new User({
+                name: user.name,
+                email: user.email,
+                password: await bcrypt.hash(user.password, 10)
+            }).save();
 
-            await user.save(); // Save the new user document to the database
             res.status(201).json({ message: 'User account registered successfully' }); // Send a success response upon successful registration
         } else {
-            const token = jwt.sign(
-                {
-                    name, 
-                    email, 
-                    password
-                },
-                process.env.JWT_SECRET, // Secret key from environment variables for signing the token
-                {
-                    expiresIn: '5m' // Token expiration time (5 minutes)
-                }
-            );
+            if (name && email && password) {
+                const token = jwt.sign(
+                    {
+                        name, 
+                        email, 
+                        password
+                    },
+                    process.env.JWT_SECRET, // Secret key from environment variables for signing the token
+                    {
+                        expiresIn: '5m' // Token expiration time (5 minutes)
+                    }
+                );
 
-            await transporter.sendMail({
-                from: process.env.USER_EMAIL,
-                to: email,
-                subject: 'Email Verification',
-                text: 'Please verify your email',
-                html: `
-                    <p>Click on the link to verify your email</p>
-                    <a href='http://localhost:3000/verify-email/${token}'>Verify Email</a>
-                `
-            });
+                await transporter.sendMail({
+                    from: process.env.USER_EMAIL,
+                    to: email,
+                    subject: 'Email Verification',
+                    text: 'Please verify your email',
+                    html: `
+                        <p>Click on the link to verify your email</p>
+                        <a href='http://localhost:3000/verify-email/${token}'>Verify Email</a>
+                    `
+                });
 
-            res.status(200).json({ message: 'Please verify your email' });
+                res.status(200).json({ message: 'Please verify your email' });
+            }
         }
     } catch (error) {
         res.status(500).json({ message: error.message }); // Handle any server errors during the process
