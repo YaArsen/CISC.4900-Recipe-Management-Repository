@@ -36,7 +36,7 @@ exports.register = async (req, res) => {
             );
 
             await transporter.sendMail({
-                from: 'ars7ya@gmail.com',
+                from: process.env.USER_EMAIL,
                 to: email,
                 subject: 'Email Verification',
                 text: 'Please verify your email',
