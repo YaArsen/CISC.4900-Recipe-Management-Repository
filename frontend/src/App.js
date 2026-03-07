@@ -3,6 +3,7 @@ import Register from './pages/Register';
 import RecipeView from './pages/RecipeView';
 import Profile from './pages/Profile';
 import CommentsContainer from './pages/CommentsContainer';
+import VerifyUser from './components/VerifyUser';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const App = () => {
@@ -14,6 +15,7 @@ const App = () => {
                 <Route path='/profile' element={<Profile />} />
                 <Route path='/profile/:page/:userId/:recipeId' element={<RecipeView />} />
                 <Route path='/:userId/:recipeId/comments' element={<CommentsContainer />} />
+                <Route path='/verify-email/:verificationToken' element={<VerifyUser />} />
             </Routes>
         </BrowserRouter>
     );

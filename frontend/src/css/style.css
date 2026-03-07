@@ -687,3 +687,24 @@ p.recipes-p {
 .is-managing-recipe-container button:hover {
   background-color: #f0f0f0;
 }
+
+.recipe-img-and-title {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #eee;
+}
+
+.recipe-img-and-title img {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  object-fit: cover; /* Ensures photo doesn't stretch */
+}
+
+.recipe-img-and-title h1 {
+  font-size: 24px;
+  margin: 0;
+}
