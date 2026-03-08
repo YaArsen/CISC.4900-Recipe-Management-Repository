@@ -49,6 +49,7 @@ const Login = () => {
                 <input type='password' name='password' placeholder='Password' onChange={handleChange} required /> {/* Password input field with handlers for change events */}
                 <button>Login</button> {/* Submit button for the form */}
                 <Link to='/register'>Register</Link> {/* A link to navigate to the registration page */}
+                <Link to='/email'>Reset password</Link>
             </form>
         </div>
     );

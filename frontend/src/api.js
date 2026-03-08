@@ -109,3 +109,10 @@ export const fetchDeleteComment = async (recipeId, commentId) => {
     if (!res.ok) throw new Error(data.message);
     return data;
 };
+
+export const fetchPasswordReset = async (user) => {
+    const res = await Fetch('/api/auth/reset', { method: 'PUT', body: user });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    return data;
+};

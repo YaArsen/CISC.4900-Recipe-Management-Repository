@@ -94,3 +94,45 @@ exports.deleteAccount = async (req, res) => {
         res.status(500).json({ message: error.message }); // Handle any server errors during the process
     }
 };
+
+exports.passwordReset = async (req, res) => {
+    const { email, password, verificationToken } = req.body;
+
+    try {
+        if (verificationToken) {
+            const user = jwt.verify(verificationToken, process.env.JWT_SECRET);
+            await User.findByIdAndUpdate(user.userId, { password: await bcrypt.hash(password, 10) });
+            res.status(200).json({ message: 'Password updated successfully' });
+        } else {
+            if (email) {
+                const user = await User.findOne({ email: email });
+                if (!user) return res.status(404).json({ message: 'User not found' });
+
+                const token = jwt.sign(
+                    {
+                        userId: user._id
+                    },
+                    process.env.JWT_SECRET,
+                    {
+                        expiresIn: '5m'
+                    }
+                );
+
+                await transporter.sendMail({
+                    from: process.env.USER_EMAIL,
+                    to: email,
+                    subject: 'Password reset',
+                    text: 'Reset your password',
+                    html: `
+                        <p>Click on the link to navigate on a password reset page</p>
+                        <a href='http://localhost:3000/reset-password/${token}>Password reset page</a>
+                    `
+                });
+
+                res.status(200).json({ message: 'Please verify your email '});
+            }
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
