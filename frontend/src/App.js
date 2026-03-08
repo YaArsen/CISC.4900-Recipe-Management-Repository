@@ -6,6 +6,7 @@ import CommentsContainer from './pages/CommentsContainer';
 import VerifyUser from './components/VerifyUser';
 import PasswordReset from './pages/PasswordReset';
 import Email from './pages/Email';
+import AccountPage from './pages/AccountPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
                 <Route path='/verify-email/:verificationToken' element={<VerifyUser />} />
                 <Route path='/reset-password/:verificationToken' element={<PasswordReset />} />
                 <Route path='/email' element={<Email />} />
+                <Route path='/account' element={<AccountPage />} />
             </Routes>
         </BrowserRouter>
     );

@@ -116,3 +116,27 @@ export const fetchPasswordReset = async (user) => {
     if (!res.ok) throw new Error(data.message);
     return data;
 };
+
+export const fetchUpdateName = async (user) => {
+    const token = localStorage.getItem('token');
+    const res = await Fetch('/api/auth/update-name', { method: 'PUT', token, body: user });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    return data;
+};
+
+export const fetchUpdateEmail = async (user) => {
+    const token = localStorage.getItem('token');
+    const res = await Fetch('/api/auth/update-email', { method: 'PUT', token, body: user });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    return data;
+};
+
+export const fetchUpdatePassword = async (user) => {
+    const token = localStorage.getItem('token');
+    const res = await Fetch('/api/auth/update-password', { method: 'PUT', token, body: user });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    return data;
+};

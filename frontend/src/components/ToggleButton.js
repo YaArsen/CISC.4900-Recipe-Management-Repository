@@ -1,9 +1,11 @@
 import Delete from './Delete';
 import Logout from './Logout';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ToggleButton = () => {
     const [isOpen, setIsOpen] = useState(false); // State to track if the menu is open (false) or closed (true)
+    const navigate = useNavigate();
 
     return (
         <>
@@ -16,6 +18,7 @@ const ToggleButton = () => {
 
             {/* Conditionally render the navigation menu only if isOpen is true */}
             {isOpen && <nav className='nav-menu'>
+                <button onClick={() => navigate('/account')}>Account</button>
                 <Delete />
                 <Logout />
             </nav>}

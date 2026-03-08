@@ -42,7 +42,7 @@ const Recipes = ({ userId }) => {
             <div className='recipesobj'></div>
             <h1>Your Recipes</h1>
             <button className='add-recipe-btn' onClick={() => setIsAddRecipePage(true)}>Add a New Recipe</button>
-            {message &&  setTimeout(() => setMessage(''), 2000) && <Notification message={message} />} {/* Display notification and clear it after 2 seconds */}
+            {message && setTimeout(() => setMessage(''), 2000) && <Notification message={message} />} {/* Display notification and clear it after 2 seconds */}
 
             {recipes.length === 0 ? (
                 <p className='recipes-p'>No recipes yet!</p>
