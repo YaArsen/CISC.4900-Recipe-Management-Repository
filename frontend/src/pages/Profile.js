@@ -1,3 +1,4 @@
+import { fetchGetUsername } from '../api';
 import Search from './Search';
 import Recipes from './Recipes';
 import ToggleButton from '../components/ToggleButton';
@@ -7,6 +8,7 @@ import { jwtDecode } from 'jwt-decode';
 const Profile = () => {
     // State for user data and navigation between sections
     const [user, setUser] = useState(null);
+    const [username, setUsername] = useState(null);
     const [isSearchPage, setIsSearchPage] = useState(true);
     const [isRecipesPage, setIsRecipesPage] = useState(false);
     const token = localStorage.getItem('token'); // Retrieve token for authentication
@@ -17,6 +19,19 @@ const Profile = () => {
         const user = jwtDecode(token);
         setUser(user);
     }, [token]);
+
+    useEffect(() => {
+        try {
+            const getUsername = async () => {
+                const data = await fetchGetUsername();
+                setUsername(data);
+            };
+
+            getUsername();
+        } catch (error) {
+            return alert(error);
+        }
+    }, []);
 
     // Effect to handle navigation state (e.g., loading from previous page)
     useEffect(() => {
@@ -35,11 +50,11 @@ const Profile = () => {
         }
     }, []);
 
-    if (!user || !token) return <p>Loading...</p>; // Loading state if user data isn't available
+    if (!user || !username || !token) return <p>Loading...</p>; // Loading state if user data isn't available
 
     return (
         <div className='profile-header'>
-            <h2>Welcome, {user.name}</h2>
+            <h2>Welcome, {username}</h2>
             <ToggleButton />
 
             {/* Navigation Buttons */}

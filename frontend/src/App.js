@@ -7,6 +7,7 @@ import VerifyUser from './components/VerifyUser';
 import PasswordReset from './pages/PasswordReset';
 import Email from './pages/Email';
 import AccountPage from './pages/AccountPage';
+import VerifyEmail from './components/VerifyEmail';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
                 <Route path='/reset-password/:verificationToken' element={<PasswordReset />} />
                 <Route path='/email' element={<Email />} />
                 <Route path='/account' element={<AccountPage />} />
+                <Route path='/verify/:verificationToken' element={<VerifyEmail />} />
             </Routes>
         </BrowserRouter>
     );

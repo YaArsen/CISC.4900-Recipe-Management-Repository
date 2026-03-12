@@ -1,9 +1,11 @@
-import { fetchUpdateName, fetchUpdateEmail, fetchUpdatePassword } from '../api';
+import { fetchUpdateName, fetchUpdateEmail, fetchUpdatePassword, fetchGetUsername, fetchGetUserEmail } from '../api';
 import Notification from '../components/Notification';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const AccountPage = () => {
+    const [username, setUsername] = useState('');
+    const [userEmail, setUserEmail] = useState('');
     const [isLowerCaseLetter, setIsLowerCaseLetter] = useState(false);
     const [isUpperCaseLetter, setIsUpperCaseLetter] = useState(false);
     const [isSpecialSymbol, setIsSpecialSymbol] = useState(false);
@@ -14,11 +16,43 @@ const AccountPage = () => {
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
-    const [newPassword, setNewePassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
     const [repeatPassword, setRepeatPassword] = useState('');
 
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (localStorage.getItem('message')) {
+            setMessage(localStorage.getItem('message'));
+            localStorage.removeItem('message');
+        }
+    }, []);
+    useEffect(() => {
+        try {
+            const getUserEmail = async () => {
+                const data = await fetchGetUserEmail();
+                setUserEmail(data);
+            };
+
+            getUserEmail();
+        } catch (error) {
+            return alert(error);
+        }
+    }, []);
+
+    useEffect(() => {
+        try {
+            const getUsername = async () => {
+                const data = await fetchGetUsername();
+                setUsername(data);
+            };
+
+            getUsername();
+        } catch (error) {
+            return alert(error);
+        }
+    }, []);
 
     const checkNewPassword = (e) => {
         const { value } = e.target;
@@ -29,7 +63,7 @@ const AccountPage = () => {
         setIsNumber(/[0-9]/.test(value));
         setIsLengtEightOrMore(value.length >= 8);
 
-        setPassword(value);
+        setNewPassword(value);
     };
 
     const updatePassword = async (e) => {
@@ -43,7 +77,7 @@ const AccountPage = () => {
             const data = await fetchUpdatePassword({ password: password.trim(), newPassword: newPassword.trim() });
             setMessage(data.message);
             setPassword('');
-            setNewePassword('');
+            setNewPassword('');
             setRepeatPassword('');
         } catch (error) {
             return alert(error);
@@ -76,16 +110,20 @@ const AccountPage = () => {
         }
     };
 
+    if (!username && !userEmail) return <p>Loading...</p>;
+
     return (
         <div>
             <button onClick={() => navigate('/profile')}>x</button>
             {message && setTimeout(() => setMessage(''), 2000) && <Notification message={message} />}
 
+            <h4>User email: {userEmail}</h4>
             <form onSubmit={updateEmail}>
                 <input value={email} type='email' onChange={(e) => setEmail(e.target.value)} placeholder='Email' required />
                 <button type='submit'>Update email</button>
             </form>
 
+            <h4>User name: {username}</h4>
             <form onSubmit={updateName}>
                 <input value={name} type='text' onChange={(e) => setName(e.target.value)} placeholder='Name' required />
                 <button type='submit'>Update name</button>

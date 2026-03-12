@@ -151,3 +151,82 @@ exports.updateName = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+exports.updateEmail = async (req, res) => {
+    const { userId } = req.user;
+    const { email, verificationToken } = req.body;
+
+    try {
+        if (verificationToken) {
+            const user = jwt.verify(verificationToken, process.env.JWT_SECRET);
+            await User.findByIdAndUpdate(user.userId, { email: user.email });
+            res.status(200).json({ message: 'User email updated successfully '});
+        } else {
+            if (email) {
+                const token = jwt.sign(
+                    {
+                        userId,
+                        email
+                    },
+                    process.env.JWT_SECRET,
+                    {
+                        expiresIn: '5m'
+                    }
+                );
+
+                await transporter.sendMail({
+                    from: process.env.USER_EMAIL,
+                    to: email,
+                    subject: 'Verify email',
+                    text: 'Please verify your email',
+                    html: `
+                        <p>Click on the link to verify your email</p>
+                        <a href='http://localhost:3000/verify/${token}'>Verify Email</a>
+                    `
+                });
+
+                res.status(200).json({ message: 'Please verify your email' });
+            }
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+exports.updatePassword = async (req, res) => {
+    const { userId } = req.user;
+    const { password, newPassword } = req.body;
+
+    try {
+        const user = await User.findById({ _id: userId });
+        if (!user) return res.status(404).json({ message: 'User not found' });
+        if (!await bcrypt.compare(password, user.password)) return res.status(401).json({ message: 'Current password does not match' });
+        user.password = await bcrypt.hash(newPassword, 10);
+        await user.save();
+        res.status(200).json({ message: 'User password updated successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+exports.getUserEmail = async (req, res) => {
+    const { userId } = req.user;
+
+    try {
+        const user = await User.findById({ _id: userId });
+        res.status(200).json(user.email);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+exports.getUsername = async (req, res) => {
+    const { userId } = req.user;
+
+    try {
+        const user = await User.findById({ _id: userId });
+        res.status(200).json(user.name);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
