@@ -5,7 +5,7 @@ import Notification from '../components/Notification';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const AccountPage = () => {
+const Account = () => {
     const [username, setUsername] = useState('');
     const [userEmail, setUserEmail] = useState('');
     const [user, setUser] = useState({
@@ -177,4 +177,4 @@ const AccountPage = () => {
     );
 };
 
-export default AccountPage;
+export default Account;
