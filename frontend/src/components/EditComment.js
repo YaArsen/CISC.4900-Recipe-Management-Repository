@@ -5,7 +5,9 @@ const EditComment = ({ setIsManaging, recipeId, commentId, currentContent, setCo
     const [content, setContent] = useState(''); // Local state to manage the textarea content
     const [isEditing, setIsEditing] = useState(false); // Toggle state between view (false) and edit (true) modes
 
-    useEffect(() => setContent(currentContent), [currentContent]); // Syncs textarea content with props whenever currentContent changes
+    useEffect(() => {
+        setContent(currentContent);
+    }, [currentContent]); // Syncs textarea content with props whenever currentContent changes
 
     // Handles API submission to update the comment
     const updateComment = async (e) => {

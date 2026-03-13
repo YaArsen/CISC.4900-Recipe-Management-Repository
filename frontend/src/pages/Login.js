@@ -1,4 +1,5 @@
 import { fetchLogin } from '../api'; // Import the API function for handling login requests
+import { handleChange } from '../utils/handleChange';
 import Notification from '../components/Notification'; // Import a custom Notification component to display messages
 import { useState, useEffect } from 'react'; // Import necessary React hooks for state management and side effects
 import { useNavigate, Link } from 'react-router-dom'; // Import navigation utilities from react-router-dom for routing
@@ -19,6 +20,16 @@ const Login = () => {
         }
     }, []);
 
+    useEffect(() => {
+        if (message) {
+            const timer = setTimeout(() => {
+                setMessage('');
+            }, 2000);
+
+            return () => clearTimeout(timer);
+        }
+    });
+
     // Async function to handle the login form submission
     const login = async (e) => {
         e.preventDefault(); // Prevent the default form submission behavior (page reload)
@@ -32,21 +43,16 @@ const Login = () => {
         }
     };
 
-    // Function to handle changes in form inputs
-    const handleChange = (e) => {
-        setUser({ ...user, [e.target.name]: e.target.value }); // Update the user state by merging the new input value with existing credentials
-    };
-
     // Render the login form UI
     return (
         <div className='login-container'>
-            {message && setTimeout(() => setMessage(''), 2000) && <Notification message={message} />}
+            {message && <Notification message={message} />}
 
             {/* The form element with an onSubmit handler pointing to the login function */}
             <form onSubmit={login}>
                 <h2>Login</h2>
-                <input type='email' name='email' placeholder='Email' onChange={handleChange} required /> {/* Email input field with handlers for change events */}
-                <input type='password' name='password' placeholder='Password' onChange={handleChange} required /> {/* Password input field with handlers for change events */}
+                <input type='email' name='email' placeholder='Email' onChange={(e) => handleChange(e, user, setUser)} required /> {/* Email input field with handlers for change events */}
+                <input type='password' name='password' placeholder='Password' onChange={(e) => handleChange(e, user, setUser)} required /> {/* Password input field with handlers for change events */}
                 <button>Login</button> {/* Submit button for the form */}
                 <Link to='/register'>Register</Link> {/* A link to navigate to the registration page */}
                 <Link to='/email'>Reset password</Link>

@@ -146,7 +146,7 @@ exports.updateName = async (req, res) => {
         if (!user) return res.status(404).json({ message: 'User not found' });
         user.name = name;
         await user.save();
-        res.status(200).json({ message: 'User name updated successfully'});
+        res.status(200).json({ name: user.name, message: 'User name updated successfully'});
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

@@ -8,7 +8,6 @@ const Email = () => {
 
     const passwordReset = async (e) => {
         e.preventDefault();
-
         if (!email.trim()) return;
 
         try {

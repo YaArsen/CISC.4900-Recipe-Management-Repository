@@ -1,3 +1,4 @@
+import { handleChange } from '../utils/handleChange';
 import { useState, useEffect } from 'react';
 
 const RecipeForm = ({ initialData, onSubmit, setIsAddRecipePage, setIsEditRecipePage }) => {
@@ -13,7 +14,9 @@ const RecipeForm = ({ initialData, onSubmit, setIsAddRecipePage, setIsEditRecipe
     });
     
     useEffect(() => {
-        if (initialData) setRecipe(initialData);
+        if (initialData) {
+            setRecipe(initialData);
+        }
     }, [initialData]);
 
     const handleSubmit = (e) => {
@@ -37,13 +40,14 @@ const RecipeForm = ({ initialData, onSubmit, setIsAddRecipePage, setIsEditRecipe
         setRecipe({ ...recipe, ingredients: newIngredients });
     };
 
-    const handleChange = (e) => {
+    const onChange = (e) => {
         const { name, value } = e.target;
 
-        if (name === 'state')
+        if (name === 'state') {
             setRecipe({ ...recipe, isPublic: value === 'Public' });
-        else
-            setRecipe({ ...recipe, [name]: value });
+        } else {
+            handleChange(e, recipe, setRecipe);
+        }
     };
 
     return (
@@ -53,11 +57,12 @@ const RecipeForm = ({ initialData, onSubmit, setIsAddRecipePage, setIsEditRecipe
                 <input
                     type='text'
                     name='title'
-                    onChange={handleChange}
+                    onChange={onChange}
                     value={recipe.title}
                     placeholder='Recipe Title'
                     required
                 />
+
                 {recipe.ingredients.map((ingredient, index) => (
                     <div key={index} style={{ display: 'flex', gap: '10px' }}>
                         <input
@@ -73,72 +78,79 @@ const RecipeForm = ({ initialData, onSubmit, setIsAddRecipePage, setIsEditRecipe
                         )}
                     </div>
                 ))}
+
                 <button className='form-btn' type='button' onClick={addIngredient}>+ Add Ingredient</button>
+
                 <textarea
                     name='instructions'
-                    onChange={handleChange}
+                    onChange={onChange}
                     value={recipe.instructions}
                     placeholder='Instructions'
                     required
                 />
+
                 <input
                     type='text'
                     name='photoReference'
-                    onChange={handleChange}
+                    onChange={onChange}
                     value={recipe.photoReference}
                     placeholder='Photo Reference URL'
                     required
                 />
+
                 <label>
                     <input
                         type='radio'
                         name='state'
-                        onChange={handleChange}
+                        onChange={onChange}
                         value='Public'
                         checked={recipe.isPublic === true}
                     />
                     Public
                 </label>
+
                 <label>
                     <input
                         type='radio'
                         name='state'
-                        onChange={handleChange}
+                        onChange={onChange}
                         value='Private'
                         checked={recipe.isPublic === false}
                     />
                     Private
                 </label>
+
                 <input
                     type='number'
                     name='cookingTime'
-                    onChange={handleChange}
+                    onChange={onChange}
                     value={recipe.cookingTime}
                     placeholder='Cooking time (min)'
                     required
                 />
+
                 <p className='form-p'>Category</p>
                 {['Breakfast', 'Lunch', 'Dinner'].map(category => (
                     <label key={category}>
                         <input
                             type='radio'
                             name='category'
-                            onChange={handleChange}
+                            onChange={onChange}
                             value={category}
                             checked={recipe.category === category}
                             required
                         />
                         {category}
                     </label>
-                     
                 ))}
+                
                 <p className='form-p'>Difficulty</p>
                 {['Easy', 'Medium', 'Hard'].map(difficulty => (
                     <label key={difficulty}>
                         <input
                             type='radio'
                             name='difficulty'
-                            onChange={handleChange}
+                            onChange={onChange}
                             value={difficulty}
                             checked={recipe.difficulty === difficulty}
                             required
@@ -146,6 +158,7 @@ const RecipeForm = ({ initialData, onSubmit, setIsAddRecipePage, setIsEditRecipe
                         {difficulty}
                     </label>
                 ))}
+                
                 <button className='form-btn' type='submit'>Save recipe</button>
             </form>
         </>

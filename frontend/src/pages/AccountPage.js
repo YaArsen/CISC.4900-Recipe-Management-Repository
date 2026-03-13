@@ -1,4 +1,6 @@
 import { fetchUpdateName, fetchUpdateEmail, fetchUpdatePassword, fetchGetUsername, fetchGetUserEmail } from '../api';
+import { passwordChecker } from '../utils/passwordChecker';
+import { handleChange } from '../utils/handleChange';
 import Notification from '../components/Notification';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -6,19 +8,23 @@ import { useNavigate } from 'react-router-dom';
 const AccountPage = () => {
     const [username, setUsername] = useState('');
     const [userEmail, setUserEmail] = useState('');
-    const [isLowerCaseLetter, setIsLowerCaseLetter] = useState(false);
-    const [isUpperCaseLetter, setIsUpperCaseLetter] = useState(false);
-    const [isSpecialSymbol, setIsSpecialSymbol] = useState(false);
-    const [isNumber, setIsNumber] = useState(false);
-    const [isLengthEightOrMore, setIsLengtEightOrMore] = useState(false);
+    const [user, setUser] = useState({
+        name: '',
+        email: '',
+        password: '',
+        newPassword: '',
+        repeatPassword: ''
+    });
+
+    const [checkPassword, setCheckPassword] = useState({
+        isLowerCaseLetter: false,
+        isUpperCaseLetter: false,
+        isSpecialSymbol: false,
+        isNumber: false,
+        isLengthEightOrMore: false
+    });
+
     const [isFocus, setIsFocus] = useState(false);
-
-    const [email, setEmail] = useState('');
-    const [name, setName] = useState('');
-    const [password, setPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [repeatPassword, setRepeatPassword] = useState('');
-
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
@@ -28,6 +34,17 @@ const AccountPage = () => {
             localStorage.removeItem('message');
         }
     }, []);
+
+    useEffect(() => {
+        if (message) {
+            const timer = setTimeout(() => {
+                setMessage('');
+            }, 2000);
+
+            return () => clearTimeout(timer);
+        }
+    });
+
     useEffect(() => {
         try {
             const getUserEmail = async () => {
@@ -54,31 +71,17 @@ const AccountPage = () => {
         }
     }, []);
 
-    const checkNewPassword = (e) => {
-        const { value } = e.target;
-
-        setIsLowerCaseLetter(/[a-z]/.test(value));
-        setIsUpperCaseLetter(/[A-Z]/.test(value));
-        setIsSpecialSymbol(/[!@#$%^&*(),.?":{}|<>]/.test(value));
-        setIsNumber(/[0-9]/.test(value));
-        setIsLengtEightOrMore(value.length >= 8);
-
-        setNewPassword(value);
-    };
-
     const updatePassword = async (e) => {
         e.preventDefault();
 
-        if (!password.trim() || !newPassword.trim() || !repeatPassword.trim()) return;
-        if (!(isLowerCaseLetter && isUpperCaseLetter && isSpecialSymbol && isNumber && isLengthEightOrMore)) return;
-        if (newPassword.trim() !== repeatPassword.trim()) return alert('Passwords do not match');
+        if (!user.password.trim() || !user.newPassword.trim() || !user.repeatPassword.trim()) return;
+        if (!(checkPassword.isLowerCaseLetter && checkPassword.isUpperCaseLetter && checkPassword.isSpecialSymbol && checkPassword.isNumber && checkPassword.isLengthEightOrMore)) return;
+        if (user.newPassword.trim() !== user.repeatPassword.trim()) return alert('Passwords do not match');
 
         try {
-            const data = await fetchUpdatePassword({ password: password.trim(), newPassword: newPassword.trim() });
+            const data = await fetchUpdatePassword({ password: user.password.trim(), newPassword: user.newPassword.trim() });
             setMessage(data.message);
-            setPassword('');
-            setNewPassword('');
-            setRepeatPassword('');
+            setUser({ ...user, password: '', newPassword: '', repeatPassword: '' });
         } catch (error) {
             return alert(error);
         }
@@ -86,12 +89,12 @@ const AccountPage = () => {
 
     const updateEmail = async (e) => {
         e.preventDefault();
-        if (!email.trim()) return;
+        if (!user.email.trim()) return;
 
         try {
-            const data = await fetchUpdateEmail({ email: email.trim() });
+            const data = await fetchUpdateEmail({ email: user.email.trim() });
             setMessage(data.message);
-            setEmail('');
+            setUser({ ...user, email: '' });
         } catch (error) {
             return alert(error);
         }
@@ -99,12 +102,13 @@ const AccountPage = () => {
 
     const updateName = async (e) => {
         e.preventDefault();
-        if (!name.trim()) return;
+        if (!user.name.trim()) return;
         
         try {
-            const data = await fetchUpdateName({ name: name.trim() });
+            const data = await fetchUpdateName({ name: user.name.trim() });
+            setUsername(data.name);
             setMessage(data.message);
-            setName('');
+            setUser({ ...user, name: '' });
         } catch (error) {
             return alert(error);
         }
@@ -115,52 +119,55 @@ const AccountPage = () => {
     return (
         <div>
             <button onClick={() => navigate('/profile')}>x</button>
-            {message && setTimeout(() => setMessage(''), 2000) && <Notification message={message} />}
+            {message && <Notification message={message} />}
 
             <h4>User email: {userEmail}</h4>
             <form onSubmit={updateEmail}>
-                <input value={email} type='email' onChange={(e) => setEmail(e.target.value)} placeholder='Email' required />
+                <input value={user.email} type='email' name='email' onChange={(e) => handleChange(e, user, setUser)} placeholder='Email' required />
                 <button type='submit'>Update email</button>
             </form>
 
-            <h4>User name: {username}</h4>
+            <h4>Username: {username}</h4>
             <form onSubmit={updateName}>
-                <input value={name} type='text' onChange={(e) => setName(e.target.value)} placeholder='Name' required />
+                <input value={user.name} type='text' name='name' onChange={(e) => handleChange(e, user, setUser)} placeholder='Name' required />
                 <button type='submit'>Update name</button>
             </form>
 
             <form onSubmit={updatePassword}>
                 <input
-                    value={password}
+                    value={user.password}
                     type='password'
-                    onChange={(e) => setPassword(e.target.value)}
+                    name='password'
+                    onChange={(e) => handleChange(e, user, setUser)}
                     placeholder='Current password'
                     required
                 />
 
                 <input
-                    value={newPassword}
+                    value={user.newPassword}
                     type='password'
+                    name='newPassword'
                     placeholder='New password'
-                    onChange={checkNewPassword}
+                    onChange={(e) => passwordChecker(e, user, setUser, setCheckPassword)}
                     onFocus={() => setIsFocus(true)}
                     onBlur={() => setIsFocus(false)}
                     required
                 />
 
                 {isFocus && <>
-                    <p style={{ color: isLowerCaseLetter ? 'green' : 'red' }}>Lower case letter</p>
-                    <p style={{ color: isUpperCaseLetter ? 'green' : 'red' }}>Upper case letter</p>
-                    <p style={{ color: isSpecialSymbol ? 'green' : 'red' }}>Special symbol</p>
-                    <p style={{ color: isNumber ? 'green' : 'red' }}>Number</p>
-                    <p style={{ color: isLengthEightOrMore ? 'green' : 'red' }}>Min 8 symbols</p>
+                    <p style={{ color: checkPassword.isLowerCaseLetter ? 'green' : 'red' }}>Lower case letter</p>
+                    <p style={{ color: checkPassword.isUpperCaseLetter ? 'green' : 'red' }}>Upper case letter</p>
+                    <p style={{ color: checkPassword.isSpecialSymbol ? 'green' : 'red' }}>Special symbol</p>
+                    <p style={{ color: checkPassword.isNumber ? 'green' : 'red' }}>Number</p>
+                    <p style={{ color: checkPassword.isLengthEightOrMore ? 'green' : 'red' }}>Min 8 symbols</p>
                 </>}
                     
                 <input
-                    value={repeatPassword}
+                    value={user.repeatPassword}
                     type='password'
+                    name='repeatPassword'
                     placeholder='Repeat password'
-                    onChange={(e) => setRepeatPassword(e.target.value)}
+                    onChange={(e) => handleChange(e, user, setUser)}
                     required
                 />
 

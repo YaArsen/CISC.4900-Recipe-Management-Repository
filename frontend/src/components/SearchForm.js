@@ -1,3 +1,4 @@
+import { handleChange } from '../utils/handleChange';
 import SearchOutline from '../assets/search-outline.svg';
 import { useState } from 'react';
 
@@ -22,11 +23,6 @@ const SearchForm = ({ onSubmit }) => {
     onSubmit(recipe);
   };
 
-  // Generic change handler: updates the state based on the input's name attribute
-  const handleChange = (e) => {
-    setRecipe({ ...recipe, [e.target.name]: e.target.value });
-  };
-
   // Resets the search form to initial empty values
   const clear = () => {
     setRecipe(initialData);
@@ -40,7 +36,7 @@ const SearchForm = ({ onSubmit }) => {
           type='text'
           name='title'
           value={recipe.title}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e, recipe, setRecipe)}
           placeholder='Search...'
         />
 
@@ -63,7 +59,7 @@ const SearchForm = ({ onSubmit }) => {
             min='0'
             name='cookingTime'
             value={recipe.cookingTime}
-            onChange={handleChange}
+            onChange={(e) => handleChange(e, recipe, setRecipe)}
             placeholder='Maximum cooking time (minutes)'
           />
 
@@ -72,7 +68,7 @@ const SearchForm = ({ onSubmit }) => {
             min='0'
             name='likes'
             value={recipe.likes}
-            onChange={handleChange}
+            onChange={(e) => handleChange(e, recipe, setRecipe)}
             placeholder='Minimum likes'
           />
 
@@ -85,7 +81,7 @@ const SearchForm = ({ onSubmit }) => {
                 name='category'
                 value={category}
                 checked={recipe.category === category}
-                onChange={handleChange}
+                onChange={(e) => handleChange(e, recipe, setRecipe)}
               />
               {category}
             </label>
@@ -100,7 +96,7 @@ const SearchForm = ({ onSubmit }) => {
                 name='difficulty'
                 value={difficulty}
                 checked={recipe.difficulty === difficulty}
-                onChange={handleChange}
+                onChange={(e) => handleChange(e, recipe, setRecipe)}
               />
               {difficulty}
             </label>
@@ -112,14 +108,14 @@ const SearchForm = ({ onSubmit }) => {
             type='date'
             name='startDate'
             value={recipe.startDate}
-            onChange={handleChange}
+            onChange={(e) => handleChange(e, recipe, setRecipe)}
           />
 
           <input
             type='date'
             name='endDate'
             value={recipe.endDate}
-            onChange={handleChange}
+            onChange={(e) => handleChange(e, recipe, setRecipe)}
           />
 
           {/* Action buttons for filters */}

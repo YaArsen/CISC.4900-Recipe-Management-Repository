@@ -17,6 +17,16 @@ const Recipes = ({ userId }) => {
     const [isManaging, setIsManaging] = useState(false);
     const navigate = useNavigate();
 
+    useEffect(() => {
+        if (message) {
+            const timer = setTimeout(() => {
+                setMessage('');
+            }, 2000);
+
+            return () => clearTimeout(timer);
+        }
+    });
+
     // Effect hook to fetch all user recipes on component mount
     useEffect(() => {
         const getRecipes = async () => {
@@ -42,7 +52,7 @@ const Recipes = ({ userId }) => {
             <div className='recipesobj'></div>
             <h1>Your Recipes</h1>
             <button className='add-recipe-btn' onClick={() => setIsAddRecipePage(true)}>Add a New Recipe</button>
-            {message && setTimeout(() => setMessage(''), 2000) && <Notification message={message} />} {/* Display notification and clear it after 2 seconds */}
+            {message && <Notification message={message} />} {/* Display notification and clear it after 2 seconds */}
 
             {recipes.length === 0 ? (
                 <p className='recipes-p'>No recipes yet!</p>
