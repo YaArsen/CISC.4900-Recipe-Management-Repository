@@ -54,7 +54,13 @@ const RecipeView = () => {
             <h4 className='instructions'>Instructions:<br/>{recipe.instructions}</h4>
             <h4 className='category'>Category: {recipe.category}</h4>
             <h4 className='difficulty'>Difficulty: {recipe.difficulty}</h4>
-            <ToggleLike isActivated={isActivated} recipeId={recipe._id} setRecipe={setRecipe} setIsActivated={setIsActivated} /> {/* Like Button Component */}
+            {/* Like Button Component */}
+            <ToggleLike
+                isActivated={isActivated}
+                recipeId={recipe._id}
+                setRecipe={setRecipe}
+                setIsActivated={setIsActivated}
+            />
             <h4 className='recipe-likes'>{recipe.likes}</h4>
             <h4 className='cooking-time'>{recipe.cookingTime} min</h4>
             <h4>Posted by {recipe.username}</h4>

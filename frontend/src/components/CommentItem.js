@@ -15,7 +15,6 @@ const CommentItem = ({ userId, recipeId, comment, allComments, onAddReply, setCo
         setShowReplyForm(false);
     };
 
-    
     return (
         <div className={`comment-item ${comment.parentId ? 'is-reply' : ''}`}>
             <div className="comment-content-wrapper">
@@ -24,25 +23,36 @@ const CommentItem = ({ userId, recipeId, comment, allComments, onAddReply, setCo
                         <span className="comment-username">{comment.username}</span>
                         <span className="comment-timestamp">{new Date(comment.timestamp).toLocaleString()}</span>
                     </div>
-                    
+
                     <button className='manage-btn' onClick={() => setIsManaging(!isManaging)}>
                         <img src={threeVerticalDots} alt='manage' />
                     </button>
                     
                     {isManaging && userId.toString() === comment.user.toString() && (
                         <div className='is-managing-container'>
-                            <EditComment setIsManaging={setIsManaging} recipeId={recipeId} commentId={comment._id} currentContent={comment.content} setComments={setComments} />
-                            <DeleteComment recipeId={recipeId} commentId={comment._id} setComments={setComments} />
+                            <EditComment
+                                setIsManaging={setIsManaging}
+                                recipeId={recipeId}
+                                commentId={comment._id}
+                                currentContent={comment.content}
+                                setComments={setComments}
+                            />
+
+                            <DeleteComment
+                                recipeId={recipeId}
+                                commentId={comment._id}
+                                setComments={setComments}
+                            />
                         </div>
                     )}
                 </div>
-            
+
                 <p className="comment-text"><pre>{comment.content}</pre></p>
 
                 <button className="action-btn" onClick={() => setShowReplyForm(!showReplyForm)}>
                     {showReplyForm ? 'Cancel Reply' : 'Reply'}
                 </button>
-                
+
                 {replies.length > 0 && (
                     <button className="action-btn" onClick={() => setShowReplies(!showReplies)}>
                         {showReplies ? 'Hide replies' : `Show replies (${replies.length})`}
@@ -51,11 +61,19 @@ const CommentItem = ({ userId, recipeId, comment, allComments, onAddReply, setCo
             </div>
 
             {showReplyForm && <CommentForm parentId={comment._id} onSubmit={handleReplySubmit} />}
-            
+
             {showReplies && (
                 <div style={{ marginTop: '10px' }}>
                     {replies.map(reply => (
-                        <CommentItem key={reply._id} userId={userId} recipeId={recipeId} comment={reply} allComments={allComments} onAddReply={onAddReply} setComments={setComments} />
+                        <CommentItem
+                            key={reply._id}
+                            userId={userId}
+                            recipeId={recipeId}
+                            comment={reply}
+                            allComments={allComments}
+                            onAddReply={onAddReply}
+                            setComments={setComments}
+                        />
                     ))}
                 </div>
             )}

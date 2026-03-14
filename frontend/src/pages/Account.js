@@ -1,4 +1,10 @@
-import { fetchUpdateName, fetchUpdateEmail, fetchUpdatePassword, fetchGetUsername, fetchGetUserEmail } from '../api';
+import {
+    fetchUpdateName,
+    fetchUpdateEmail,
+    fetchUpdatePassword,
+    fetchGetUsername,
+    fetchGetUserEmail
+} from '../api';
 import { passwordChecker } from '../utils/passwordChecker';
 import { handleChange } from '../utils/handleChange';
 import Notification from '../components/Notification';
@@ -77,7 +83,15 @@ const Account = () => {
         e.preventDefault();
 
         if (!user.password.trim() || !user.newPassword.trim() || !user.repeatPassword.trim()) return;
-        if (!(checkPassword.isLowerCaseLetter && checkPassword.isUpperCaseLetter && checkPassword.isSpecialSymbol && checkPassword.isNumber && checkPassword.isLengthEightOrMore)) return;
+
+        if (!(
+            checkPassword.isLowerCaseLetter
+            && checkPassword.isUpperCaseLetter
+            && checkPassword.isSpecialSymbol
+            && checkPassword.isNumber
+            && checkPassword.isLengthEightOrMore
+        )) return;
+
         if (user.newPassword.trim() !== user.repeatPassword.trim()) return alert('Passwords do not match');
 
         try {
@@ -125,13 +139,29 @@ const Account = () => {
 
             <h4>User email: {userEmail}</h4>
             <form onSubmit={updateEmail}>
-                <input value={user.email} type='email' name='email' onChange={(e) => handleChange(e, user, setUser)} placeholder='Email' required />
+                <input
+                    value={user.email} 
+                    type='email' 
+                    name='email' 
+                    onChange={(e) => handleChange(e, user, setUser)} 
+                    placeholder='Email' 
+                    required 
+                />
+
                 <button type='submit'>Update email</button>
             </form>
 
             <h4>Username: {username}</h4>
             <form onSubmit={updateName}>
-                <input value={user.name} type='text' name='name' onChange={(e) => handleChange(e, user, setUser)} placeholder='Name' required />
+                <input
+                    value={user.name}
+                    type='text'
+                    name='name'
+                    onChange={(e) => handleChange(e, user, setUser)}
+                    placeholder='Name'
+                    required
+                />
+
                 <button type='submit'>Update name</button>
             </form>
 

@@ -51,8 +51,25 @@ const Login = () => {
             {/* The form element with an onSubmit handler pointing to the login function */}
             <form onSubmit={login}>
                 <h2>Login</h2>
-                <input type='email' name='email' placeholder='Email' onChange={(e) => handleChange(e, user, setUser)} required /> {/* Email input field with handlers for change events */}
-                <input type='password' name='password' placeholder='Password' onChange={(e) => handleChange(e, user, setUser)} required /> {/* Password input field with handlers for change events */}
+
+                {/* Email input field with handlers for change events */}
+                <input
+                    type='email'
+                    name='email'
+                    placeholder='Email'
+                    onChange={(e) => handleChange(e, user, setUser)}
+                    required
+                />
+
+                {/* Password input field with handlers for change events */}
+                <input
+                    type='password'
+                    name='password'
+                    placeholder='Password'
+                    onChange={(e) => handleChange(e, user, setUser)}
+                    required
+                />
+                
                 <button>Login</button> {/* Submit button for the form */}
                 <Link to='/register'>Register</Link> {/* A link to navigate to the registration page */}
                 <Link to='/email'>Reset password</Link>

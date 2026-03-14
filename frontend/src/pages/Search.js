@@ -35,7 +35,7 @@ const Search = () => {
             {isFetchedOk && recipes.length > 0 ? (
                 recipes.map((recipe) => (
                     // Make each recipe clickable, navigating to the detailed view
-                    <div onClick={() => navigate(`/search/recipe-view/${recipe._id}`)} className='recipe-details' key={recipe._id}>
+                    <div key={recipe._id} className='recipe-details' onClick={() => navigate(`/search/recipe-view/${recipe._id}`)}>
                         <RecipeDetails recipe={recipe} />
                     </div>
                 ))

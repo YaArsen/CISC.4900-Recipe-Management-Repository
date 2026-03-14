@@ -11,6 +11,6 @@ export const passwordChecker = (e, data, setData, setCheckPassword) => {
         isNumber: /[0-9]/.test(value),
         isLengthEightOrMore: value.length >= 8
     });
-    
+
     handleChange(e, data, setData);
 };

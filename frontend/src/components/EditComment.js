@@ -30,7 +30,13 @@ const EditComment = ({ setIsManaging, recipeId, commentId, currentContent, setCo
     if (isEditing) {
         return (
             <form onSubmit={updateComment}>
-                <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder='Edit comment...' required />
+                <textarea
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    placeholder='Edit comment...'
+                    required
+                />
+
                 <button type='submit'>Save</button>
                 <button onClick={() => setIsEditing(false)}>Cancel</button>
             </form>

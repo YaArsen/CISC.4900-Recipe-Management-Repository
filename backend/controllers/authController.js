@@ -8,7 +8,9 @@ exports.register = async (req, res) => {
 
     try {
         // Check if a user with the provided email already exists in the database
-        if (await User.findOne({ email: email })) return res.status(400).json({ message: 'Email already exists' });
+        if (await User.findOne({ email: email })) {
+            return res.status(400).json({ message: 'Email already exists' });
+        }
 
         if (verificationToken) {
             const user = jwt.verify(verificationToken, process.env.JWT_SECRET);
@@ -60,7 +62,9 @@ exports.login = async (req, res) => {
     try {
         const user = await User.findOne({ email: email }); // Find the user by email
         // Check if the user exists and if the provided password matches the hashed password in the database
-        if (!user || !await bcrypt.compare(password, user.password)) return res.status(401).json({ message: 'User with the data not found' });
+        if (!user || !await bcrypt.compare(password, user.password)) {
+            return res.status(401).json({ message: 'User with the data not found' });
+        }
 
         // Generate a JSON Web Token (JWT) with user information
         const token = jwt.sign(
@@ -143,7 +147,11 @@ exports.updateName = async (req, res) => {
 
     try {
         const user = await User.findById({ _id: userId });
-        if (!user) return res.status(404).json({ message: 'User not found' });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
         user.name = name;
         await user.save();
         res.status(200).json({ name: user.name, message: 'User name updated successfully'});
@@ -199,8 +207,15 @@ exports.updatePassword = async (req, res) => {
 
     try {
         const user = await User.findById({ _id: userId });
-        if (!user) return res.status(404).json({ message: 'User not found' });
-        if (!await bcrypt.compare(password, user.password)) return res.status(401).json({ message: 'Current password does not match' });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        if (!await bcrypt.compare(password, user.password)) {
+            return res.status(401).json({ message: 'Current password does not match' });
+        }
+        
         user.password = await bcrypt.hash(newPassword, 10);
         await user.save();
         res.status(200).json({ message: 'User password updated successfully' });

@@ -25,7 +25,13 @@ const Register = () => {
         e.preventDefault(); // Prevents the default browser form submission behavior.
 
         // Checks if all password validation criteria are met before proceeding. Stops execution if the password is not strong enough.
-        if (!(checkPassword.isLowerCaseLetter && checkPassword.isUpperCaseLetter && checkPassword.isSpecialSymbol && checkPassword.isNumber && checkPassword.isLengthEightOrMore)) return;
+        if (!(
+            checkPassword.isLowerCaseLetter
+            && checkPassword.isUpperCaseLetter
+            && checkPassword.isSpecialSymbol
+            && checkPassword.isNumber
+            && checkPassword.isLengthEightOrMore
+        )) return;
 
         // Checks if the 'password' and 'repeatPassword' fields match. Alerts the user if they don't match and stops execution.
         if (user.password !== user.repeatPassword) return alert('Passwords do not match');
@@ -45,11 +51,31 @@ const Register = () => {
             <h2>Register</h2>
 
             {/* Standard input fields with change handlers and required attributes */}
-            <input name='name' placeholder='Name' onChange={(e) => handleChange(e, user, setUser)} required />
-            <input type='email' name='email' placeholder='Email' onChange={(e) => handleChange(e, user,  setUser)} required />
+            <input
+                name='name'
+                placeholder='Name'
+                onChange={(e) => handleChange(e, user, setUser)}
+                required
+            />
+
+            <input
+                type='email'
+                name='email'
+                placeholder='Email'
+                onChange={(e) => handleChange(e, user,  setUser)}
+                required
+            />
 
             {/* Password input with specific handlers for validation (checkPassword) and focus tracking (onFocus, onBlur) */}
-            <input type='password' name='password' placeholder='Password' onChange={(e) => passwordChecker(e, user, setUser, setCheckPassword)} onFocus={() => setIsFocus(true)} onBlur={() => setIsFocus(false)} required />
+            <input
+                type='password'
+                name='password'
+                placeholder='Password'
+                onChange={(e) => passwordChecker(e, user, setUser, setCheckPassword)}
+                onFocus={() => setIsFocus(true)}
+                onBlur={() => setIsFocus(false)}
+                required
+            />
 
             {/* Conditionally renders password criteria feedback only when the input is focused */}
             {isFocus && <>
@@ -59,7 +85,15 @@ const Register = () => {
                 <p style={{ color: checkPassword.isNumber ? 'green' : 'red' }}>Number</p>
                 <p style={{ color: checkPassword.isLengthEightOrMore ? 'green' : 'red' }}>Min 8 symbols</p>
             </>}
-            <input type='password' name='repeatPassword' placeholder='Repeat password' onChange={(e) => handleChange(e, user, setUser)} required />
+
+            <input
+                type='password'
+                name='repeatPassword'
+                placeholder='Repeat password'
+                onChange={(e) => handleChange(e, user, setUser)}
+                required
+            />
+
             <button type='submit'>Register</button>
         </form>
     );

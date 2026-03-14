@@ -6,7 +6,10 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const PasswordReset = () => {
     const { verificationToken } = useParams();
-    const [user, setUser] = useState({ password: '', repeatPassword: '' });
+    const [user, setUser] = useState({
+        password: '',
+        repeatPassword: ''
+    });
     const [isFocus, setIsFocus] = useState(false);
     const [checkPassword, setCheckPassword] = useState({
         isLowerCaseLetter: false,
@@ -22,7 +25,15 @@ const PasswordReset = () => {
         e.preventDefault();
 
         if (!user.password.trim() || !user.repeatPassword.trim()) return;
-        if (!(checkPassword.isLowerCaseLetter && checkPassword.isUpperCaseLetter && checkPassword.isSpecialSymbol && checkPassword.isNumber && checkPassword.isLengthEightOrMore)) return;
+
+        if (!(
+            checkPassword.isLowerCaseLetter
+            && checkPassword.isUpperCaseLetter
+            && checkPassword.isSpecialSymbol
+            && checkPassword.isNumber
+            && checkPassword.isLengthEightOrMore
+        )) return;
+
         if (user.password.trim() !== user.repeatPassword.trim()) return alert('Passwords do not match');
 
         try {
