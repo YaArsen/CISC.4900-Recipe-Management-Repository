@@ -12,16 +12,7 @@ const ToggleLike = ({ isActivated, recipeId, setRecipe, setIsActivated }) => {
         }
     };
 
-    return (
-        <>
-            {/* Conditional rendering: Displays a different CSS class based on the 'isActivated' prop */}
-            {isActivated ? (
-                <button className='like-btn-activated' onClick={toggleLike}>Like</button>
-            ) : (
-                <button className='like-btn' onClick={toggleLike}>Like</button>
-            )}
-        </>
-    );
+    return <button className={`like-btn ${isActivated ? 'activated' : ''}`}  onClick={toggleLike}>Like</button>;
 };
 
 export default ToggleLike;

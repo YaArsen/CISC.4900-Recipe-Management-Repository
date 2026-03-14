@@ -193,7 +193,7 @@ p:not(p.form-p, p.recipes-p, .register-container p, .comment-text) {
     background-color: #333;
 }
 
-.like-btn-activated {
+.like-btn.activated {
     width: 100px;
     display: inline;
     background-color: aqua;

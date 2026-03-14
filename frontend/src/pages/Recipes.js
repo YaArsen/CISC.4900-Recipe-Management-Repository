@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 const Recipes = () => {
     const [recipes, setRecipes] = useState([]); // State to hold user's recipes
     const [message, setMessage] = useState(''); // State for displaying user notifications
-    const [isManaging, setIsManaging] = useState(false);
+    const [activeManageId, setActiveManageId] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -68,18 +68,25 @@ const Recipes = () => {
                             </div>
 
                             {/* Edit button sets the active recipe ID and switches view */}
-                            <button className='manage-btn' onClick={() => setIsManaging(!isManaging)}>
+                            <button
+                                className='manage-btn'
+                                onClick={() => setActiveManageId(activeManageId === recipe._id ? '' : recipe._id.toString())}
+                            >
                                 <img src={threeVerticalDots} alt='manage' />
                             </button>
                     
-                            {isManaging && (
+                            {activeManageId === recipe._id && (
                                 <div className='is-managing-recipe-container'>
                                     <button onClick={() => navigate(`/edit-recipe/${recipe._id}`)}>Edit</button>
+
                                     {/* Delete component handles API call and state update */}
-                                    <DeleteRecipe setMessage={setMessage} recipeId={recipe._id} setRecipes={setRecipes} />
+                                    <DeleteRecipe
+                                        setMessage={setMessage}
+                                        recipeId={recipe._id}
+                                        setRecipes={setRecipes}
+                                    />
                                 </div>
                             )}
-                        
                         </div>
                     ))}
                 </>
