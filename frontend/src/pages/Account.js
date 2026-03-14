@@ -29,9 +29,11 @@ const Account = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (localStorage.getItem('message')) {
-            setMessage(localStorage.getItem('message'));
+        const message = localStorage.getItem('message');
+
+        if (message) {
             localStorage.removeItem('message');
+            setMessage(message);
         }
     }, []);
 
@@ -43,7 +45,7 @@ const Account = () => {
 
             return () => clearTimeout(timer);
         }
-    });
+    }, [message]);
 
     useEffect(() => {
         try {
@@ -118,7 +120,7 @@ const Account = () => {
 
     return (
         <div>
-            <button onClick={() => navigate('/profile')}>x</button>
+            <button onClick={() => navigate(-1)}>x</button>
             {message && <Notification message={message} />}
 
             <h4>User email: {userEmail}</h4>

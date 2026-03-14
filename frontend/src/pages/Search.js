@@ -1,10 +1,11 @@
-import { fetchSearchRecipes } from '../api'; // Import API function to fetch recipes
+import { fetchSearchRecipes } from '../api'; // Import API functions to fetch a username and recipes
+import Header from '../components/Header';
 import SearchForm from '../components/SearchForm'; // Import component for user search input
 import RecipeDetails from '../components/RecipeDetails';
-import { useState } from 'react'; // Hook for managing state
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Hook for navigation/routing
 
-const Search = ({ userId }) => {
+const Search = () => {
     const [recipes, setRecipes] = useState([]); // State to store fetched recipes
     const [isFetchedOk, setIsFetchedOk] = useState(false); // State to track if the API request has finished
     const navigate = useNavigate(); // Initialize navigation function
@@ -27,20 +28,20 @@ const Search = ({ userId }) => {
 
     return (
         <>
-            <div className='searchobj'></div>
-                <SearchForm onSubmit={searchRecipes} /> {/* Search form component, calling searchRecipes on submission */}
+            <Header />
+            <SearchForm onSubmit={searchRecipes} /> {/* Search form component, calling searchRecipes on submission */}
 
-                {/* Conditional rendering: display recipes if found, or message if not */}
-                {isFetchedOk && recipes.length > 0 ? (
-                    recipes.map((recipe) => (
-                        // Make each recipe clickable, navigating to the detailed view
-                        <div onClick={() => navigate(`/profile/search/${userId}/${recipe._id}`)} className='recipe-details' key={recipe._id}>
-                            <RecipeDetails recipe={recipe} />
-                        </div>
-                    ))
-                ) : (
-                        isFetchedOk && <h2 className='search-h2'>No recipes found</h2>
-                )}
+            {/* Conditional rendering: display recipes if found, or message if not */}
+            {isFetchedOk && recipes.length > 0 ? (
+                recipes.map((recipe) => (
+                    // Make each recipe clickable, navigating to the detailed view
+                    <div onClick={() => navigate(`/search/recipe-view/${recipe._id}`)} className='recipe-details' key={recipe._id}>
+                        <RecipeDetails recipe={recipe} />
+                    </div>
+                ))
+            ) : (
+                isFetchedOk && <h2 className='search-h2'>No recipes found</h2>
+            )}
         </>
     );
 };

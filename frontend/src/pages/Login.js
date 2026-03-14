@@ -28,7 +28,7 @@ const Login = () => {
 
             return () => clearTimeout(timer);
         }
-    });
+    }, [message]);
 
     // Async function to handle the login form submission
     const login = async (e) => {
@@ -37,7 +37,7 @@ const Login = () => {
         try {
             const data = await fetchLogin(user); // Call the API function to fetch login data using the user state
             localStorage.setItem('token', data.token); // Store the returned token in localStorage for authentication purposes
-            navigate('/profile'); // Navigate the user to the profile page upon successful login
+            navigate('/search'); // Navigate the user to the profile page upon successful login
         } catch (error) {
             return alert(error); // If an error occurs during login, display an alert with the error message
         }

@@ -4,10 +4,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const RecipeView = () => {
+    const { page, recipeId } = useParams();
     const [recipe, setRecipe] = useState(null); // State to store the fetched recipe data
     const [isActivated, setIsActivated] = useState(null); // State to check if the current user has liked the recipe
-    // Get route parameters for recipe identification
-    const { page, userId, recipeId } = useParams();
     const navigate = useNavigate();
  
     // Fetch recipe data and like status when component mounts or recipeId changes
@@ -40,11 +39,8 @@ const RecipeView = () => {
 
     return (
         <div className='recipe-view'>
-            {/* Close button to return to previous page (stored in localStorage) */}
-            <button onClick={() => {
-                localStorage.setItem('page', page);
-                navigate('/profile');
-            }}>x</button>
+            {/* Close button to return to previous page */}
+            <button onClick={() => navigate(`/${page}`)}>x</button>
 
             {/* Recipe Details Display */}
             <img src={recipe.photoReference} alt={recipe.title} />
@@ -63,7 +59,7 @@ const RecipeView = () => {
             <h4 className='cooking-time'>{recipe.cookingTime} min</h4>
             <h4>Posted by {recipe.username}</h4>
             <h4 className='date'>{new Date(recipe.timestamp).toLocaleString()}</h4>
-            <button onClick={() => navigate(`/${userId}/${recipe._id}/comments`)}>Comments</button> {/* Navigation to comments section */}
+            <button onClick={() => navigate(`/${page}/recipe-view/${recipe._id}/comments`)}>Comments</button> {/* Navigation to comments section */}
         </div>
     );
 };

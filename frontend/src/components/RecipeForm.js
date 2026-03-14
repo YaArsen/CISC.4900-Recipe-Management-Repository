@@ -1,7 +1,8 @@
 import { handleChange } from '../utils/handleChange';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const RecipeForm = ({ initialData, onSubmit, setIsAddRecipePage, setIsEditRecipePage }) => {
+const RecipeForm = ({ initialData, onSubmit }) => {
     const [recipe, setRecipe] = useState({
         title: '',
         ingredients: [''],
@@ -12,6 +13,8 @@ const RecipeForm = ({ initialData, onSubmit, setIsAddRecipePage, setIsEditRecipe
         category: '',
         difficulty: ''
     });
+
+    const navigate = useNavigate();
     
     useEffect(() => {
         if (initialData) {
@@ -53,7 +56,7 @@ const RecipeForm = ({ initialData, onSubmit, setIsAddRecipePage, setIsEditRecipe
     return (
         <>
             <form className='recipe-form' onSubmit={handleSubmit}>
-                <button className='recipe-form-btn' onClick={() => setIsAddRecipePage ? setIsAddRecipePage(false) : setIsEditRecipePage(false)}>x</button>
+                <button className='recipe-form-btn' onClick={() => navigate(-1)}>x</button>
                 <input
                     type='text'
                     name='title'

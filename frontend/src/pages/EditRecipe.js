@@ -1,9 +1,12 @@
 import { fetchGetRecipe, fetchUpdateRecipe } from '../api';
 import RecipeForm from '../components/RecipeForm';
 import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const EditRecipe = ({ setIsManaging, setMessage, recipeId, setIsEditRecipePage, setRecipes }) => {
+const EditRecipe = () => {
+    const { recipeId } = useParams();
     const [recipe, setRecipe] = useState(null); // State to hold the recipe data fetched from the API
+    const navigate = useNavigate();
 
     // useEffect to fetch the recipe data when the component mounts or when recipeId changes
     useEffect(() => {
@@ -23,10 +26,8 @@ const EditRecipe = ({ setIsManaging, setMessage, recipeId, setIsEditRecipePage, 
     const updateRecipe = async (recipe) => {
         try {
             const data = await fetchUpdateRecipe(recipeId, recipe);
-            setMessage(data.message); // Set success message
-            setRecipes(data.recipes); // Update parent state with new recipe list
-            setIsEditRecipePage(false); // Close edit page/view
-            setIsManaging(false);
+            localStorage.setItem('message', data.message);
+            navigate('/recipes');
         } catch (error) {
             return alert(error); // Basic error handling for updates
         }
@@ -38,7 +39,7 @@ const EditRecipe = ({ setIsManaging, setMessage, recipeId, setIsEditRecipePage, 
         <>
             <h1>Edit Recipe</h1>
             {/* RecipeForm pre-filled with existing data and handles submission */}
-            <RecipeForm initialData={recipe} onSubmit={updateRecipe} setIsEditRecipePage={setIsEditRecipePage} />
+            <RecipeForm initialData={recipe} onSubmit={updateRecipe} />
         </>
     );
 };

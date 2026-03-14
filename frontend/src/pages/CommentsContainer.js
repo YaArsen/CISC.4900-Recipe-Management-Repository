@@ -3,12 +3,21 @@ import CommentItem from '../components/CommentItem';
 import CommentForm from '../components/CommentForm';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 const CommentsContainer = () => {
-    const { userId, recipeId } = useParams(); // Extract recipeId from the URL parameters to fetch the correct recipe data
+    const { page, recipeId } = useParams(); // Extract recipeId from the URL parameters to fetch the correct recipe data
+    const [user, setUser] = useState(null);
     const [comments, setComments] = useState([]); // State to store the list of comments
     const [recipe, setRecipe] = useState(null);
     const navigate = useNavigate();
+    const token = localStorage.getItem('token'); // Retrieve token for authentication
+
+    useEffect(() => {
+        if (!token) return;
+        const user = jwtDecode(token);
+        setUser(user);
+    }, [token]);
 
     // Fetch comments for the recipe when the component mounts or recipeId changes
     useEffect(() => {
@@ -35,7 +44,7 @@ const CommentsContainer = () => {
         }
     };
 
-    if (!comments || !recipe) return <p>Loading...</p>; // Simple loading state
+    if (!user || !comments || !recipe) return <p>Loading...</p>; // Simple loading state
 
     // Filter to get only top-level comments (those without a parentId) and sort them by timestamp (newest first)
     const topLevelComments = comments
@@ -50,7 +59,7 @@ const CommentsContainer = () => {
             </div>
             <div className="comments-header-row">
                 <h1 className="comments-title">Recipe comments {comments.length}</h1> {/* Header displaying the total number of comments */}
-                <button className="close-btn" onClick={() => navigate(-1)}>x</button>
+                <button className="close-btn" onClick={() => navigate(`/${page}/recipe-view/${recipeId}`)}>x</button>
             </div>
 
             <CommentForm parentId={undefined} onSubmit={(content) => postComment(undefined, content)} /> {/* Form to submit a new top-level comment */}
@@ -60,7 +69,7 @@ const CommentsContainer = () => {
                 {topLevelComments.map(comment => (
                     <CommentItem
                         key={comment._id}
-                        userId={userId}
+                        userId={user._id}
                         recipeId={recipeId}
                         comment={comment}
                         allComments={comments}
