@@ -224,6 +224,17 @@ exports.updatePassword = async (req, res) => {
     }
 };
 
+exports.getTimestamp = async (req, res) => {
+    const { userId } = req.user;
+
+    try {
+        const user = await User.findById({ _id: userId });
+        res.status(200).json(user.timestamp);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 exports.getUserEmail = async (req, res) => {
     const { userId } = req.user;
 

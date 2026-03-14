@@ -1,4 +1,4 @@
-import Fetch from './components/Fetch';
+import Fetch from './utils/Fetch';
 
 export const fetchRegister = async (user) => {
     const res = await Fetch('/api/auth/register', { method: 'POST', body: user });
@@ -136,6 +136,14 @@ export const fetchUpdateEmail = async (user) => {
 export const fetchUpdatePassword = async (user) => {
     const token = localStorage.getItem('token');
     const res = await Fetch('/api/auth/update-password', { method: 'PUT', token, body: user });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    return data;
+};
+
+export const fetchGetTimestamp = async () => {
+    const token = localStorage.getItem('token');
+    const res = await Fetch('/api/auth/timestamp', { token });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message);
     return data;

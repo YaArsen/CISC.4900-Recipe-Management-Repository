@@ -2,6 +2,7 @@ import {
     fetchUpdateName,
     fetchUpdateEmail,
     fetchUpdatePassword,
+    fetchGetTimestamp,
     fetchGetUsername,
     fetchGetUserEmail
 } from '../api';
@@ -12,6 +13,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Account = () => {
+    const [timestamp, setTimestamp] = useState('');
     const [username, setUsername] = useState('');
     const [userEmail, setUserEmail] = useState('');
     const [user, setUser] = useState({
@@ -52,6 +54,19 @@ const Account = () => {
             return () => clearTimeout(timer);
         }
     }, [message]);
+
+    useEffect(() => {
+        try {
+            const getTimestamp = async () => {
+                const data = await fetchGetTimestamp();
+                setTimestamp(data);
+            };
+
+            getTimestamp();
+        } catch (error) {
+            return alert(error);
+        }
+    }, []);
 
     useEffect(() => {
         try {
@@ -130,7 +145,7 @@ const Account = () => {
         }
     };
 
-    if (!username && !userEmail) return <p>Loading...</p>;
+    if (!timestamp && !username && !userEmail) return <p>Loading...</p>;
 
     return (
         <div>
@@ -205,6 +220,8 @@ const Account = () => {
 
                 <button type='submit'>Update password</button>
             </form>
+
+            <h4>Account was created on {new Date(timestamp).toDateString()}</h4>
         </div>
     );
 };

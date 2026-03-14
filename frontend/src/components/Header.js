@@ -19,12 +19,10 @@ const Header = () => {
             return alert(error);
         }
     }, []);
-    
-    if (!username) return <p>Loading...</p>;
 
     return (
         <div className='profile-header'>
-            <h2>Welcome, {username}</h2>
+            {username ? <h2>Welcome, {username}</h2> : <p>Loading...</p>}
             <ToggleButton />
 
             {/* Navigation Buttons */}
