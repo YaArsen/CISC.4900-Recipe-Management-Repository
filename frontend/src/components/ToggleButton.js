@@ -8,21 +8,21 @@ const ToggleButton = () => {
     const navigate = useNavigate();
 
     return (
-        <>
+        <div className='toggle-btn-container'>
             {/* Hamburger button with 3 divs for styling */}
-            <button className='hamb-btn' onClick={() => setIsOpen(!isOpen)}>
-                <div className='bar'></div>
-                <div className='bar'></div>
-                <div className='bar'></div>
-            </button>
+            <div className={isOpen ? 'hamb-btn change' : 'hamb-btn'} onClick={() => setIsOpen(!isOpen)}>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
 
             {/* Conditionally render the navigation menu only if isOpen is true */}
-            {isOpen && <nav className='nav-menu'>
+            <div className={isOpen ? 'nav-menu show' : 'nav-menu'}>
                 <button onClick={() => navigate('/account')}>Account</button>
                 <Delete />
                 <Logout />
-            </nav>}
-        </>
+            </div>
+        </div>
     );
 };
 

@@ -46,7 +46,7 @@ const PasswordReset = () => {
     };
     
     return (
-        <form onSubmit={passwordReset}>
+        <form className='password-reset-container' onSubmit={passwordReset}>
             <input
                 value={user.password}
                 type='password'

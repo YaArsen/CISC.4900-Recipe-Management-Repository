@@ -59,8 +59,11 @@ body {
 }
 
 input:not(input[type='radio'],
-.register-container input, 
-.login-container input) {
+.register-container input,
+.login-container input,
+.email-container input,
+.password-reset-container input,
+.account-container input) {
     height: 50px;
     width: 500px;
     display: block;
@@ -68,29 +71,63 @@ input:not(input[type='radio'],
     margin-top: 5px;
 }
 
-button:hover:not(.submit-btn, .close-btn, .action-btn, .manage-btn, .is-managing-container button) {
+button:hover:not(
+    .submit-btn,
+    .close-btn,
+    .action-btn,
+    .manage-btn,
+    .is-managing-container button,
+    .nav-menu button
+) {
     background: #333;
     cursor: pointer;
 }
 
-.hamb-btn, .nav-menu {
+.toggle-btn-container {
     float: right;
-    height: 50px;
-    width: 50px;
-    margin-right: 40px;
+}
+
+.hamb-btn {
     display: block;
-    border-radius: 5px;
-    margin-top: 5px;
+    margin-left: -50px;
+    cursor: pointer;
+}
+
+.hamb-btn span {
+    display: block;
+    width: 30px;
+    height: 3px;
+    background-color: #333;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+.change span:nth-child(1) {
+    transform: rotate(-45deg) translate(-6px, 6px);
+}
+ 
+.change span:nth-child(2) {
+    opacity: 0;
+}
+ 
+.change span:nth-child(3) {
+    transform: rotate(45deg) translate(-6px, -6px);
 }
 
 .nav-menu {
-    position: relative;
-    top: 10px;
-    height: 500px;
+    display: none;
+    background: #333;
+    padding: 20px;
+    height: 200px;
     width: 150px;
-    background: #222;
-    left: 38px;
+    position: fixed;
+    border: 2px solid #222;
     border-radius: 5px;
+    margin-left: -250px;
+}
+
+.nav-menu.show {
+    display: block;
 }
 
 .nav-menu button {
@@ -98,9 +135,13 @@ button:hover:not(.submit-btn, .close-btn, .action-btn, .manage-btn, .is-managing
     border: 0;
     color: yellow;
     border-radius: 10px;
-    display: block;
     margin-top: 5px;
     padding: 10px;
+    cursor: pointer;
+}
+
+.nav-menu button:hover {
+    background-color: #222;
 }
 
 .add-recipe-btn {
@@ -136,14 +177,6 @@ button:hover:not(.submit-btn, .close-btn, .action-btn, .manage-btn, .is-managing
     width: 200px;
 }
 
-.bar {
-    height: 5px;
-    width: 35px;
-    background-color: #000;
-    margin: 6px;
-    display: block;
-}
-
 h3 {
     position: relative;
     left: 200px;
@@ -151,7 +184,12 @@ h3 {
     width: 150px;
 }
 
-p:not(p.form-p, p.recipes-p, .register-container p, .comment-text) {
+p:not(
+    p.form-p,
+    p.recipes-p,
+    .register-container p,
+    .comment-text
+) {
     text-align: center;
     margin-top: 200px;
 }
@@ -174,24 +212,6 @@ p:not(p.form-p, p.recipes-p, .register-container p, .comment-text) {
     width: 500px;
     border-radius: 5px;
     margin-top: 5px;
-}
-
-.searchobj {
-    position: relative;
-    bottom: -10px;
-    left: 500px;
-    height: 5px;
-    width: 500px;
-    background-color: #333;
-}
-
-.recipesobj {
-    position: relative;
-    bottom: -10px;
-    left: 1151px;
-    height: 5px;
-    width: 500px;
-    background-color: #333;
 }
 
 .like-btn.activated {
@@ -708,4 +728,92 @@ p.recipes-p {
 .recipe-img-and-title h1 {
   font-size: 24px;
   margin: 0;
+}
+
+.email-container {
+    background: white;
+    width: 100%;
+    max-width: 400px;
+    margin: 400px auto;
+    padding: 60px;
+    border: 1px solid;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.email-container button {
+    height: 50px;
+    width: 405px;
+    display: block;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.email-container input {
+    height: 50px;
+    width: 400px;
+    display: block;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.password-reset-container {
+    background: white;
+    width: 100%;
+    max-width: 400px;
+    margin: 400px auto;
+    padding: 60px;
+    border: 1px solid;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.password-reset-container button {
+    height: 50px;
+    width: 405px;
+    display: block;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.password-reset-container input {
+    height: 50px;
+    width: 400px;
+    display: block;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.account-container {
+    background: white;
+    width: 100%;
+    max-width: 400px;
+    margin: 150px auto;
+    padding: 60px;
+    border: 1px solid;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.account-container button:not(.close-btn) {
+    height: 50px;
+    width: 405px;
+    display: block;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.account-container h4 {
+    margin-top: 10px;
+}
+
+.account-container button.close-btn {
+    margin-left: 390px;
+    margin-bottom: 20px;
+}
+
+.account-container input {
+    height: 50px;
+    width: 400px;
+    display: block;
+    border-radius: 5px;
+    margin-top: 5px;
 }

@@ -20,7 +20,7 @@ const Email = () => {
     };
 
     return (
-        <form onSubmit={passwordReset}>
+        <form className='email-container' onSubmit={passwordReset}>
             <input value={email} type='email' placeholder='Email' onChange={(e) => setEmail(e.target.value)} required />
             <button type='submit'>Verify email</button>
         </form>

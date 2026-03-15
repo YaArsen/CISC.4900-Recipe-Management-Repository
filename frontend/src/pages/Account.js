@@ -148,8 +148,8 @@ const Account = () => {
     if (!timestamp && !username && !userEmail) return <p>Loading...</p>;
 
     return (
-        <div>
-            <button onClick={() => navigate(-1)}>x</button>
+        <div className='account-container'>
+            <button className='close-btn' onClick={() => navigate(-1)}>x</button>
             {message && <Notification message={message} />}
 
             <h4>User email: {userEmail}</h4>
