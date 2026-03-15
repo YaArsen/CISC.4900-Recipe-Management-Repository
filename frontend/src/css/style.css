@@ -88,18 +88,19 @@ button:hover:not(.submit-btn, .close-btn, .action-btn, .manage-btn, .is-managing
     top: 10px;
     height: 500px;
     width: 150px;
-    border: 5px solid #111;
     background: #222;
     left: 38px;
     border-radius: 5px;
 }
 
 .nav-menu button {
-    height: 45px;
-    width: 150px;
+    background: 0;
+    border: 0;
+    color: yellow;
     border-radius: 10px;
     display: block;
     margin-top: 5px;
+    padding: 10px;
 }
 
 .add-recipe-btn {

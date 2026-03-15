@@ -189,7 +189,7 @@ exports.updateEmail = async (req, res) => {
                     text: 'Please verify your email',
                     html: `
                         <p>Click on the link to verify your email</p>
-                        <a href='http://localhost:3000/verify/${token}'>Verify Email</a>
+                        <a href='http://localhost:3000/verify-new-email/${token}'>Verify Email</a>
                     `
                 });
 

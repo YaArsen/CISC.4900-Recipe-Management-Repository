@@ -22,7 +22,7 @@ const Header = () => {
 
     return (
         <div className='profile-header'>
-            {username ? <h2>Welcome, {username}</h2> : <p>Loading...</p>}
+            {username && <h2>Welcome, {username}</h2>}
             <ToggleButton />
 
             {/* Navigation Buttons */}

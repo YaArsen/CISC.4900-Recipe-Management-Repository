@@ -1,7 +1,7 @@
 import { fetchUpdateComment } from '../api';
 import { useState, useEffect } from 'react';
 
-const EditComment = ({ setIsManaging, recipeId, commentId, currentContent, setComments }) => {
+const EditComment = ({ setActiveManageId, recipeId, commentId, currentContent, setComments }) => {
     const [content, setContent] = useState(''); // Local state to manage the textarea content
     const [isEditing, setIsEditing] = useState(false); // Toggle state between view (false) and edit (true) modes
 
@@ -20,7 +20,7 @@ const EditComment = ({ setIsManaging, recipeId, commentId, currentContent, setCo
             // Exit editing mode and clear textarea
             setContent('');
             setIsEditing(false);
-            setIsManaging(false);
+            setActiveManageId('');
         } catch (error) {
             return alert(error); // Basic error handling
         }

@@ -7,7 +7,7 @@ import threeVerticalDots from '../assets/three-dots-vertical.svg';
 const CommentItem = ({ userId, recipeId, comment, allComments, onAddReply, setComments }) => {
     const [showReplyForm, setShowReplyForm] = useState(false);
     const [showReplies, setShowReplies] = useState(false);
-    const [isManaging, setIsManaging] = useState(false);
+    const [activeManageId, setActiveManageId] = useState('');
     const replies = allComments.filter(c => !c.parentId ? false : c.parentId.toString() === comment._id.toString());
 
     const handleReplySubmit = (content) => {
@@ -24,14 +24,14 @@ const CommentItem = ({ userId, recipeId, comment, allComments, onAddReply, setCo
                         <span className="comment-timestamp">{new Date(comment.timestamp).toLocaleString()}</span>
                     </div>
 
-                    <button className='manage-btn' onClick={() => setIsManaging(!isManaging)}>
+                    <button className='manage-btn' onClick={() => setActiveManageId(activeManageId === comment._id ? '' : comment._id.toString())}>
                         <img src={threeVerticalDots} alt='manage' />
                     </button>
                     
-                    {isManaging && userId.toString() === comment.user.toString() && (
+                    {activeManageId === comment._id && userId.toString() === comment.user.toString() && (
                         <div className='is-managing-container'>
                             <EditComment
-                                setIsManaging={setIsManaging}
+                                setActiveManageId={setActiveManageId}
                                 recipeId={recipeId}
                                 commentId={comment._id}
                                 currentContent={comment.content}

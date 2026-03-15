@@ -69,7 +69,7 @@ const CommentsContainer = () => {
                 {topLevelComments.map(comment => (
                     <CommentItem
                         key={comment._id}
-                        userId={user._id}
+                        userId={user.userId}
                         recipeId={recipeId}
                         comment={comment}
                         allComments={comments}
