@@ -54,7 +54,7 @@ const CommentsContainer = () => {
     return (
         <div className="comments-container">
             <div className='recipe-img-and-title'>
-                <img src={recipe.photoReference} alt={recipe.title} />
+                <img src={recipe.file} alt={recipe.title} />
                 <h1>{recipe.title}</h1>
             </div>
             <div className="comments-header-row">

@@ -1,7 +1,7 @@
 const RecipeDetails = ({ recipe }) => {
     return (
         <>
-            <img src={recipe.photoReference} alt={recipe.title} />
+            <img src={recipe.file} alt={recipe.title} />
             <h1>{recipe.title}</h1>
             <h4>{recipe.cookingTime} min</h4>
             <h4>Category: {recipe.category}</h4>

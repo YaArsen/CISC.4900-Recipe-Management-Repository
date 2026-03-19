@@ -6,7 +6,7 @@ const recipeRoutes = require('./routes/recipeRoutes');
 const PORT = process.env.PORT || 4000;
 const app = express();
 connectDB();
-app.use(express.json());
+app.use(express.json({ type: '*/*', limit: '10mb'}));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/recipes', recipeRoutes);

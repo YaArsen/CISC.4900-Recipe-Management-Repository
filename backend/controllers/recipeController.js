@@ -8,7 +8,7 @@ exports.postRecipe = async (req, res) => {
     title,
     ingredients,
     instructions,
-    photoReference,
+    file,
     isPublic,
     cookingTime,
     category,
@@ -20,7 +20,7 @@ exports.postRecipe = async (req, res) => {
       title: title,
       ingredients: ingredients,
       instructions: instructions,
-      photoReference: photoReference,
+      file: file,
       isPublic: isPublic,
       cookingTime: Number(cookingTime),
       category: category,
@@ -34,7 +34,7 @@ exports.postRecipe = async (req, res) => {
     const recipes = await Recipe.find();
     res.status(201).json({ message: `Recipe '${recipe.title}' added successfully`, recipes });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'postRecipe:' + error.message });
   }
 };
 

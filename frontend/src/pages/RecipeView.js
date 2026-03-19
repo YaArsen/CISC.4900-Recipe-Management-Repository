@@ -43,7 +43,7 @@ const RecipeView = () => {
             <button className='close-btn' onClick={() => navigate(`/${page}`)}>x</button>
 
             {/* Recipe Details Display */}
-            <img src={recipe.photoReference} alt={recipe.title} />
+            <img src={recipe.file} alt={recipe.title} />
             <h4 className='title'>{recipe.title}</h4>
             <h4>Ingredients</h4>
             <ul>
