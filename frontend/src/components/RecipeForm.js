@@ -55,10 +55,12 @@ const RecipeForm = ({ initialData, onSubmit }) => {
     };
 
     const onChange = (e) => {
-        if (e.target.name === 'state') {
-            setRecipe({ ...recipe, isPublic: e.target.value === 'Public' });
-        } else if (e.target.name === 'file') {
-            setRecipe({...recipe, file: e.target.files[0] });
+        const { name, value, files } = e.target;
+
+        if (name === 'state') {
+            setRecipe({ ...recipe, isPublic: value === 'Public' });
+        } else if (name === 'file') {
+            setRecipe({...recipe, file: files[0] });
         } else {
             handleChange(e, recipe, setRecipe);
         }
