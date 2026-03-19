@@ -56,7 +56,7 @@ const RecipeForm = ({ initialData, onSubmit }) => {
     return (
         <>
             <form className='recipe-form' onSubmit={handleSubmit}>
-                <button className='recipe-form-btn' onClick={() => navigate(-1)}>x</button>
+                <button className='close-btn' onClick={() => navigate('/recipes')}>x</button>
                 <input
                     type='text'
                     name='title'

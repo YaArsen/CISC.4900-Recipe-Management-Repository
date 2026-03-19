@@ -1,4 +1,4 @@
-import { fetchGetAllUserRecipes } from '../api';
+import { fetchGetUsername, fetchGetAllUserRecipes } from '../api';
 import Header from '../components/Header';
 import DeleteRecipe from '../components/DeleteRecipe';
 import RecipeDetails from '../components/RecipeDetails';
@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Recipes = () => {
+    const [username, setUsername] = useState('');
     const [recipes, setRecipes] = useState([]); // State to hold user's recipes
     const [message, setMessage] = useState(''); // State for displaying user notifications
     const [activeManageId, setActiveManageId] = useState('');
@@ -23,14 +24,17 @@ const Recipes = () => {
     }, []);
 
     useEffect(() => {
-        if (message) {
-            const timer = setTimeout(() => {
-                setMessage('');
-            }, 2000);
-
-            return () => clearTimeout(timer);
+        try {
+            const getUsername = async () => {
+                const data = await fetchGetUsername();
+                setUsername(data);
+            };
+        
+            getUsername();
+        } catch (error) {
+            return alert(error);
         }
-    }, [message]);
+    }, []);
 
     // Effect hook to fetch all user recipes on component mount
     useEffect(() => {
@@ -50,10 +54,10 @@ const Recipes = () => {
 
     return (
         <>
-            <Header />
+            <Header username={username} page={'recipes'} />
             <h1>Your Recipes</h1>
             <button className='add-recipe-btn' onClick={() => navigate('/add-recipe')}>Add a New Recipe</button>
-            {message && <Notification message={message} />} {/* Display notification */}
+            <Notification message={message} /> {/* Display notification */}
 
             {recipes.length === 0 ? (
                 <p className='recipes-p'>No recipes yet!</p>

@@ -20,16 +20,6 @@ const Login = () => {
         }
     }, []);
 
-    useEffect(() => {
-        if (message) {
-            const timer = setTimeout(() => {
-                setMessage('');
-            }, 2000);
-
-            return () => clearTimeout(timer);
-        }
-    }, [message]);
-
     // Async function to handle the login form submission
     const login = async (e) => {
         e.preventDefault(); // Prevent the default form submission behavior (page reload)
@@ -46,7 +36,7 @@ const Login = () => {
     // Render the login form UI
     return (
         <div className='login-container'>
-            {message && <Notification message={message} />}
+            <Notification message={message} />
 
             {/* The form element with an onSubmit handler pointing to the login function */}
             <form onSubmit={login}>

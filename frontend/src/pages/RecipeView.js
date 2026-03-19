@@ -40,7 +40,7 @@ const RecipeView = () => {
     return (
         <div className='recipe-view'>
             {/* Close button to return to previous page */}
-            <button onClick={() => navigate(`/${page}`)}>x</button>
+            <button className='close-btn' onClick={() => navigate(`/${page}`)}>x</button>
 
             {/* Recipe Details Display */}
             <img src={recipe.photoReference} alt={recipe.title} />
@@ -65,7 +65,7 @@ const RecipeView = () => {
             <h4 className='cooking-time'>{recipe.cookingTime} min</h4>
             <h4>Posted by {recipe.username}</h4>
             <h4 className='date'>{new Date(recipe.timestamp).toLocaleString()}</h4>
-            <button onClick={() => navigate(`/${page}/recipe-view/${recipe._id}/comments`)}>Comments</button> {/* Navigation to comments section */}
+            <button className='comments-button' onClick={() => navigate(`/${page}/recipe-view/${recipe._id}/comments`)}>Comments</button> {/* Navigation to comments section */}
         </div>
     );
 };

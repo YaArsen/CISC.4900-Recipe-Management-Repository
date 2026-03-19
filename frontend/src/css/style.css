@@ -77,7 +77,9 @@ button:hover:not(
     .action-btn,
     .manage-btn,
     .is-managing-container button,
-    .nav-menu button
+    .nav-menu button,
+    .like-btn,
+    .recipe-view .comments-button
 ) {
     background: #333;
     cursor: pointer;
@@ -91,6 +93,10 @@ button:hover:not(
     display: block;
     margin-left: -50px;
     cursor: pointer;
+}
+
+.hamb-btn:hover {
+    opacity: 0.5;
 }
 
 .hamb-btn span {
@@ -166,15 +172,43 @@ button:hover:not(
         rgba(212, 217, 63, 1) 100%,
         rgba(15, 12, 12, 1) 74%
     );
-    border: 2px solid #222;
+    border-bottom: 2px solid #222;
 }
 
-.profile-header h2:not(h2.search-h2, h2.notification) {
+.profile-header h2 {
     position: relative;
     top: 10px;
     left: 10px;
     color: #fff;
     width: 200px;
+}
+
+.profile-header .search-button {
+    display: inline;
+    position: relative;
+    left: 500px;
+    height: 50px;
+    width: 500px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.profile-header .recipes-button {
+    display: inline;
+    position: relative;
+    left: 650px;
+    height: 50px;
+    width: 500px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.profile-header .search-button.show {
+    box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.5);
+}
+
+.profile-header .recipes-button.show {
+    box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.5);
 }
 
 h3 {
@@ -194,32 +228,13 @@ p:not(
     margin-top: 200px;
 }
 
-.search-page-btn {
-    display: inline;
-    position: relative;
-    left: 500px;
-    height: 50px;
-    width: 500px;
-    border-radius: 5px;
-    margin-top: 5px;
-}
-
-.recipes-page-btn {
-    display: inline;
-    position: relative;
-    left: 650px;
-    height: 50px;
-    width: 500px;
-    border-radius: 5px;
-    margin-top: 5px;
-}
-
 .like-btn.activated {
     width: 100px;
     display: inline;
     background-color: aqua;
+    border-color: aqua;
+    color: white;
     height: 50px;
-    border-radius: 5px;
     margin-top: 5px;
 }
 
@@ -227,30 +242,25 @@ p:not(
     width: 100px;
     display: inline;
     height: 50px;
-    border-radius: 5px;
+    border-radius: 3rem;
     margin-top: 5px;
+    border: 2px solid #8a8a8a;
+    background-color: transparent;
+    text-decoration: none;
+    padding: 1rem;
+    color: #8a8a8a;
+    transition: all ease 0.4s;
+    cursor: pointer;
+}
+
+.like-btn:hover {
+    border-color: aqua;
+    color: aqua;
 }
 
 .recipe-likes {
     display: inline;
     margin-left: 5px;
-}
-
-h2.notification {
-    position: fixed;
-    margin-left: 500px;
-    width: 500px;
-    color: #32CD32;
-}
-
-.recipe-form-btn {
-    float: right;
-    margin-bottom: 15px;
-    height: 50px;
-    width: 50px;
-    display: block;
-    border-radius: 5px;
-    margin-top: 5px;
 }
 
 .recipe-form-ingredient-btn {
@@ -277,6 +287,11 @@ h2.notification {
     height: 50px;
     margin-top: 10px;
     resize: vertical;
+}
+
+.recipe-form .close-btn {
+    margin-left: 500px;
+    margin-bottom: 40px;
 }
 
 input[type='radio'] {
@@ -376,7 +391,12 @@ p.recipes-p {
     width: 500px;
 }
 
-.recipe-view button:not(.like-btn, .like-btn-activated) {
+.recipe-view button:not(
+    .like-btn,
+    .like-btn-activated,
+    .recipe-view .close-btn,
+    .recipe-view .comments-button
+) {
     float: right;
     height: 50px;
     width: 50px;
@@ -389,9 +409,25 @@ p.recipes-p {
     margin-top: 5px;
 }
 
+.recipe-view .comments-button {
+    background: none;
+    border: none;
+    float: right;
+    cursor: pointer;
+}
+
+.recipe-view .comments-button:hover {
+    opacity: 0.5;
+}
+
 .recipe-view h4:not(.date, .category, .difficulty) {
     width: 500px;
     margin-top: 40px;
+}
+
+.recipe-view .close-btn {
+    margin-left: 490px;
+    margin-bottom: 20px;
 }
 
 .cooking-time {
@@ -439,13 +475,13 @@ p.recipes-p {
     cursor: pointer;
     height: 400px;
     width: 250px;
-    transition: height 0.3s ease, width 0.3s ease;
+    border: 2px solid white;
+    transition: border 0.2s;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .recipe-details:hover {
-    height: 450px;
-    width: 300px;
+    border: 2px solid aqua;
 }
 
 .recipe-details h4 {
@@ -816,4 +852,26 @@ p.recipes-p {
     display: block;
     border-radius: 5px;
     margin-top: 5px;
+}
+
+.toast-notification {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: lightgreen;
+    color: green;
+    text-align: center;
+    border-radius: 10px;
+    padding: 16px;
+    position: fixed;
+    left: 50%;
+    font-size: 17px;
+    transform: translateX(-50%);
+    transition: visibility 2s linear, opacity 2s linear;
+    opacity: 0;
+}
+
+.toast-notification.show {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0.5s linear, opacity 0.5s linear;
 }
