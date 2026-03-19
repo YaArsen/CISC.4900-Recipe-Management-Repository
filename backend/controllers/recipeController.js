@@ -84,7 +84,7 @@ exports.updateRecipe = async (req, res) => {
     title,
     ingredients,
     instructions,
-    photoReference,
+    file,
     isPublic,
     cookingTime,
     category,
@@ -97,7 +97,7 @@ exports.updateRecipe = async (req, res) => {
     recipe.title = title;
     recipe.ingredients = ingredients;
     recipe.instructions = instructions;
-    recipe.photoReference = photoReference;
+    recipe.file = file;
     recipe.isPublic = isPublic;
     recipe.cookingTime = Number(cookingTime);
     recipe.category = category;
