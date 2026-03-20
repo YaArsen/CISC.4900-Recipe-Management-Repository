@@ -64,9 +64,9 @@ const Recipes = () => {
             ) : (
                 <>
                     {recipes.map((recipe) => (
-                        <div className='recipe-details' key={recipe._id}>
+                        <div onClick={() => navigate(`/recipes/recipe-view/${recipe._id}`)} className='recipe-details' key={recipe._id}>
                             {/* Clickable area to view full recipe details */}
-                            <div onClick={() => navigate(`/recipes/recipe-view/${recipe._id}`)}>
+                            <div>
                                 <RecipeDetails recipe={recipe} />
                                 <h4>{recipe.isPublic ? 'Public' : 'Private'}</h4>
                             </div>
@@ -74,14 +74,20 @@ const Recipes = () => {
                             {/* Edit button sets the active recipe ID and switches view */}
                             <button
                                 className='manage-btn'
-                                onClick={() => setActiveManageId(activeManageId === recipe._id ? '' : recipe._id.toString())}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setActiveManageId(activeManageId === recipe._id ? '' : recipe._id.toString())
+                                }}
                             >
                                 <img src={threeVerticalDots} alt='manage' />
                             </button>
                     
                             {activeManageId === recipe._id && (
                                 <div className='is-managing-recipe-container'>
-                                    <button onClick={() => navigate(`/edit-recipe/${recipe._id}`)}>Edit</button>
+                                    <button onClick={(e) => {
+                                        e.stopPropagation();
+                                        navigate(`/edit-recipe/${recipe._id}`)
+                                    }}>Edit</button>
 
                                     {/* Delete component handles API call and state update */}
                                     <DeleteRecipe

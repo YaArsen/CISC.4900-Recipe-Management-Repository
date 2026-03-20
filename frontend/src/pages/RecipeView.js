@@ -39,21 +39,29 @@ const RecipeView = () => {
 
     return (
         <div className='recipe-view'>
-            {/* Close button to return to previous page */}
-            <button className='close-btn' onClick={() => navigate(`/${page}`)}>x</button>
+            <div className="recipe-header">
+                <h4 className='title'>{recipe.title}</h4>
+                {/* Close button to return to previous page */}
+                <button className='close-btn' onClick={() => navigate(`/${page}`)}>x</button>
+            </div>
 
             {/* Recipe Details Display */}
             <img src={recipe.file} alt={recipe.title} />
-            <h4 className='title'>{recipe.title}</h4>
+
+            <div className="recipe-meta">
+                <h4>Category: {recipe.category}</h4>
+                <h4>Difficulty: {recipe.difficulty}</h4>
+                <h4>{recipe.cookingTime} min</h4>
+            </div>
+            
             <h4>Ingredients</h4>
             <ul>
                 {recipe.ingredients.map((ingredient) => (
                     <li key={ingredient}>{ingredient}</li> // List items need unique keys
                 ))}
             </ul>
-            <h4 className='instructions'>Instructions:<br/>{recipe.instructions}</h4>
-            <h4 className='category'>Category: {recipe.category}</h4>
-            <h4 className='difficulty'>Difficulty: {recipe.difficulty}</h4>
+            <h4>Instructions:<br/>{recipe.instructions}</h4>
+            
             {/* Like Button Component */}
             <ToggleLike
                 isActivated={isActivated}
@@ -61,8 +69,7 @@ const RecipeView = () => {
                 setRecipe={setRecipe}
                 setIsActivated={setIsActivated}
             />
-            <h4 className='recipe-likes'>{recipe.likes}</h4>
-            <h4 className='cooking-time'>{recipe.cookingTime} min</h4>
+            <h4>{recipe.likes}</h4>
             <h4>Posted by {recipe.username}</h4>
             <h4 className='date'>{new Date(recipe.timestamp).toLocaleString()}</h4>
             <button className='comments-button' onClick={() => navigate(`/${page}/recipe-view/${recipe._id}/comments`)}>Comments</button> {/* Navigation to comments section */}

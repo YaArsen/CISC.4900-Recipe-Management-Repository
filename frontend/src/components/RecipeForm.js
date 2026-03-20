@@ -14,6 +14,8 @@ const RecipeForm = ({ initialData, onSubmit }) => {
         difficulty: ''
     });
 
+    const [url, setUrl] = useState('');
+
     const navigate = useNavigate();
     
     useEffect(() => {
@@ -21,6 +23,17 @@ const RecipeForm = ({ initialData, onSubmit }) => {
             setRecipe(initialData);
         }
     }, [initialData]);
+
+    useEffect(() => {
+        if (!recipe.file || typeof recipe.file === 'string') {
+            setUrl(recipe.file);
+            return;
+        }
+
+        const objectUrl = URL.createObjectURL(recipe.file);
+        setUrl(objectUrl);
+        return () => URL.revokeObjectURL(objectUrl);
+    }, [recipe.file]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -111,6 +124,8 @@ const RecipeForm = ({ initialData, onSubmit }) => {
                     onChange={onChange}
                     required={!initialData}
                 />
+
+                {url && <img src={url} alt='img' style={{ height: '50px', width: '50px', objectFit: 'cover'}} />}
 
                 <label>
                     <input

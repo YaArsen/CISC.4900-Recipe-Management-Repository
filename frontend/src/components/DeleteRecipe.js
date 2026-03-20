@@ -2,7 +2,9 @@ import { fetchDeleteRecipe } from '../api';
 
 const DeleteRecipe = ({ setMessage, recipeId, setRecipes }) => {
     // Handles the deletion process
-    const deleteRecipe = async () => {
+    const deleteRecipe = async (e) => {
+        e.stopPropagation();
+        
         try {
             const data = await fetchDeleteRecipe(recipeId); // API call to delete the recipe
             // Update UI with success message and new recipe list
