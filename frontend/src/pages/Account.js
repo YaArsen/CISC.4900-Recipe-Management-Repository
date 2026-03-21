@@ -2,20 +2,17 @@ import {
     fetchUpdateName,
     fetchUpdateEmail,
     fetchUpdatePassword,
-    fetchGetTimestamp,
-    fetchGetUsername,
-    fetchGetUserEmail
 } from '../api';
 import { passwordChecker } from '../utils/passwordChecker';
 import { handleChange } from '../utils/handleChange';
 import Notification from '../components/Notification';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 const Account = () => {
-    const [timestamp, setTimestamp] = useState('');
-    const [username, setUsername] = useState('');
-    const [userEmail, setUserEmail] = useState('');
+    const { page } = useParams();
+    const [userData, setUserData] = useState(null);
     const [user, setUser] = useState({
         name: '',
         email: '',
@@ -46,52 +43,10 @@ const Account = () => {
     }, []);
 
     useEffect(() => {
-        if (message) {
-            const timer = setTimeout(() => {
-                setMessage('');
-            }, 2000);
-
-            return () => clearTimeout(timer);
-        }
-    }, [message]);
-
-    useEffect(() => {
-        try {
-            const getTimestamp = async () => {
-                const data = await fetchGetTimestamp();
-                setTimestamp(data);
-            };
-
-            getTimestamp();
-        } catch (error) {
-            return alert(error);
-        }
-    }, []);
-
-    useEffect(() => {
-        try {
-            const getUserEmail = async () => {
-                const data = await fetchGetUserEmail();
-                setUserEmail(data);
-            };
-
-            getUserEmail();
-        } catch (error) {
-            return alert(error);
-        }
-    }, []);
-
-    useEffect(() => {
-        try {
-            const getUsername = async () => {
-                const data = await fetchGetUsername();
-                setUsername(data);
-            };
-
-            getUsername();
-        } catch (error) {
-            return alert(error);
-        }
+        const token = localStorage.getItem('token');
+        if (!token) return;
+        const user = jwtDecode(token);
+        setUserData(user);
     }, []);
 
     const updatePassword = async (e) => {
@@ -126,6 +81,8 @@ const Account = () => {
             const data = await fetchUpdateEmail({ email: user.email.trim() });
             setMessage(data.message);
             setUser({ ...user, email: '' });
+            setUserData({ ...userData, email: user.email.trim() });
+            localStorage.setItem('token', data.token);
         } catch (error) {
             return alert(error);
         }
@@ -137,22 +94,23 @@ const Account = () => {
         
         try {
             const data = await fetchUpdateName({ name: user.name.trim() });
-            setUsername(data.name);
             setMessage(data.message);
             setUser({ ...user, name: '' });
+            setUserData({ ...userData, name: user.name.trim() });
+            localStorage.setItem('token', data.token);
         } catch (error) {
             return alert(error);
         }
     };
 
-    if (!timestamp && !username && !userEmail) return <p>Loading...</p>;
+    if (!userData) return <p>Loading...</p>;
 
     return (
         <div className='account-container'>
-            <button className='close-btn' onClick={() => navigate(-1)}>x</button>
-            {message && <Notification message={message} />}
+            <button className='close-btn' onClick={() => navigate(`/${page}`)}>x</button>
+            <Notification message={message} setMessage={setMessage} />
 
-            <h4>User email: {userEmail}</h4>
+            <h4>User email: {userData.email}</h4>
             <form onSubmit={updateEmail}>
                 <input
                     value={user.email} 
@@ -166,7 +124,7 @@ const Account = () => {
                 <button type='submit'>Update email</button>
             </form>
 
-            <h4>Username: {username}</h4>
+            <h4>Username: {userData.name}</h4>
             <form onSubmit={updateName}>
                 <input
                     value={user.name}
@@ -221,7 +179,7 @@ const Account = () => {
                 <button type='submit'>Update password</button>
             </form>
 
-            <h4>Account was created on {new Date(timestamp).toDateString()}</h4>
+            <h4>Account was created on {new Date(userData.timestamp).toDateString()}</h4>
         </div>
     );
 };

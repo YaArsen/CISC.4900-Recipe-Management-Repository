@@ -28,7 +28,7 @@ const App = () => {
                 <Route path='/verify-email/:verificationToken' element={<VerifyEmail />} />
                 <Route path='/email' element={<Email />} />
                 <Route path='/reset-password/:verificationToken' element={<PasswordReset />} />
-                <Route path='/account' element={<Account />} />
+                <Route path='/:page/account' element={<Account />} />
                 <Route path='/verify-new-email/:verificationToken' element={<VerifyNewEmail />} />
             </Routes>
         </BrowserRouter>

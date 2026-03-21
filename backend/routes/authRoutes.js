@@ -12,8 +12,4 @@ router.put('/update-name', auth, authController.updateName);
 router.put('/update-email', auth, authController.updateEmail);
 router.put('/update-password', auth, authController.updatePassword);
 
-router.get('/timestamp', auth, authController.getTimestamp);
-router.get('/email', auth, authController.getUserEmail);
-router.get('/username', auth, authController.getUsername);
-
 module.exports = router;

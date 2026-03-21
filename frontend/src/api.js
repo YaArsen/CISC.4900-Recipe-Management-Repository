@@ -140,27 +140,3 @@ export const fetchUpdatePassword = async (user) => {
     if (!res.ok) throw new Error(data.message);
     return data;
 };
-
-export const fetchGetTimestamp = async () => {
-    const token = localStorage.getItem('token');
-    const res = await Fetch('/api/auth/timestamp', { token });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message);
-    return data;
-};
-
-export const fetchGetUserEmail = async () => {
-    const token = localStorage.getItem('token');
-    const res = await Fetch('/api/auth/email', { token });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message);
-    return data;
-};
-
-export const fetchGetUsername = async () => {
-    const token = localStorage.getItem('token');
-    const res = await Fetch('/api/auth/username', { token });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message);
-    return data;
-};

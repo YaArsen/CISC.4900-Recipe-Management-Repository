@@ -36,7 +36,7 @@ const Login = () => {
     // Render the login form UI
     return (
         <div className='login-container'>
-            <Notification message={message} />
+            <Notification message={message} setMessage={setMessage} />
 
             {/* The form element with an onSubmit handler pointing to the login function */}
             <form onSubmit={login}>

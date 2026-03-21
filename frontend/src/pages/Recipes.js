@@ -1,4 +1,4 @@
-import { fetchGetUsername, fetchGetAllUserRecipes } from '../api';
+import { fetchGetAllUserRecipes } from '../api';
 import Header from '../components/Header';
 import DeleteRecipe from '../components/DeleteRecipe';
 import RecipeDetails from '../components/RecipeDetails';
@@ -6,9 +6,10 @@ import Notification from '../components/Notification';
 import threeVerticalDots from '../assets/three-dots-vertical.svg';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 const Recipes = () => {
-    const [username, setUsername] = useState('');
+    const [user, setUser] = useState(null);
     const [recipes, setRecipes] = useState([]); // State to hold user's recipes
     const [message, setMessage] = useState(''); // State for displaying user notifications
     const [activeManageId, setActiveManageId] = useState('');
@@ -24,16 +25,10 @@ const Recipes = () => {
     }, []);
 
     useEffect(() => {
-        try {
-            const getUsername = async () => {
-                const data = await fetchGetUsername();
-                setUsername(data);
-            };
-        
-            getUsername();
-        } catch (error) {
-            return alert(error);
-        }
+        const token = localStorage.getItem('token');
+        if (!token) return;
+        const user = jwtDecode(token);
+        setUser(user);
     }, []);
 
     // Effect hook to fetch all user recipes on component mount
@@ -50,14 +45,14 @@ const Recipes = () => {
         getRecipes();
     }, []);
 
-    if (!recipes) return <p>Loading...</p>; // Loading state
+    if (!user || !recipes) return <p>Loading...</p>; // Loading state
 
     return (
         <>
-            <Header username={username} page={'recipes'} />
+            <Header user={user} page={'recipes'} />
             <h1>Your Recipes</h1>
             <button className='add-recipe-btn' onClick={() => navigate('/add-recipe')}>Add a New Recipe</button>
-            <Notification message={message} /> {/* Display notification */}
+            <Notification message={message} setMessage={setMessage} /> {/* Display notification */}
 
             {recipes.length === 0 ? (
                 <p className='recipes-p'>No recipes yet!</p>

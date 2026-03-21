@@ -72,6 +72,7 @@ exports.login = async (req, res) => {
                 userId: user._id,
                 name: user.name,
                 email: user.email,
+                timestamp: user.timestamp,
                 favorites: user.favorites,
                 liked: user.liked,
                 commented: user.commented
@@ -154,7 +155,24 @@ exports.updateName = async (req, res) => {
 
         user.name = name;
         await user.save();
-        res.status(200).json({ name: user.name, message: 'User name updated successfully'});
+
+        const token = jwt.sign(
+            {
+                userId: user._id,
+                name: user.name,
+                email: user.email,
+                timestamp: user.timestamp,
+                favorites: user.favorites,
+                liked: user.liked,
+                commented: user.commented
+            }, 
+            process.env.JWT_SECRET, // Secret key from environment variables for signing the token
+            {
+                expiresIn: '1h' // Token expiration time (1 hour)
+            }
+        );
+
+        res.status(200).json({ token, message: 'User name updated successfully'});
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -168,7 +186,24 @@ exports.updateEmail = async (req, res) => {
         if (verificationToken) {
             const user = jwt.verify(verificationToken, process.env.JWT_SECRET);
             await User.findByIdAndUpdate(user.userId, { email: user.email });
-            res.status(200).json({ message: 'User email updated successfully '});
+
+            const token = jwt.sign(
+                {
+                    userId: user._id,
+                    name: user.name,
+                    email: user.email,
+                    timestamp: user.timestamp,
+                    favorites: user.favorites,
+                    liked: user.liked,
+                    commented: user.commented
+                }, 
+                process.env.JWT_SECRET, // Secret key from environment variables for signing the token
+                {
+                    expiresIn: '1h' // Token expiration time (1 hour)
+                }
+            );
+
+            res.status(200).json({ token, message: 'User email updated successfully '});
         } else {
             if (email) {
                 const token = jwt.sign(
@@ -219,39 +254,6 @@ exports.updatePassword = async (req, res) => {
         user.password = await bcrypt.hash(newPassword, 10);
         await user.save();
         res.status(200).json({ message: 'User password updated successfully' });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-exports.getTimestamp = async (req, res) => {
-    const { userId } = req.user;
-
-    try {
-        const user = await User.findById({ _id: userId });
-        res.status(200).json(user.timestamp);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-exports.getUserEmail = async (req, res) => {
-    const { userId } = req.user;
-
-    try {
-        const user = await User.findById({ _id: userId });
-        res.status(200).json(user.email);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-exports.getUsername = async (req, res) => {
-    const { userId } = req.user;
-
-    try {
-        const user = await User.findById({ _id: userId });
-        res.status(200).json(user.name);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
