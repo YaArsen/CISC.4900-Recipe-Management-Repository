@@ -12,7 +12,7 @@ const recipeSchema = new mongoose.Schema({
     title: { type: String, required: true, index: true },
     ingredients: [{ type: String }],
     instructions: { type: String, required: true },
-    file: { type: String, required: true },
+    base64File: { type: String, required: true },
     isPublic: { type: Boolean, default: true },
     cookingTime: { type: Number, required: true, index: true },
     category: { type: String, required: true, index: true },

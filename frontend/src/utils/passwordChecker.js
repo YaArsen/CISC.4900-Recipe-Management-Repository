@@ -1,8 +1,6 @@
-import { handleChange } from './handleChange';
-
 // Handler function triggered on every change in the 'password' input field.
-export const passwordChecker = (e, data, setData, setCheckPassword) => {
-    const { value } = e.target;
+const passwordChecker = (e, data, setData, setCheckPassword) => {
+    const { name, value } = e.target;
 
     setCheckPassword({
         isLowerCaseLetter: /[a-z]/.test(value),
@@ -12,5 +10,7 @@ export const passwordChecker = (e, data, setData, setCheckPassword) => {
         isLengthEightOrMore: value.length >= 8
     });
 
-    handleChange(e, data, setData);
+    setData({ ...data, [name]: value });
 };
+
+export default passwordChecker;

@@ -1,4 +1,3 @@
-import { handleChange } from '../utils/handleChange';
 import SearchOutline from '../assets/search-outline.svg';
 import { useState } from 'react';
 
@@ -28,6 +27,11 @@ const SearchForm = ({ onSubmit }) => {
     setRecipe(initialData);
   };
 
+  // Generic change handler: updates the state based on the input's name attribute
+    const handleChange = (e) => {
+        setRecipe({ ...recipe, [e.target.name]: e.target.value }); // Updates the recipe state dynamically based on the input field's name attribute.
+    };
+
   return (
     <>
       <form className='search-results' onSubmit={handleSubmit}>
@@ -36,30 +40,34 @@ const SearchForm = ({ onSubmit }) => {
           type='text'
           name='title'
           value={recipe.title}
-          onChange={(e) => handleChange(e, recipe, setRecipe)}
+          onChange={handleChange}
           placeholder='Search...'
         />
 
         {/* Button to show advanced filters, hidden when filters are open */}
         {!isFilterOpen && (
-          <button type='button' onClick={() => setIsFilterOpen(true)}>
-            Open Filters
+          <button
+            type='button'
+            onClick={() => setIsFilterOpen(true)}
+            >
+              Open Filters
           </button>
         )}
 
-        <button type='submit' style={{ position: 'absolute'}}><img style={{ width: '25px' }} src={SearchOutline} alt='Search' /></button>
+        <button type='submit'><img src={SearchOutline} alt='Search' /></button>
       </form>
 
       {/* Advanced Filters Section: conditionally rendered */}
       {isFilterOpen && (
         <div className='filters'>
           {/* Numeric inputs for filters */}
-          <input
+          <div className='inputs'>
+            <input
             type='number'
             min='0'
             name='cookingTime'
             value={recipe.cookingTime}
-            onChange={(e) => handleChange(e, recipe, setRecipe)}
+            onChange={handleChange}
             placeholder='Maximum cooking time (minutes)'
           />
 
@@ -68,12 +76,14 @@ const SearchForm = ({ onSubmit }) => {
             min='0'
             name='likes'
             value={recipe.likes}
-            onChange={(e) => handleChange(e, recipe, setRecipe)}
+            onChange={handleChange}
             placeholder='Minimum likes'
           />
+          </div>
 
           {/* Radio buttons for category */}
-          <p className='form-p'>Category</p>
+          <div className='radio'>
+            <p>Category</p>
           {['Breakfast', 'Lunch', 'Dinner'].map(category => (
             <label key={category}>
               <input
@@ -81,14 +91,14 @@ const SearchForm = ({ onSubmit }) => {
                 name='category'
                 value={category}
                 checked={recipe.category === category}
-                onChange={(e) => handleChange(e, recipe, setRecipe)}
+                onChange={handleChange}
               />
               {category}
             </label>
           ))}
 
           {/* Radio buttons for difficulty */}
-          <p className='form-p'>Difficulty</p>
+          <p>Difficulty</p>
           {['Easy', 'Medium', 'Hard'].map(difficulty => (
             <label key={difficulty}>
               <input
@@ -96,35 +106,42 @@ const SearchForm = ({ onSubmit }) => {
                 name='difficulty'
                 value={difficulty}
                 checked={recipe.difficulty === difficulty}
-                onChange={(e) => handleChange(e, recipe, setRecipe)}
+                onChange={handleChange}
               />
               {difficulty}
             </label>
           ))}
+          </div>
 
           {/* Date range filters */}
-          <p className='form-p'>Date Range</p>
-          <input
+          <p>Date Range</p>
+          <div className='inputs'>
+            <input
             type='date'
             name='startDate'
             value={recipe.startDate}
-            onChange={(e) => handleChange(e, recipe, setRecipe)}
+            onChange={handleChange}
           />
 
           <input
             type='date'
             name='endDate'
             value={recipe.endDate}
-            onChange={(e) => handleChange(e, recipe, setRecipe)}
+            onChange={handleChange}
           />
+          </div>
 
           {/* Action buttons for filters */}
-          <button className='form-btn' type='button' onClick={clear}>
+          <button
+            className='form-button'
+            type='button'
+            onClick={clear}
+          >
             Clear
           </button>
 
           <button
-            className='form-btn'
+            className='form-button'
             type='button'
             onClick={() => {
               setIsFilterOpen(false);

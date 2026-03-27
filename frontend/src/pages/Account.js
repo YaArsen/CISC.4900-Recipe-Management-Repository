@@ -4,8 +4,7 @@ import {
     fetchUpdatePassword,
 } from '../api';
 import { passwordChecker } from '../utils/passwordChecker';
-import { handleChange } from '../utils/handleChange';
-import Notification from '../components/Notification';
+import ToastNotification from '../components/ToastNotification';
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
@@ -73,6 +72,11 @@ const Account = () => {
         }
     };
 
+    // Generic change handler: updates the state based on the input's name attribute
+    const handleChange = (e) => {
+        setUser({ ...user, [e.target.name]: e.target.value }); // Updates the user state dynamically based on the input field's name attribute.
+    };
+
     const updateEmail = async (e) => {
         e.preventDefault();
         if (!user.email.trim()) return;
@@ -107,8 +111,11 @@ const Account = () => {
 
     return (
         <div className='account-container'>
-            <button className='close-btn' onClick={() => navigate(`/${page}`)}>x</button>
-            <Notification message={message} setMessage={setMessage} />
+            <div className='close-button-container'>
+                <button className='close-btn' onClick={() => navigate(`/${page}`)}>x</button>
+            </div>
+
+            <ToastNotification message={message} setMessage={setMessage} />
 
             <h4>User email: {userData.email}</h4>
             <form onSubmit={updateEmail}>
@@ -116,7 +123,7 @@ const Account = () => {
                     value={user.email} 
                     type='email' 
                     name='email' 
-                    onChange={(e) => handleChange(e, user, setUser)} 
+                    onChange={handleChange} 
                     placeholder='Email' 
                     required 
                 />
@@ -130,7 +137,7 @@ const Account = () => {
                     value={user.name}
                     type='text'
                     name='name'
-                    onChange={(e) => handleChange(e, user, setUser)}
+                    onChange={handleChange}
                     placeholder='Name'
                     required
                 />
@@ -143,7 +150,7 @@ const Account = () => {
                     value={user.password}
                     type='password'
                     name='password'
-                    onChange={(e) => handleChange(e, user, setUser)}
+                    onChange={handleChange}
                     placeholder='Current password'
                     required
                 />
@@ -172,7 +179,7 @@ const Account = () => {
                     type='password'
                     name='repeatPassword'
                     placeholder='Repeat password'
-                    onChange={(e) => handleChange(e, user, setUser)}
+                    onChange={handleChange}
                     required
                 />
 

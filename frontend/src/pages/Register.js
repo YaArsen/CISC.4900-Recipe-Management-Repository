@@ -1,6 +1,5 @@
 import { fetchRegister } from '../api'; // Imports the function responsible for making the API call to register a user.
 import { passwordChecker } from '../utils/passwordChecker';
-import { handleChange } from '../utils/handleChange';
 // Imports necessary hooks from the React library for managing state and navigation.
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -45,6 +44,11 @@ const Register = () => {
         }
     };
 
+    // Generic change handler: updates the state based on the input's name attribute
+    const handleChange = (e) => {
+        setUser({ ...user, [e.target.name]: e.target.value }); // Updates the user state dynamically based on the input field's name attribute.
+    };
+
     // The component's render function (JSX).
     return (
         <form className='register-container' onSubmit={register}>
@@ -54,7 +58,7 @@ const Register = () => {
             <input
                 name='name'
                 placeholder='Name'
-                onChange={(e) => handleChange(e, user, setUser)}
+                onChange={handleChange}
                 required
             />
 
@@ -62,7 +66,7 @@ const Register = () => {
                 type='email'
                 name='email'
                 placeholder='Email'
-                onChange={(e) => handleChange(e, user,  setUser)}
+                onChange={handleChange}
                 required
             />
 
@@ -90,7 +94,7 @@ const Register = () => {
                 type='password'
                 name='repeatPassword'
                 placeholder='Repeat password'
-                onChange={(e) => handleChange(e, user, setUser)}
+                onChange={handleChange}
                 required
             />
 

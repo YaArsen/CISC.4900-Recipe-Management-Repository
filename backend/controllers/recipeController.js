@@ -20,7 +20,7 @@ exports.postRecipe = async (req, res) => {
       title: title,
       ingredients: ingredients,
       instructions: instructions,
-      file: file,
+      base64File: file,
       isPublic: isPublic,
       cookingTime: Number(cookingTime),
       category: category,
@@ -84,7 +84,7 @@ exports.updateRecipe = async (req, res) => {
     title,
     ingredients,
     instructions,
-    file,
+    base64File,
     isPublic,
     cookingTime,
     category,
@@ -97,7 +97,7 @@ exports.updateRecipe = async (req, res) => {
     recipe.title = title;
     recipe.ingredients = ingredients;
     recipe.instructions = instructions;
-    recipe.file = file;
+    recipe.base64File = base64File;
     recipe.isPublic = isPublic;
     recipe.cookingTime = Number(cookingTime);
     recipe.category = category;
@@ -218,129 +218,111 @@ exports.updateComment = async (req, res) => {
 };
 
 exports.deleteComment = async (req, res) => {
-  const { userId } = req.user;
-  const { recipeId, commentId } = req.params;
-  let topLevelCommentId = commentId;
-  const stack1 = [];
-  const stack2 = [topLevelCommentId];
-
-  try {
-    const recipe = await Recipe.findById({ _id: recipeId });
-
-    if (!recipe) {
-      return res.status(404).json({ message: 'Recipe not found' });
-    }
-
-    const comment = recipe.comments.id(topLevelCommentId);
-
-    if (!comment) {
-      return res.status(404).json({ message: 'Comment not found' });
-    }
-
-    while (topLevelCommentId !== null) {
-      for (let i = 0; i < recipe.comments.length; i++) {
-        const parentId = recipe.comments[i].parentId;
-
-        if (!parentId ? false : topLevelCommentId.toString() === parentId.toString()) {
-          stack1.push(recipe.comments[i]._id);
-          stack2.push(recipe.comments[i]._id.toString());
+    const { userId } = req.user;
+    const { recipeId, commentId } = req.params;
+    let topLevelCommentId = commentId; // topLevelCommentId is the comment the user wants to delete.
+    const stack1 = []; // Used to track replies that need to be checked
+    const stack2 = [topLevelCommentId]; // Stores IDs to be deleted
+    try {
+        const recipe = await Recipe.findById({ _id: recipeId });
+        if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
+        const comment = recipe.comments.id(topLevelCommentId);
+        if (!comment) return res.status(404).json({ message: 'Comment not found' });
+        // Find all replies of the comment
+        while (topLevelCommentId !== null) {
+            for (let i = 0; i < recipe.comments.length; i++) {
+                const parentId = recipe.comments[i].parentId;
+                // Check if current comment in loop is a sub comment of the current comment
+                if (!parentId ? false : topLevelCommentId.toString() === parentId.toString()) {
+                    stack1.push(recipe.comments[i]._id);
+                    stack2.push(recipe.comments[i]._id.toString());
+                }
+            }
+            // Move to the next nested comment, or break while loop
+            if (stack1.length !== 0) {
+                topLevelCommentId = stack1.pop();
+            } else {
+                topLevelCommentId = null;
+            }
         }
-      }
+        // Count how many comments in the deletion list belong to the user to update user stats
+        const count = recipe.comments.filter(comment => comment.user.toString() === userId.toString() && stack2.includes(comment._id.toString())).length;
+        // Update the user's total comment count for this recipe
+        const user = await User.findById({ _id: userId });
+        const userNumberOfComments = user.commented.get(recipeId.toString());
+        user.commented.set(recipeId.toString(), userNumberOfComments - count);
 
-      if (stack1.length !== 0) {
-        topLevelCommentId = stack1.pop();
-      } else {
-        topLevelCommentId = null;
-      }
+        if (user.commented.get(recipeId.toString()) === 0) user.commented.delete(recipeId.toString()); // Remove the recipe from the user's map if they have 0 comments left
+        await user.save();
+        while (stack2.length !== 0) recipe.comments.pull(stack2.pop()); // Pull all gathered comment IDs from the recipe document
+        await recipe.save();
+        res.status(200).json(recipe.comments);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
-
-    const count = recipe.comments
-      .filter(comment => comment.user.toString() === userId.toString()
-      && stack2.includes(comment._id.toString()))
-      .length;
-
-    const user = await User.findById({ _id: userId });
-    const userNumberOfComments = user.commented.get(recipeId.toString());
-    user.commented.set(recipeId.toString(), userNumberOfComments - count);
-
-    if (user.commented.get(recipeId.toString()) === 0) {
-      user.commented.delete(recipeId.toString());
-    }
-
-    await user.save();
-
-    while (stack2.length !== 0) {
-      recipe.comments.pull(stack2.pop());
-    }
-
-    await recipe.save();
-
-    res.status(200).json(recipe.comments);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
 };
 
 exports.searchRecipes = async (req, res) => {
-    const {
-      title,
-      cookingTime,
-      difficulty,
-      category,
-      likes,
-      startDate,
-      endDate
-    } = req.body;
+  const { title, cookingTime, difficulty, category, likes, startDate, endDate } = req.body;
+  const query = { isPublic: true };
 
-    const query = { isPublic: true };
+  if (title.trim()) query.title = { $regex: title.trim(), $options: 'i' };
+  if (cookingTime !== '' && !isNaN(cookingTime)) query.cookingTime = { $lte: Number(cookingTime) };
+  if (likes !== '' && !isNaN(likes)) query.likes = { $gte: Number(likes) };
+  if (difficulty) query.difficulty = difficulty;
+  if (category) query.category = category;
 
-    if (title.trim()) {
-      query.title = { $regex: title.trim(), $options: 'i' };
+  // Date range filter
+  if (startDate || endDate) {
+    query.timestamp = {};
+
+    if (startDate) {
+      const start = new Date(startDate);
+      start.setHours(0, 0, 0, 0);
+      query.timestamp.$gte = start;
     }
 
-    if (cookingTime !== '' && !isNaN(cookingTime)) {
-      query.cookingTime = { $lte: Number(cookingTime) };
+    if (endDate) {
+      const end = new Date(endDate);
+      end.setHours(23, 59, 59, 999);
+      query.timestamp.$lte = end;
     }
+  }
 
-    if (likes !== '' && !isNaN(likes)) {
-      query.likes = { $gte: Number(likes) };
-    }
-
-    if (difficulty) {
-      query.difficulty = difficulty;
-    }
-
-    if (category) {
-      query.category = category;
-    }
-
-    // Date range filter
-    if (startDate || endDate) {
-      query.timestamp = {};
-
-      if (startDate) {
-        const start = new Date(startDate);
-        start.setHours(0, 0, 0, 0);
-        query.timestamp.$gte = start;
-      }
-
-      if (endDate) {
-        const end = new Date(endDate);
-        end.setHours(23, 59, 59, 999);
-        query.timestamp.$lte = end;
-      }
-    }
-
-    const hasMoreThanOne = Object.keys(query).length > 1;
-
-    if (!hasMoreThanOne) {
-      return res.status(400).json({ message: 'Enter some text or apply at least one filter' });
-    }
+  const hasMoreThanOne = Object.keys(query).length > 1;
+  if (!hasMoreThanOne) return res.status(400).json({ message: 'Enter some text or apply at least one filter' });
 
   try {
-    const recipes = await Recipe.find(query).sort({ timestamp: -1 });
-    res.status(200).json(recipes);
+    const recipes = await Recipe.find(query);
+    const sortedRecipesByDateInDescendingOrder = mergeSort(recipes);
+    res.status(200).json(sortedRecipesByDateInDescendingOrder);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
+function mergeSort(arr) {
+    if (arr.length <= 1) {
+        return arr;
+    }
+    const mid = Math.floor(arr.length / 2);
+    const left = mergeSort(arr.slice(0, mid));
+    const right = mergeSort(arr.slice(mid));
+    return merge(left, right);
+}
+
+function merge(left, right) {
+    let result = [];
+    let i = 0;
+    let j = 0;
+    while (i < left.length && j < right.length) {
+        if (new Date(left[i].timestamp) > new Date(right[j].timestamp)) {
+            result.push(left[i]);
+            i++;
+        } else {
+            result.push(right[j]);
+            j++;
+        }
+    }
+    return result.concat(left.slice(i), right.slice(j));
+}

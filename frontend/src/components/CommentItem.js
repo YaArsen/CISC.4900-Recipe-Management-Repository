@@ -24,7 +24,7 @@ const CommentItem = ({ userId, recipeId, comment, allComments, onAddReply, setCo
                         <span className="comment-timestamp">{new Date(comment.timestamp).toLocaleString()}</span>
                     </div>
 
-                    <button className='manage-btn' onClick={() => setActiveManageId(activeManageId === comment._id ? '' : comment._id.toString())}>
+                    <button className='manage-button' onClick={() => setActiveManageId(activeManageId === comment._id ? '' : comment._id.toString())}>
                         <img src={threeVerticalDots} alt='manage' />
                     </button>
                     
@@ -49,12 +49,12 @@ const CommentItem = ({ userId, recipeId, comment, allComments, onAddReply, setCo
 
                 <p className="comment-text"><pre>{comment.content}</pre></p>
 
-                <button className="action-btn" onClick={() => setShowReplyForm(!showReplyForm)}>
+                <button className="action-button" onClick={() => setShowReplyForm(!showReplyForm)}>
                     {showReplyForm ? 'Cancel Reply' : 'Reply'}
                 </button>
 
                 {replies.length > 0 && (
-                    <button className="action-btn" onClick={() => setShowReplies(!showReplies)}>
+                    <button className="action-button" onClick={() => setShowReplies(!showReplies)}>
                         {showReplies ? 'Hide replies' : `Show replies (${replies.length})`}
                     </button>
                 )}

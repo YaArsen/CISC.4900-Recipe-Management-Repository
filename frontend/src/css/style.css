@@ -59,6 +59,9 @@ body {
 }
 
 input:not(input[type='radio'],
+.search-container .search-results input,
+.search-container .filters input[type='number'],
+.search-container .filters input[type='date'],
 .register-container input,
 .login-container input,
 .email-container input,
@@ -74,35 +77,29 @@ input:not(input[type='radio'],
 button:hover:not(
     .submit-btn,
     .close-btn,
-    .action-btn,
-    .manage-btn,
-    .is-managing-recipe-container button:hover,
+    .action-button,
+    .manage-button,
+    .is-managing-recipe-container button,
     .is-managing-container button,
     .nav-menu button,
-    .like-btn,
+    .like-button,
     .recipe-view .comments-button
 ) {
     background: #333;
     cursor: pointer;
 }
 
-.toggle-btn-container {
-    float: right;
-}
-
-.hamb-btn {
-    display: block;
-    margin-left: -50px;
+.sandwich-button-container .sandwich-button {
     cursor: pointer;
-    position: fixed;
     z-index: 1;
+    margin: 30px;
 }
 
-.hamb-btn:hover {
+.sandwich-button-container .sandwich-button:hover {
     opacity: 0.5;
 }
 
-.hamb-btn span {
+.sandwich-button-container .sandwich-button span {
     display: block;
     width: 30px;
     height: 3px;
@@ -123,7 +120,7 @@ button:hover:not(
     transform: rotate(45deg) translate(-6px, -6px);
 }
 
-.nav-menu {
+.sandwich-button-container .nav-menu {
     display: none;
     background: #333;
     padding: 20px;
@@ -136,25 +133,24 @@ button:hover:not(
     z-index: 1;
 }
 
-.nav-menu.show {
+.sandwich-button-container .nav-menu.show {
     display: block;
 }
 
-.nav-menu button {
+.sandwich-button-container .nav-menu button {
     background: 0;
     border: 0;
     color: yellow;
     border-radius: 10px;
-    margin-top: 5px;
     padding: 10px;
     cursor: pointer;
 }
 
-.nav-menu button:hover {
+.sandwich-button-container .nav-menu button:hover {
     background-color: #222;
 }
 
-.add-recipe-btn {
+.add-recipe-button {
     position: absolute;
     height: 50px;
     width: 500px;
@@ -163,7 +159,162 @@ button:hover:not(
     z-index: -1;
 }
 
+h3 {
+    position: relative;
+    left: 200px;
+    bottom: -200px;
+    width: 150px;
+}
+
+p:not(
+    .recipe-form-container p,
+    .search-container .filters p,
+    .recipes-container p,
+    .register-container p,
+    .comment-text
+) {
+    text-align: center;
+    margin-top: 200px;
+}
+
+.like-button.activated {
+    width: 100px;
+    display: inline;
+    background-color: aqua;
+    border-color: aqua;
+    color: white;
+    height: 50px;
+    margin-top: 5px;
+}
+
+.like-button {
+    width: 100px;
+    display: inline;
+    height: 50px;
+    border-radius: 3rem;
+    margin-top: 5px;
+    border: 2px solid #8a8a8a;
+    background-color: transparent;
+    text-decoration: none;
+    padding: 1rem;
+    color: #8a8a8a;
+    transition: all ease 0.4s;
+    cursor: pointer;
+}
+
+.like-button:hover {
+    border-color: aqua;
+    color: aqua;
+}
+
+.recipe-likes {
+    display: inline;
+    margin-left: 5px;
+}
+
+/* Responsive Recipe Form Styles */
+.recipe-form-container {
+  background: white;
+  width: 90%; /* Responsive width */
+  max-width: 600px; /* Max width for desktop */
+  margin: 20px auto; /* Centered with less margin */
+  padding: 30px; /* Reduced padding for mobile */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  box-sizing: border-box; /* Important for padding */
+}
+
+/* Make textarea responsive */
+.recipe-form-container textarea {
+  width: 100%; /* Full width */
+  height: 100px; /* Slightly taller */
+  margin-top: 10px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.recipe-form-container img {
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+}
+
+/* Inputs and textareas styling */
+.recipe-form-container input[type='text'],
+.recipe-form-container input[type='number'],
+.recipe-form-container button[type='radio'],
+.recipe-form-container textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+/* Flex wrapper for ingredients */
+.recipe-form-container .ingredient-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.recipe-form-container .ingredient-row button[type='button'] {
+  height: 40px; /* Smaller height */
+  width: 40px;
+  border-radius: 5px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+/* Close button - now top right of container */
+.recipe-form-container .close-btn {
+  float: right;
+  margin-bottom: 20px;
+}
+
+.recipe-form-container .form-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 600px) {
+  .recipe-form {
+    padding: 15px;
+    margin: 10px auto;
+  }
+  
+  .recipe-form-container .close-btn {
+    margin-bottom: 10px;
+  }
+}
+
+.add-recipe-container h1,
+.edit-recipe-container h1,
+.recipes-container h1 {
+    margin: 50px;
+}
+
+/* //////////////// Search container //////////////// */
+.search-container h2:not(.search-container .profile-header h2) {
+    text-align: center;
+}
+/* /////////////////////////////////////////////////// */
+
+/* //////////////// Header //////////////// */
 .profile-header {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    width: 100%;
     height: 100px;
     background: #333;
     background: linear-gradient(
@@ -180,31 +331,23 @@ button:hover:not(
 }
 
 .profile-header h2 {
-    position: relative;
-    top: 10px;
-    left: 10px;
+    margin: 10px;
     color: #fff;
     width: 200px;
 }
 
 .profile-header .search-button {
-    display: inline;
-    position: relative;
-    left: 500px;
+    align-self: center;
     height: 50px;
     width: 500px;
     border-radius: 10px;
-    margin-top: 5px;
 }
 
 .profile-header .recipes-button {
-    display: inline;
-    position: relative;
-    left: 650px;
+    align-self: center;
     height: 50px;
     width: 500px;
     border-radius: 10px;
-    margin-top: 5px;
 }
 
 .profile-header .search-button.show {
@@ -214,167 +357,81 @@ button:hover:not(
 .profile-header .recipes-button.show {
     box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.5);
 }
+/* /////////////////////////////////////////////////// */
 
-h3 {
-    position: relative;
-    left: 200px;
-    bottom: -200px;
-    width: 150px;
+/* //////////////// Search container Search results //////////////// */
+.search-container .search-results {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 60px;
+    box-sizing: border-box;
 }
 
-p:not(
-    p.form-p,
-    p.recipes-p,
-    .register-container p,
-    .comment-text
-) {
-    text-align: center;
-    margin-top: 200px;
-}
-
-.like-btn.activated {
+.search-container .search-results button {
+    height: 50px;
     width: 100px;
-    display: inline;
-    background-color: aqua;
-    border-color: aqua;
-    color: white;
-    height: 50px;
-    margin-top: 5px;
+    border-radius: 8px;
+    margin-right: 10px;
 }
 
-.like-btn {
-    width: 100px;
-    display: inline;
-    height: 50px;
-    border-radius: 3rem;
-    margin-top: 5px;
-    border: 2px solid #8a8a8a;
-    background-color: transparent;
-    text-decoration: none;
-    padding: 1rem;
-    color: #8a8a8a;
-    transition: all ease 0.4s;
-    cursor: pointer;
+.search-container .search-results input {
+    width: 500px;
+    padding: 10px;
+    border-radius: 8px;
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
-.like-btn:hover {
-    border-color: aqua;
-    color: aqua;
+.search-container .search-results button img {
+    width: 25px;
 }
+/* //////////////////////////////////////////////// */
 
-.recipe-likes {
-    display: inline;
-    margin-left: 5px;
-}
-
-.recipe-form-ingredient-btn {
-    float: right;
-    height: 50px;
-    width: 50px;
-    display: block;
-    border-radius: 5px;
-    margin-top: 5px;
-}
-
-.recipe-form {
+/* //////////////// Search container filters //////////////// */
+.search-container .filters {
+    display: flex;
+    flex-direction: column;
     background: white;
     width: 100%;
     max-width: 500px;
     margin: 60px auto;
-    padding: 60px;
+    padding: 30px;
     border: 1px solid;
+    border-radius: 8px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-sizing: border-box;
 }
 
-.recipe-form textarea {
-    width: 500px;
+.search-container .filters .form-button {
     height: 50px;
-    margin-top: 10px;
-    resize: vertical;
+    width: 100%;
+    border-radius: 5px;
 }
 
-.recipe-form .close-btn {
-    margin-left: 500px;
-    margin-bottom: 40px;
+.search-container .filters .inputs input {
+    display: inline;
+    width: 155px;
+    height: 25px;
+    margin: 10px;
 }
+
+.search-container .filters .radio input[type='radio'] {
+    display: inline;
+}
+/* //////////////////////////////////////////////// */
 
 input[type='radio'] {
     margin: 10px;
 }
 
-.form-p {
+.recipe-form-container p,
+.search-container .filters p {
     margin: 10px;
     font-weight: bold;
 }
 
-h1:not(.comments-title) {
-    margin: 50px;
-}
-
-.search-results {
-    width: 100%;
-    max-width: 750px;
-    margin: 60px auto;
-    padding: 60px;
-}
-
-.search-results input[type='text'] {
-    display: inline;
-}
-
-.search-results button[type='submit'] {
-    display: inline;
-    width: 100px;
-    height: 55px;
-    margin-left: 5px;
-    border-radius: 5px;
-    margin-top: 5px;
-}
-
-.form-btn {
-    height: 50px;
-    width: 500px;
-    display: block;
-    border-radius: 5px;
-    margin-top: 5px;
-}
-
-.search-results button[type='button'] {
-    display: inline;
-    height: 55px;
-    width: 100px;
-    margin-left: 5px;
-    border-radius: 5px;
-    margin-top: 5px;
-}
-
-h2.search-h2 {
-    position: fixed;
-    left: 720px;
-    bottom: 800px;
-}
-
-.filters {
-    background: white;
-    width: 100%;
-    max-width: 500px;
-    margin: 60px auto;
-    padding: 60px;
-    border: 1px solid;
-    margin-left: 720px;
-    position: fixed;
-    bottom: 200px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.filters input[type='number'],
-.filters input[type='date'] {
-    display: inline;
-    width: 240px;
-    margin-left: 5px;
-}
-
-p.recipes-p {
+.recipes-container p {
     position: relative;
     left: 1000px;
     bottom: -200px;
@@ -400,29 +457,20 @@ p.recipes-p {
 /* =========================================
    Header Row (Title + Close)
 ========================================= */
-.recipe-header {
+.recipe-view .recipe-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.title {
+.recipe-view .recipe-header .title {
     margin: 0;
     font-size: 1.5rem;
     color: #333;
 }
 
-.close-btn {
-    background: none;
-    border: 1px solid #ddd;
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-}
-
-.close-btn:hover {
+.recipe-view .recipe-header .close-btn:hover {
     background-color: #eee;
 }
 
@@ -437,10 +485,15 @@ p.recipes-p {
     margin-bottom: 20px;
 }
 
-/* =========================================
+.close-button-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* ========================================= 
    Meta Info (category, difficulty, time)
 ========================================= */
-.recipe-meta {
+.recipe-view .recipe-meta {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -472,17 +525,22 @@ p.recipes-p {
 /* =========================================
    Instructions
 ========================================= */
-.instructions {
+.recipe-view .instructions {
     white-space: pre-wrap;
     line-height: 1.5;
     color: #444;
 }
 
+.recipe-view .likes-container {
+    display: flex;
+    gap: 8px;
+}
+
 /* =========================================
    Footer (likes, user, date)
 ========================================= */
-.recipe-footer {
-    margin-top: 25px;
+.recipe-view .recipe-footer {
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -492,7 +550,7 @@ p.recipes-p {
 /* =========================================
    Comments Button
 ========================================= */
-.comments-button {
+.recipe-view .comments-button {
     margin-top: 15px;
     align-self: flex-end;
     background: none;
@@ -501,7 +559,7 @@ p.recipes-p {
     cursor: pointer;
 }
 
-.comments-button:hover {
+.recipe-view .comments-button:hover {
     text-decoration: underline;
 }
 
@@ -515,11 +573,11 @@ p.recipes-p {
         padding: 15px;
     }
 
-    .title {
+    .recipe-view .title {
         font-size: 1.3rem;
     }
 
-    .recipe-meta {
+    .recipe-view .recipe-meta {
         flex-direction: column;
         align-items: flex-start;
     }
@@ -532,11 +590,11 @@ p.recipes-p {
         padding: 15px;
     }
 
-    .title {
+    .recipe-view .title {
         font-size: 1.2rem;
     }
 
-    .close-btn {
+    .recipe-view .close-btn {
         width: 28px;
         height: 28px;
     }
@@ -610,8 +668,8 @@ p.recipes-p {
   background: none;
   border: 1px solid #ddd;
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -737,7 +795,7 @@ p.recipes-p {
   line-height: 1.4;
 }
 
-.manage-btn {
+.manage-button {
   background: none;
   border: none;
   cursor: pointer;
@@ -745,11 +803,11 @@ p.recipes-p {
   opacity: 0.6;
 }
 
-.manage-btn:hover {
+.manage-button:hover {
   opacity: 1;
 }
 
-.manage-btn img {
+.manage-button img {
   height: 20px;
   display: block;
 }
@@ -783,7 +841,7 @@ p.recipes-p {
   background-color: #f0f0f0;
 }
 
-.action-btn {
+.action-button {
   background: none;
   border: none;
   color: #007bff;
@@ -794,11 +852,11 @@ p.recipes-p {
   margin-right: 15px;
 }
 
-.action-btn:hover {
+.action-button:hover {
   text-decoration: underline;
 }
 
-.is-managing-recipe-container {
+.recipes-container .is-managing-recipe-container {
   position: absolute;
   background: white;
   border: 1px solid #ddd;
@@ -811,7 +869,7 @@ p.recipes-p {
 }
 
 /* Styling for Edit/Delete buttons inside dropdown */
-.is-managing-recipe-container button {
+.recipes-container .is-managing-recipe-container button {
   background: none;
   border: none;
   padding: 8px 12px;
@@ -821,7 +879,7 @@ p.recipes-p {
   font-size: 0.9rem;
 }
 
-.is-managing-recipe-container button:hover {
+.recipes-container .is-managing-recipe-container button:hover {
   background-color: #f0f0f0;
 }
 
@@ -901,37 +959,100 @@ p.recipes-p {
 .account-container {
     background: white;
     width: 100%;
-    max-width: 400px;
-    margin: 150px auto;
-    padding: 60px;
-    border: 1px solid;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    max-width: 420px;
+    margin: 120px auto;
+    padding: 40px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
 }
 
-.account-container button:not(.close-btn) {
-    height: 50px;
-    width: 405px;
-    display: block;
-    border-radius: 5px;
-    margin-top: 5px;
-    margin-bottom: 20px;
-}
-
-.account-container h4 {
-    margin-top: 10px;
-}
-
-.account-container button.close-btn {
-    margin-left: 390px;
-    margin-bottom: 20px;
-}
-
+/* Inputs */
 .account-container input {
     height: 50px;
-    width: 400px;
+    width: 100%;
     display: block;
     border-radius: 5px;
     margin-top: 5px;
+    margin-bottom: 15px;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+/* Buttons */
+.account-container button:not(.close-btn) {
+    height: 50px;
+    width: 100%;
+    display: block;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+/* Headings */
+.account-container h4 {
+    margin-top: 15px;
+    word-break: break-word;
+}
+
+/* Password validation text */
+.account-container p {
+    font-size: 14px;
+    margin: 3px 0;
+}
+
+/* -------- Tablet -------- */
+@media (max-width: 768px) {
+    .account-container {
+        margin: 80px auto;
+        padding: 30px;
+    }
+
+    .account-container input,
+    .account-container button:not(.close-btn) {
+        height: 45px;
+    }
+}
+
+/* -------- Mobile -------- */
+@media (max-width: 480px) {
+    .account-container {
+        width: 95%;
+        margin: 60px auto;
+        padding: 20px;
+        border-radius: 6px;
+    }
+
+    .account-container input,
+    .account-container button:not(.close-btn) {
+        height: 42px;
+        font-size: 14px;
+    }
+
+    .account-container h4 {
+        font-size: 14px;
+    }
+
+    .account-container button.close-btn {
+        width: 30px;
+        height: 30px;
+        top: 10px;
+        right: 10px;
+    }
+}
+
+/* -------- Very small devices -------- */
+@media (max-width: 360px) {
+    .account-container {
+        padding: 15px;
+    }
+
+    .account-container input,
+    .account-container button:not(.close-btn) {
+        height: 40px;
+    }
 }
 
 .toast-notification {

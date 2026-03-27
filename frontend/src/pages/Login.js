@@ -1,6 +1,5 @@
 import { fetchLogin } from '../api'; // Import the API function for handling login requests
-import { handleChange } from '../utils/handleChange';
-import Notification from '../components/Notification'; // Import a custom Notification component to display messages
+import ToastNotification from '../components/ToastNotification'; // Import a custom Notification component to display messages
 import { useState, useEffect } from 'react'; // Import necessary React hooks for state management and side effects
 import { useNavigate, Link } from 'react-router-dom'; // Import navigation utilities from react-router-dom for routing
 
@@ -33,10 +32,15 @@ const Login = () => {
         }
     };
 
+    // Generic change handler: updates the state based on the input's name attribute
+    const handleChange = (e) => {
+        setUser({ ...user, [e.target.name]: e.target.value }); // Updates the user state dynamically based on the input field's name attribute.
+    };
+
     // Render the login form UI
     return (
         <div className='login-container'>
-            <Notification message={message} setMessage={setMessage} />
+            <ToastNotification message={message} setMessage={setMessage} />
 
             {/* The form element with an onSubmit handler pointing to the login function */}
             <form onSubmit={login}>
@@ -47,7 +51,7 @@ const Login = () => {
                     type='email'
                     name='email'
                     placeholder='Email'
-                    onChange={(e) => handleChange(e, user, setUser)}
+                    onChange={handleChange}
                     required
                 />
 
@@ -56,7 +60,7 @@ const Login = () => {
                     type='password'
                     name='password'
                     placeholder='Password'
-                    onChange={(e) => handleChange(e, user, setUser)}
+                    onChange={handleChange}
                     required
                 />
                 

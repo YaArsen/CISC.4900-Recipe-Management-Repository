@@ -1,5 +1,4 @@
 import { fetchPasswordReset } from '../api';
-import { handleChange } from '../utils/handleChange';
 import { passwordChecker } from '../utils/passwordChecker';
 import { useState } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
@@ -44,6 +43,11 @@ const PasswordReset = () => {
             return alert(error);
         }
     };
+
+    // Generic change handler: updates the state based on the input's name attribute
+    const handleChange = (e) => {
+        setUser({ ...user, [e.target.name]: e.target.value }); // Updates the user state dynamically based on the input field's name attribute.
+    };
     
     return (
         <form className='password-reset-container' onSubmit={passwordReset}>
@@ -71,7 +75,7 @@ const PasswordReset = () => {
                 type='password'
                 name='repeatPassword'
                 placeholder='Repeat password'
-                onChange={(e) => handleChange(e, user, setUser)}
+                onChange={handleChange}
                 required
             />
 

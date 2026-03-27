@@ -38,7 +38,7 @@ const Search = () => {
     if (!user) return <p>Loading...</p>;
     
     return (
-        <>
+        <div className='search-container'>
             <Header user={user} page={'search'} />
             <SearchForm onSubmit={searchRecipes} /> {/* Search form component, calling searchRecipes on submission */}
 
@@ -51,9 +51,9 @@ const Search = () => {
                     </div>
                 ))
             ) : (
-                isFetchedOk && <h2 className='search-h2'>No recipes found</h2>
+                isFetchedOk && <h2>No recipes found</h2>
             )}
-        </>
+        </div>
     );
 };
 

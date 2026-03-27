@@ -46,7 +46,7 @@ const RecipeView = () => {
             </div>
 
             {/* Recipe Details Display */}
-            <img src={recipe.file} alt={recipe.title} />
+            <img src={recipe.base64File} alt={recipe.title} />
 
             <div className="recipe-meta">
                 <h4>Category: {recipe.category}</h4>
@@ -54,24 +54,31 @@ const RecipeView = () => {
                 <h4>{recipe.cookingTime} min</h4>
             </div>
             
-            <h4>Ingredients</h4>
+            <h4>Ingredients:</h4>
             <ul>
                 {recipe.ingredients.map((ingredient) => (
                     <li key={ingredient}>{ingredient}</li> // List items need unique keys
                 ))}
             </ul>
-            <h4>Instructions:<br/>{recipe.instructions}</h4>
+
+            <h4 className='instructions'>Instructions:<br/>{recipe.instructions}</h4>
+
+            <div className='likes-container'>
+                <ToggleLike
+                    isActivated={isActivated}
+                    recipeId={recipe._id}
+                    setRecipe={setRecipe}
+                    setIsActivated={setIsActivated}
+                />
+
+                <h4>{recipe.likes}</h4>
+            </div>
             
-            {/* Like Button Component */}
-            <ToggleLike
-                isActivated={isActivated}
-                recipeId={recipe._id}
-                setRecipe={setRecipe}
-                setIsActivated={setIsActivated}
-            />
-            <h4>{recipe.likes}</h4>
-            <h4>Posted by {recipe.username}</h4>
-            <h4 className='date'>{new Date(recipe.timestamp).toLocaleString()}</h4>
+            <div className='recipe-footer'>
+                <h4>Posted by {recipe.username}</h4>
+                <h4 className='date'>{new Date(recipe.timestamp).toLocaleString()}</h4>
+            </div>
+
             <button className='comments-button' onClick={() => navigate(`/${page}/recipe-view/${recipe._id}/comments`)}>Comments</button> {/* Navigation to comments section */}
         </div>
     );

@@ -7,11 +7,23 @@ const Header = ({ user, page }) => {
     return (
         <div className='profile-header'>
             <h2>Welcome, {user.name}</h2>
-            <ToggleButton page={page} />
 
             {/* Navigation Buttons */}
-            <button className={page === 'search' ? 'search-button show' : 'search-button'} onClick={() => navigate('/search')}>Search</button>
-            <button className={page === 'recipes' ? 'recipes-button show' : 'recipes-button'} onClick={() => navigate('/recipes')}>Recipes</button>
+            <button
+                className={`search-button ${page === 'search' ? 'show' : ''}`}
+                onClick={() => navigate('/search')}
+            >
+                Search
+            </button>
+
+            <button
+                className={`recipes-button ${page === 'recipes' ? 'show' : ''}`}
+                onClick={() => navigate('/recipes')}
+            >
+                Recipes
+            </button>
+
+            <ToggleButton page={page} />
         </div>
     );
 };

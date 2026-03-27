@@ -12,7 +12,7 @@ const ToggleLike = ({ isActivated, recipeId, setRecipe, setIsActivated }) => {
         }
     };
 
-    return <button className={`like-btn ${isActivated ? 'activated' : ''}`}  onClick={toggleLike}>Like</button>;
+    return <button className={`like-button ${isActivated ? 'activated' : ''}`}  onClick={toggleLike}>Like</button>;
 };
 
 export default ToggleLike;

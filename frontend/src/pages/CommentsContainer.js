@@ -48,8 +48,8 @@ const CommentsContainer = () => {
 
     // Filter to get only top-level comments (those without a parentId) and sort them by timestamp (newest first)
     const topLevelComments = comments
-    .filter(c => !c.parentId)
-    .sort((a, b) => b.timestamp - a.timestamp);
+        .filter(c => !c.parentId)
+        .sort((a, b) => b.timestamp - a.timestamp);
 
     return (
         <div className="comments-container">

@@ -2,7 +2,7 @@ import { fetchGetAllUserRecipes } from '../api';
 import Header from '../components/Header';
 import DeleteRecipe from '../components/DeleteRecipe';
 import RecipeDetails from '../components/RecipeDetails';
-import Notification from '../components/Notification';
+import ToastNotification from '../components/ToastNotification';
 import threeVerticalDots from '../assets/three-dots-vertical.svg';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -48,14 +48,14 @@ const Recipes = () => {
     if (!user || !recipes) return <p>Loading...</p>; // Loading state
 
     return (
-        <>
+        <div className='recipes-container'>
             <Header user={user} page={'recipes'} />
             <h1>Your Recipes</h1>
-            <button className='add-recipe-btn' onClick={() => navigate('/add-recipe')}>Add a New Recipe</button>
-            <Notification message={message} setMessage={setMessage} /> {/* Display notification */}
+            <button className='add-recipe-button' onClick={() => navigate('/add-recipe')}>Add a New Recipe</button>
+            <ToastNotification message={message} setMessage={setMessage} /> {/* Display notification */}
 
             {recipes.length === 0 ? (
-                <p className='recipes-p'>No recipes yet!</p>
+                <p>No recipes yet!</p>
             ) : (
                 <>
                     {recipes.map((recipe) => (
@@ -68,7 +68,7 @@ const Recipes = () => {
 
                             {/* Edit button sets the active recipe ID and switches view */}
                             <button
-                                className='manage-btn'
+                                className='manage-button'
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     setActiveManageId(activeManageId === recipe._id ? '' : recipe._id.toString())
@@ -96,7 +96,7 @@ const Recipes = () => {
                     ))}
                 </>
             )}
-        </>
+        </div>
     );
 };
 
