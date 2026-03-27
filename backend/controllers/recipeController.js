@@ -220,7 +220,7 @@ exports.updateComment = async (req, res) => {
 exports.deleteComment = async (req, res) => {
     const { userId } = req.user;
     const { recipeId, commentId } = req.params;
-    let topLevelCommentId = commentId; // topLevelCommentId is id of the comment the user wants to delete
+    let topLevelCommentId = commentId; // topLevelCommentId is an ID of the comment the user wants to delete
     const stack1 = []; // Used to track sub comments that need to be checked
     const stack2 = [topLevelCommentId]; // Stores IDs of comments to be deleted
     try {
