@@ -1,5 +1,5 @@
 import { fetchRegister } from '../api'; // Imports the function responsible for making the API call to register a user.
-import { passwordChecker } from '../utils/passwordChecker';
+import passwordChecker from '../utils/passwordChecker';
 // Imports necessary hooks from the React library for managing state and navigation.
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';

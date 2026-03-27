@@ -3,7 +3,7 @@ import {
     fetchUpdateEmail,
     fetchUpdatePassword,
 } from '../api';
-import { passwordChecker } from '../utils/passwordChecker';
+import passwordChecker from '../utils/passwordChecker';
 import ToastNotification from '../components/ToastNotification';
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
