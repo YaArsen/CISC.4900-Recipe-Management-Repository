@@ -143,7 +143,7 @@ exports.passwordReset = async (req, res) => {
 };
 
 exports.updateName = async (req, res) => {
-    const { userId } = req.user;
+    const { userId, exp } = req.user;
     const { name } = req.body;
 
     try {
@@ -168,7 +168,7 @@ exports.updateName = async (req, res) => {
             }, 
             process.env.JWT_SECRET, // Secret key from environment variables for signing the token
             {
-                expiresIn: '1h' // Token expiration time (1 hour)
+                expiresIn: exp
             }
         );
 
@@ -179,7 +179,7 @@ exports.updateName = async (req, res) => {
 };
 
 exports.updateEmail = async (req, res) => {
-    const { userId } = req.user;
+    const { userId, exp } = req.user;
     const { email, verificationToken } = req.body;
 
     try {
@@ -199,7 +199,7 @@ exports.updateEmail = async (req, res) => {
                 }, 
                 process.env.JWT_SECRET, // Secret key from environment variables for signing the token
                 {
-                    expiresIn: '1h' // Token expiration time (1 hour)
+                    expiresIn: exp
                 }
             );
 
