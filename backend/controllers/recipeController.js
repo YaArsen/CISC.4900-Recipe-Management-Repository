@@ -220,15 +220,15 @@ exports.updateComment = async (req, res) => {
 exports.deleteComment = async (req, res) => {
     const { userId } = req.user;
     const { recipeId, commentId } = req.params;
-    let topLevelCommentId = commentId; // topLevelCommentId is the comment the user wants to delete.
-    const stack1 = []; // Used to track replies that need to be checked
+    let topLevelCommentId = commentId; // topLevelCommentId is id of the comment the user wants to delete.
+    const stack1 = []; // Used to track sub comments that need to be checked
     const stack2 = [topLevelCommentId]; // Stores IDs to be deleted
     try {
         const recipe = await Recipe.findById({ _id: recipeId });
         if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
         const comment = recipe.comments.id(topLevelCommentId);
         if (!comment) return res.status(404).json({ message: 'Comment not found' });
-        // Find all replies of the comment
+        // Find all sub comments of the comment
         while (topLevelCommentId !== null) {
             for (let i = 0; i < recipe.comments.length; i++) {
                 const parentId = recipe.comments[i].parentId;
@@ -254,7 +254,7 @@ exports.deleteComment = async (req, res) => {
 
         if (user.commented.get(recipeId.toString()) === 0) user.commented.delete(recipeId.toString()); // Remove the recipe from the user's map if they have 0 comments left
         await user.save();
-        while (stack2.length !== 0) recipe.comments.pull(stack2.pop()); // Pull all gathered comment IDs from the recipe document
+        while (stack2.length !== 0) recipe.comments.pull(stack2.pop()); // Pull all gathered comments by their IDs from the recipe document
         await recipe.save();
         res.status(200).json(recipe.comments);
     } catch (error) {
