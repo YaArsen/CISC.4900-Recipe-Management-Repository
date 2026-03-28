@@ -267,8 +267,8 @@ exports.searchRecipes = async (req, res) => {
   const query = { isPublic: true };
 
   if (title.trim()) query.title = { $regex: title.trim(), $options: 'i' };
-  if (cookingTime !== '' && !isNaN(cookingTime)) query.cookingTime = { $lte: Number(cookingTime) };
-  if (likes !== '' && !isNaN(likes)) query.likes = { $gte: Number(likes) };
+  if (cookingTime) query.cookingTime = { $lte: Number(cookingTime) };
+  if (likes) query.likes = { $gte: Number(likes) };
   if (difficulty) query.difficulty = difficulty;
   if (category) query.category = category;
 
