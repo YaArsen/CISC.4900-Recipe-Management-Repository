@@ -42,17 +42,19 @@ const Search = () => {
             <Header user={user} page={'search'} />
             <SearchForm onSubmit={searchRecipes} /> {/* Search form component, calling searchRecipes on submission */}
 
-            {/* Conditional rendering: display recipes if found, or message if not */}
-            {isFetchedOk && recipes.length > 0 ? (
-                recipes.map((recipe) => (
-                    // Make each recipe clickable, navigating to the detailed view
-                    <div key={recipe._id} className='recipe-details' onClick={() => navigate(`/search/recipe-view/${recipe._id}`)}>
-                        <RecipeDetails recipe={recipe} />
-                    </div>
-                ))
-            ) : (
-                isFetchedOk && <h2>No recipes found</h2>
-            )}
+            <div className='recipe-details-container'>
+                {/* Conditional rendering: display recipes if found, or message if not */}
+                {isFetchedOk && recipes.length > 0 ? (
+                    recipes.map((recipe) => (
+                        // Make each recipe clickable, navigating to the detailed view
+                        <div key={recipe._id} className='recipe-details' onClick={() => navigate(`/search/recipe-view/${recipe._id}`)}>
+                            <RecipeDetails recipe={recipe} />
+                        </div>
+                    ))
+                ) : (
+                    isFetchedOk && <h2>No recipes found</h2>
+                )}
+            </div>
         </div>
     );
 };

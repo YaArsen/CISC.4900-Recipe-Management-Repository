@@ -50,51 +50,58 @@ const Recipes = () => {
     return (
         <div className='recipes-container'>
             <Header user={user} page={'recipes'} />
-            <h1>Your Recipes</h1>
-            <button className='add-recipe-button' onClick={() => navigate('/add-recipe')}>Add a New Recipe</button>
-            <ToastNotification message={message} setMessage={setMessage} /> {/* Display notification */}
+
+            <div className='recipes-header'>
+                <h1>Your Recipes</h1>
+                <ToastNotification message={message} setMessage={setMessage} /> {/* Display notification */}
+                <button onClick={() => navigate('/add-recipe')}>Add a New Recipe</button>
+            </div>
 
             {recipes.length === 0 ? (
                 <p>No recipes yet!</p>
             ) : (
-                <>
+                <div className='recipe-details-container'>
                     {recipes.map((recipe) => (
-                        <div onClick={() => navigate(`/recipes/recipe-view/${recipe._id}`)} className='recipe-details' key={recipe._id}>
+                        <div key={recipe._id}>
                             {/* Clickable area to view full recipe details */}
-                            <div>
+                            <div className='recipe-details' onClick={() => navigate(`/recipes/recipe-view/${recipe._id}`)}>
                                 <RecipeDetails recipe={recipe} />
                                 <h4>{recipe.isPublic ? 'Public' : 'Private'}</h4>
-                            </div>
 
-                            {/* Edit button sets the active recipe ID and switches view */}
-                            <button
-                                className='manage-button'
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setActiveManageId(activeManageId === recipe._id ? '' : recipe._id.toString())
-                                }}
-                            >
-                                <img src={threeVerticalDots} alt='manage' />
-                            </button>
-                    
-                            {activeManageId === recipe._id && (
-                                <div className='is-managing-recipe-container'>
-                                    <button onClick={(e) => {
+                                {/* Edit button sets the active recipe ID and switches view */}
+                                <button
+                                    className='manage-button'
+                                    onClick={(e) => {
                                         e.stopPropagation();
-                                        navigate(`/edit-recipe/${recipe._id}`)
-                                    }}>Edit</button>
+                                        setActiveManageId(activeManageId === recipe._id ? '' : recipe._id.toString())
+                                    }}
+                                >
+                                    <img src={threeVerticalDots} alt='manage' />
+                                </button>
+                    
+                                {activeManageId === recipe._id && (
+                                    <div className='is-managing-recipe-container'>
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                navigate(`/edit-recipe/${recipe._id}`)
+                                            }}
+                                        >
+                                            Edit
+                                        </button>
 
-                                    {/* Delete component handles API call and state update */}
-                                    <DeleteRecipe
-                                        setMessage={setMessage}
-                                        recipeId={recipe._id}
-                                        setRecipes={setRecipes}
-                                    />
-                                </div>
-                            )}
+                                        {/* Delete component handles API call and state update */}
+                                        <DeleteRecipe
+                                            setMessage={setMessage}
+                                            recipeId={recipe._id}
+                                            setRecipes={setRecipes}
+                                        />
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     ))}
-                </>
+                </div>
             )}
         </div>
     );

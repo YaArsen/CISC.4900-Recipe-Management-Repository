@@ -56,8 +56,8 @@ const RecipeView = () => {
             
             <h4>Ingredients:</h4>
             <ul>
-                {recipe.ingredients.map((ingredient) => (
-                    <li key={ingredient}>{ingredient}</li> // List items need unique keys
+                {recipe.ingredients.map((ingredient, index) => (
+                    <li key={index}>{ingredient}</li> // List items need unique keys
                 ))}
             </ul>
 
