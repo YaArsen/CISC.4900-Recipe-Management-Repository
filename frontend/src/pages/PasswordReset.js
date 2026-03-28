@@ -1,7 +1,7 @@
 import { fetchPasswordReset } from '../api';
 import passwordChecker from '../utils/passwordChecker';
 import { useState } from 'react';
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from 'react-router-dom';
 
 const PasswordReset = () => {
     const { verificationToken } = useParams();

@@ -180,7 +180,7 @@ exports.updateName = async (req, res) => {
 
 exports.updateEmail = async (req, res) => {
     const { userId, exp } = req.user;
-    const { email, verificationToken } = req.body;
+    const { email, password, verificationToken } = req.body;
 
     try {
         if (verificationToken) {
@@ -206,6 +206,9 @@ exports.updateEmail = async (req, res) => {
             res.status(200).json({ token, message: 'User email updated successfully '});
         } else {
             if (email) {
+                const user = await User.findById({ _id: userId });
+                if (!await bcrypt.compare(password, user.password)) return res.status(401).json({ message: 'Password does not match' });
+                
                 const token = jwt.sign(
                     {
                         userId,

@@ -1,6 +1,6 @@
 import { fetchPasswordReset } from '../api';
 import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const Email = () => {
     const [email, setEmail] = useState('');

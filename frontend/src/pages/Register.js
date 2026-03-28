@@ -22,6 +22,7 @@ const Register = () => {
     // Handler function called when the registration form is submitted.
     const register = async (e) => {
         e.preventDefault(); // Prevents the default browser form submission behavior.
+        if (!user.name.trim() || !user.email.trim() || !user.password.trim() || !user.repeatPassword.trim()) return;
 
         // Checks if all password validation criteria are met before proceeding. Stops execution if the password is not strong enough.
         if (!(
@@ -33,10 +34,10 @@ const Register = () => {
         )) return;
 
         // Checks if the 'password' and 'repeatPassword' fields match. Alerts the user if they don't match and stops execution.
-        if (user.password !== user.repeatPassword) return alert('Passwords do not match');
+        if (user.password.trim() !== user.repeatPassword.trim()) return alert('Passwords do not match');
 
         try {
-            const data = await fetchRegister(user); // Calls the API function to attempt user registration.
+            const data = await fetchRegister({ name: user.name.trim(), email: user.email.trim(), password: user.password.trim() }); // Calls the API function to attempt user registration.
             localStorage.setItem('message', data.message); // Stores a success message in localStorage for display on the next page/route.
             navigate('/'); // Navigates the user to the login page ('/').
         } catch (error) {

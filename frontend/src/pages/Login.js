@@ -22,9 +22,10 @@ const Login = () => {
     // Async function to handle the login form submission
     const login = async (e) => {
         e.preventDefault(); // Prevent the default form submission behavior (page reload)
+        if (!user.email.trim() || !user.password.trim()) return;
 
         try {
-            const data = await fetchLogin(user); // Call the API function to fetch login data using the user state
+            const data = await fetchLogin({ email: user.email.trim(), password: user.password.trim() }); // Call the API function to fetch login data using the user state
             localStorage.setItem('token', data.token); // Store the returned token in localStorage for authentication purposes
             navigate('/search'); // Navigate the user to the profile page upon successful login
         } catch (error) {

@@ -36,6 +36,11 @@ const RecipeForm = ({ initialData, onSubmit }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (!recipe.title.trim() || !recipe.instructions.trim()) return;
+        if (recipe.ingredients.filter(ingredient => ingredient.trim() === '').length !== 0) return;
+
+        setRecipe({ ...recipe, title: recipe.title.trim(), instructions: recipe.instructions.trim() });
+        setRecipe({ ...recipe, ingredients: recipe.ingredients.map(ingredient => ingredient.trim()) });
 
         if (recipe.file instanceof File) {
             const reader = new FileReader();

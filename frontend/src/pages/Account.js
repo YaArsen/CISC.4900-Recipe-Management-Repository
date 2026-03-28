@@ -1,7 +1,7 @@
 import {
     fetchUpdateName,
     fetchUpdateEmail,
-    fetchUpdatePassword,
+    fetchUpdatePassword
 } from '../api';
 import passwordChecker from '../utils/passwordChecker';
 import ToastNotification from '../components/ToastNotification';
@@ -17,7 +17,8 @@ const Account = () => {
         email: '',
         password: '',
         newPassword: '',
-        repeatPassword: ''
+        repeatPassword: '',
+        passwordToChangeEmail: ''
     });
 
     const [checkPassword, setCheckPassword] = useState({
@@ -82,9 +83,9 @@ const Account = () => {
         if (!user.email.trim()) return;
 
         try {
-            const data = await fetchUpdateEmail({ email: user.email.trim() });
+            const data = await fetchUpdateEmail({ email: user.email.trim(), password: user.passwordToChangeEmail.trim() });
             setMessage(data.message);
-            setUser({ ...user, email: '' });
+            setUser({ ...user, email: '', passwordToChangeEmail: '' });
             setUserData({ ...userData, email: user.email.trim() });
             localStorage.setItem('token', data.token);
         } catch (error) {
@@ -126,6 +127,15 @@ const Account = () => {
                     onChange={handleChange} 
                     placeholder='Email' 
                     required 
+                />
+
+                <input
+                    value={user.passwordToChangeEmail}
+                    type='password'
+                    name='passwordToChangeEmail'
+                    onChange={handleChange}
+                    placeholder='Current password'
+                    required
                 />
 
                 <button type='submit'>Update email</button>
