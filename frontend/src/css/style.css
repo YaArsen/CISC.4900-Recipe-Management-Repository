@@ -781,9 +781,10 @@ input[type='radio'] {
 }
 
 .comment-text {
-  margin: 5px 0;
-  color: #444;
-  line-height: 1.4;
+    white-space: pre-wrap;
+    margin: 5px 0;
+    color: #444;
+    line-height: 1.4;
 }
 
 .manage-button {

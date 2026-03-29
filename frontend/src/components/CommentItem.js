@@ -47,7 +47,7 @@ const CommentItem = ({ userId, recipeId, comment, allComments, onAddReply, setCo
                     )}
                 </div>
 
-                <p className="comment-text"><pre>{comment.content}</pre></p>
+                <p className="comment-text">{comment.content}</p>
 
                 <button className="action-button" onClick={() => setShowReplyForm(!showReplyForm)}>
                     {showReplyForm ? 'Cancel Reply' : 'Reply'}
