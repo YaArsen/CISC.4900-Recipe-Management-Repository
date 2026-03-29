@@ -40,36 +40,38 @@ const Login = () => {
 
     // Render the login form UI
     return (
-        <div className='login-container'>
+        <>
             <ToastNotification message={message} setMessage={setMessage} />
 
-            {/* The form element with an onSubmit handler pointing to the login function */}
-            <form onSubmit={login}>
-                <h2>Login</h2>
+            <div className='login-container'>
+                {/* The form element with an onSubmit handler pointing to the login function */}
+                <form onSubmit={login}>
+                    <h2>Login</h2>
 
-                {/* Email input field with handlers for change events */}
-                <input
-                    type='email'
-                    name='email'
-                    placeholder='Email'
-                    onChange={handleChange}
-                    required
-                />
+                    {/* Email input field with handlers for change events */}
+                    <input
+                        type='email'
+                        name='email'
+                        placeholder='Email'
+                        onChange={handleChange}
+                        required
+                    />
 
-                {/* Password input field with handlers for change events */}
-                <input
-                    type='password'
-                    name='password'
-                    placeholder='Password'
-                    onChange={handleChange}
-                    required
-                />
-                
-                <button>Login</button> {/* Submit button for the form */}
-                <Link to='/register'>Register</Link> {/* A link to navigate to the registration page */}
-                <Link to='/email'>Reset password</Link>
-            </form>
-        </div>
+                    {/* Password input field with handlers for change events */}
+                    <input
+                        type='password'
+                        name='password'
+                        placeholder='Password'
+                        onChange={handleChange}
+                        required
+                    />
+                    
+                    <button>Login</button> {/* Submit button for the form */}
+                    <Link to='/register'>Register</Link> {/* A link to navigate to the registration page */}
+                    <Link to='/email'>Reset password</Link>
+                </form>
+            </div>
+        </>
     );
 };
 

@@ -1,6 +1,7 @@
 * {
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
 }
 
 body {
@@ -24,38 +25,42 @@ body {
     width: 100%;
     max-width: 400px;
     margin: 400px auto;
-    padding: 60px;
+    padding: 20px;
     border: 1px solid;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.register-container form,
+.login-container form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
 }
 
 .register-container button,
 .login-container button {
     height: 50px;
-    width: 405px;
-    display: block;
+    width: 100%;
     border-radius: 5px;
-    margin-top: 5px;
 }
 
 .register-container input,
 .login-container input {
     height: 50px;
-    width: 400px;
-    display: block;
+    width: 100%;
     border-radius: 5px;
-    margin-top: 5px;
 }
 
-.register-container h2,
-.login-container h2 {
-    text-align: center;
+.login-container a {
+    display: flex;
+    align-self: flex-start;
 }
 
-.register-container p {
-    position: relative;
-    top: 0;
-    left: 0;
+.register-container form p {
+    display: flex;
+    align-self: flex-start;
 }
 
 input:not(input[type='radio'],
@@ -69,9 +74,7 @@ input:not(input[type='radio'],
 .account-container input) {
     height: 50px;
     width: 500px;
-    display: block;
     border-radius: 5px;
-    margin-top: 5px;
 }
 
 button:hover:not(
@@ -123,21 +126,25 @@ button:hover:not(
 .sandwich-button-container .nav-menu {
     display: none;
     background: #333;
-    padding: 20px;
+    padding: 10px;
     height: 200px;
-    width: 150px;
+    width: 100%;
     position: fixed;
     border: 2px solid #222;
+    max-width: 150px;
     border-radius: 5px;
-    margin-left: -250px;
+    margin-left: -100px;
     z-index: 1;
 }
 
 .sandwich-button-container .nav-menu.show {
-    display: block;
+    display: flex;
+    flex-direction: column;
 }
 
 .sandwich-button-container .nav-menu button {
+    display: flex;
+    align-self: flex-start;
     background: 0;
     border: 0;
     color: yellow;
@@ -414,6 +421,10 @@ p:not(
 
 input[type='radio'] {
     margin: 10px;
+}
+
+.recipes-container p {
+    text-align: center;
 }
 
 .recipes-container .recipes-header {
