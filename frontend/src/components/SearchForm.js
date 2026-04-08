@@ -43,7 +43,9 @@ const SearchForm = ({ onSubmit }) => {
                     </button>
                 )}
 
-                <button type='submit'><img src={SearchOutline} alt='Search' /></button>
+                <button type='submit'>
+                    <img src={SearchOutline} alt='Search' />
+                </button>
             </div>
 
             {/* Advanced Filters Section: conditionally rendered */}
