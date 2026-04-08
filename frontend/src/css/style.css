@@ -96,8 +96,8 @@ input[type='button']) {
 }
 
 .sandwich-button-container .sandwich-button:hover {
-    cursor: pointer;
     opacity: 0.5;
+    cursor: pointer;
 }
 
 .sandwich-button-container .sandwich-button span {
