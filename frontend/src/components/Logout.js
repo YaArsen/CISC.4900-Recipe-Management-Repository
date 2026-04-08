@@ -4,9 +4,7 @@ const Logout = () => {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        // 1. Removes the authentication token from local storage, effectively logging the user out.
-        // 'token' should match the key used during the login process to store the user's token.
-        localStorage.removeItem('token');
+        localStorage.removeItem('token'); // 1. Removes the authentication token from local storage, effectively logging the user out.
         navigate('/'); // 2. Navigates the user to the login page.
     };
 

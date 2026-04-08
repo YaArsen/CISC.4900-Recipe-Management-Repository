@@ -1,23 +1,21 @@
 const Pagination = ({ currentPage, setCurrentPage, totalPages, handlePageChange }) => {
     return (
-        <>
+        <div className='pagination'>
             {/* Pagination Buttons */}
-            <div className='pagination'>
-                {currentPage !== 1 && <input type='button' value='<' onClick={() => setCurrentPage(c => c - 1)} />}
+            {currentPage !== 1 && <input type='button' value='<' onClick={() => setCurrentPage(c => c - 1)} />}
 
-                {[...Array(totalPages).keys()].map((_, index) => (
-                    <button
-                        key={index}
-                        onClick={() => handlePageChange(index + 1)}
-                        className={`page ${currentPage === index + 1 ? 'show' : ''}`}
-                    >
-                        {index + 1}
-                    </button>
-                ))}
-                        
-                {currentPage < totalPages && <input type='button' value='>' onClick={() => setCurrentPage(c => c + 1)} />}
-            </div>
-        </>
+            {[...Array(totalPages).keys()].map((_, index) => (
+                <button
+                    key={index}
+                    onClick={() => handlePageChange(index + 1)}
+                    className={`page ${currentPage === index + 1 ? 'show' : ''}`}
+                >
+                    {index + 1}
+                </button>
+            ))}
+
+            {currentPage < totalPages && <input type='button' value='>' onClick={() => setCurrentPage(c => c + 1)} />}
+        </div>
     );
 };
 

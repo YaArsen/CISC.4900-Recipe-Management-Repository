@@ -32,10 +32,15 @@ const RecipeView = () => {
             <div className='recipe-header'>
                 <h4>{recipe.title}</h4>
 
-                <button className='close-button' onClick={() => {
-                    localStorage.setItem('pageNumber', pageNumber);
-                    navigate(`/${page}`);
-                }}>x</button>
+                <button
+                    className='close-button'
+                    onClick={() => {
+                        localStorage.setItem('pageNumber', pageNumber);
+                        navigate(`/${page}`);
+                    }}
+                >
+                    x
+                </button>
             </div>
 
             {/* Recipe Details Display */}

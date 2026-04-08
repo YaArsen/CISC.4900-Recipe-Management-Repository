@@ -22,8 +22,8 @@ const SearchForm = ({ onSubmit }) => {
     };
 
   return (
-    <>
-      <form className='search-results' onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
+      <div className='search-results'>
         {/* Main search input for title */}
         <input
           type='text'
@@ -44,104 +44,104 @@ const SearchForm = ({ onSubmit }) => {
         )}
 
         <button type='submit'><img src={SearchOutline} alt='Search' /></button>
-      </form>
+      </div>
 
       {/* Advanced Filters Section: conditionally rendered */}
       {isFilterOpen && (
         <div className='filters-container'>
           <div className='filters'>
-          {/* Numeric inputs for filters */}
-          <div>
-            <input
-              type='number'
-              min='0'
-              name='cookingTime'
-              value={recipe.cookingTime}
-              onChange={handleChange}
-              placeholder='Max cooking time (min)'
-            />
+            {/* Numeric inputs for filters */}
+            <div>
+              <input
+                type='number'
+                min='0'
+                name='cookingTime'
+                value={recipe.cookingTime}
+                onChange={handleChange}
+                placeholder='Max cooking time (min)'
+              />
 
-            <input
-              type='number'
-              min='0'
-              name='likes'
-              value={recipe.likes}
-              onChange={handleChange}
-              placeholder='Min likes'
-            />
+              <input
+                type='number'
+                min='0'
+                name='likes'
+                value={recipe.likes}
+                onChange={handleChange}
+                placeholder='Min likes'
+              />
+            </div>
+
+            {/* Radio buttons for category */}
+            <div>
+              <p>Category</p>
+              {['Breakfast', 'Lunch', 'Dinner'].map(category => (
+                <label key={category}>
+                  <input
+                    type='radio'
+                    name='category'
+                    value={category}
+                    checked={recipe.category === category}
+                    onChange={handleChange}
+                  />
+                  {category}
+                </label>
+              ))}
+
+              {/* Radio buttons for difficulty */}
+              <p>Difficulty</p>
+              {['Easy', 'Medium', 'Hard'].map(difficulty => (
+                <label key={difficulty}>
+                  <input
+                    type='radio'
+                    name='difficulty'
+                    value={difficulty}
+                    checked={recipe.difficulty === difficulty}
+                    onChange={handleChange}
+                  />
+                  {difficulty}
+                </label>
+              ))}
+
+              {/* Date range filters */}
+              <p>Date Range</p>
+              <input
+                type='date'
+                name='startDate'
+                value={recipe.startDate}
+                onChange={handleChange}
+              />
+
+              <input
+                type='date'
+                name='endDate'
+                value={recipe.endDate}
+                onChange={handleChange}
+              />
+            </div>
+
+            {/* Action buttons for filters */}
+            <button
+              className='form-button'
+              type='button'
+              onClick={clear}
+            >
+              Clear
+            </button>
+
+            <button
+              className='form-button'
+              type='button'
+              onClick={() => {
+                setIsFilterOpen(false);
+                clear();
+              }}
+            >
+              Close Filters
+            </button>
           </div>
-
-          {/* Radio buttons for category */}
-          <div>
-            <p>Category</p>
-            {['Breakfast', 'Lunch', 'Dinner'].map(category => (
-              <label key={category}>
-                <input
-                  type='radio'
-                  name='category'
-                  value={category}
-                  checked={recipe.category === category}
-                  onChange={handleChange}
-                />
-                {category}
-              </label>
-            ))}
-
-            {/* Radio buttons for difficulty */}
-            <p>Difficulty</p>
-            {['Easy', 'Medium', 'Hard'].map(difficulty => (
-              <label key={difficulty}>
-                <input
-                  type='radio'
-                  name='difficulty'
-                  value={difficulty}
-                  checked={recipe.difficulty === difficulty}
-                  onChange={handleChange}
-                />
-                {difficulty}
-              </label>
-            ))}
-
-            {/* Date range filters */}
-            <p>Date Range</p>
-            <input
-              type='date'
-              name='startDate'
-              value={recipe.startDate}
-              onChange={handleChange}
-            />
-
-            <input
-              type='date'
-              name='endDate'
-              value={recipe.endDate}
-              onChange={handleChange}
-            />
-          </div>
-
-          {/* Action buttons for filters */}
-          <button
-            className='form-button'
-            type='button'
-            onClick={clear}
-          >
-            Clear
-          </button>
-
-          <button
-            className='form-button'
-            type='button'
-            onClick={() => {
-              setIsFilterOpen(false);
-              clear();
-            }}
-          >
-            Close Filters
-          </button>
-        </div>
         </div>
       )}
-    </>
+    </form>
   );
 };
 

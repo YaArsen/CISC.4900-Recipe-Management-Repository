@@ -7,21 +7,20 @@ const ToastNotification = ({ message, setMessage }) => {
         if (message) {
            setIsShow(true);
 
-           const timer = setTimeout(() => {
+            const timer = setTimeout(() => {
                 setIsShow(false);
             }, 3000);
-    
+
             return () => clearTimeout(timer);
         }
     }, [message]);
 
     useEffect(() => {
         if (message) {
-
-           const timer = setTimeout(() => {
+            const timer = setTimeout(() => {
                 setMessage('');
             }, 5000);
-    
+
             return () => clearTimeout(timer);
         }
     }, [message, setMessage]);

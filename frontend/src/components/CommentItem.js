@@ -27,7 +27,7 @@ const CommentItem = ({ userId, recipeId, comment, allComments, onAddReply, setCo
                     <button className='manage-button' onClick={() => setActiveManageId(activeManageId === comment._id ? '' : comment._id.toString())}>
                         <img src={threeVerticalDots} alt='manage' />
                     </button>
-                    
+
                     {activeManageId === comment._id && userId.toString() === comment.user.toString() && (
                         <div className='is-managing-container'>
                             <EditComment

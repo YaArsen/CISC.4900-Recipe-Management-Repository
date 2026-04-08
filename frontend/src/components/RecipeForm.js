@@ -14,7 +14,7 @@ const RecipeForm = ({ initialData, onSubmit }) => {
     });
     const [url, setUrl] = useState('');
     const navigate = useNavigate();
-    
+
     useEffect(() => {
         if (initialData) {
             setRecipe(initialData);
@@ -80,6 +80,7 @@ const RecipeForm = ({ initialData, onSubmit }) => {
     return (
         <form className='recipe-form-container' onSubmit={handleSubmit}>
             <button className='close-button' onClick={() => navigate('/recipes')}>x</button>
+
             <div className='title'>
                 <input
                     type='text'
@@ -177,7 +178,7 @@ const RecipeForm = ({ initialData, onSubmit }) => {
                     </label>
                 ))}
             </div>
-                
+
             <div>
                 <p>Difficulty</p>
                 {['Easy', 'Medium', 'Hard'].map(difficulty => (
@@ -194,7 +195,7 @@ const RecipeForm = ({ initialData, onSubmit }) => {
                     </label>
                 ))}
             </div>
-                
+
             <button className='form-button' type='submit'>Save recipe</button>
         </form>
     );

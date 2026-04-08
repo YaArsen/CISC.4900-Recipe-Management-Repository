@@ -32,7 +32,6 @@ const Register = () => {
         setUser({ ...user, [e.target.name]: e.target.value }); // Updates the user state dynamically based on the input field's name attribute.
     };
 
-    // The component's render function (JSX).
     return (
         <form className='register-container' onSubmit={register}>
             <h2>Register</h2>

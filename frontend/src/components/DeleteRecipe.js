@@ -4,7 +4,7 @@ const DeleteRecipe = ({ setTotalPages, currentPage, setCurrentPage, setMessage, 
     // Handles the deletion process
     const deleteRecipe = async (e) => {
         e.stopPropagation();
-        
+
         try {
             const data = await fetchDeleteRecipe(recipeId, currentPage); // API call to delete the recipe
             // Update UI with success message and new recipe list
