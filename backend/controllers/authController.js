@@ -7,10 +7,7 @@ exports.register = async (req, res) => {
     const { name, email, password, verificationToken } = req.body;
 
     try {
-        // Check if a user with the provided email already exists in the database
-        if (await User.findOne({ email: email })) {
-            return res.status(400).json({ message: 'Email already exists' });
-        }
+        if (await User.findOne({ email: email })) return res.status(400).json({ message: 'Email already exists' });
 
         if (verificationToken) {
             const user = jwt.verify(verificationToken, process.env.JWT_SECRET);
@@ -22,7 +19,7 @@ exports.register = async (req, res) => {
                 password: await bcrypt.hash(user.password, 10)
             }).save();
 
-            res.status(201).json({ message: 'User account registered successfully' }); // Send a success response upon successful registration
+            res.status(201).json({ message: 'User account registered successfully' });
         } else {
             if (name && email && password) {
                 const token = jwt.sign(
@@ -52,7 +49,7 @@ exports.register = async (req, res) => {
             }
         }
     } catch (error) {
-        res.status(500).json({ message: error.message }); // Handle any server errors during the process
+        res.status(500).json({ message: error.message });
     }
 };
 
@@ -60,11 +57,8 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const user = await User.findOne({ email: email }); // Find the user by email
-        // Check if the user exists and if the provided password matches the hashed password in the database
-        if (!user || !await bcrypt.compare(password, user.password)) {
-            return res.status(401).json({ message: 'User with the data not found' });
-        }
+        const user = await User.findOne({ email: email });
+        if (!user || !await bcrypt.compare(password, user.password)) return res.status(401).json({ message: 'User with the data not found' });
 
         // Generate a JSON Web Token (JWT) with user information
         const token = jwt.sign(
@@ -148,11 +142,7 @@ exports.updateName = async (req, res) => {
 
     try {
         const user = await User.findById({ _id: userId });
-
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
+        if (!user) return res.status(404).json({ message: 'User not found' });
         user.name = name;
         await user.save();
 
@@ -210,6 +200,7 @@ exports.updateEmail = async (req, res) => {
             if (email) {
                 const user = await User.findById({ _id: userId });
                 if (!await bcrypt.compare(password, user.password)) return res.status(401).json({ message: 'Password does not match' });
+
                 const token = jwt.sign(
                     {
                         userId,
@@ -246,15 +237,8 @@ exports.updatePassword = async (req, res) => {
 
     try {
         const user = await User.findById({ _id: userId });
-
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        if (!await bcrypt.compare(password, user.password)) {
-            return res.status(401).json({ message: 'Current password does not match' });
-        }
-        
+        if (!user) return res.status(404).json({ message: 'User not found' });
+        if (!await bcrypt.compare(password, user.password)) return res.status(401).json({ message: 'Current password does not match' });
         user.password = await bcrypt.hash(newPassword, 10);
         await user.save();
         res.status(200).json({ message: 'User password updated successfully' });

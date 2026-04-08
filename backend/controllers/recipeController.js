@@ -3,7 +3,6 @@ const Recipe = require('../models/Recipe');
 
 exports.postRecipe = async (req, res) => {
   const { userId, name } = req.user; // From the decoded JWT
-
   const {
     title,
     ingredients,
@@ -30,6 +29,7 @@ exports.postRecipe = async (req, res) => {
     });
 
     await recipe.save();
+    
     const user = await User.findById({ _id: userId });
     user.recipes++;
     await user.save();
@@ -131,10 +131,7 @@ exports.toggleLike = async (req, res) => {
   try {
     const user = await User.findById({ _id: userId });
     const recipe = await Recipe.findById({ _id: recipeId });
-
-    if (!recipe) {
-      return res.status(404).json({ message: 'Recipe not found.' });
-    }
+    if (!recipe) return res.status(404).json({ message: 'Recipe not found.' });
 
     const isLiked = user.liked.includes(recipeId);
     let isActivated = false;
@@ -163,10 +160,7 @@ exports.postComment = async (req, res) => {
 
   try {
     const recipe = await Recipe.findById({ _id: recipeId });
-
-    if (!recipe) {
-      return res.status(404).json({ message: 'Recipe not found' });
-    }
+    if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
 
     recipe.comments.push({
       username: name,
@@ -178,11 +172,7 @@ exports.postComment = async (req, res) => {
     await recipe.save();
 
     const user = await User.findById({ _id: userId });
-
-    if (!user.commented.has(recipeId)) {
-      user.commented.set(recipeId, 0);
-    }
-
+    if (!user.commented.has(recipeId)) user.commented.set(recipeId, 0);
     user.commented.set(recipeId, user.commented.get(recipeId) + 1);
     await user.save();
 
@@ -288,8 +278,8 @@ exports.searchRecipes = async (req, res) => {
 
   try {
     const startIndex = (page - 1) * limit;
-    const total = await Recipe.countDocuments(query);
     const recipes = (await Recipe.find(query).skip(startIndex).limit(parseInt(limit))).reverse();
+    const total = await Recipe.countDocuments(query);
     res.status(200).json({ recipes, totalPages: Math.ceil(total / limit), currentPage: parseInt(page) });
   } catch (error) {
     res.status(500).json({ message: error.message });
