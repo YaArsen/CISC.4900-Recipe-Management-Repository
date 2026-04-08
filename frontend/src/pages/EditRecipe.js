@@ -37,10 +37,10 @@ const EditRecipe = () => {
     if (!recipe) return <p className='loading'>Loading...</p>; // Show loading message while fetching data
 
     return (
-        <div className='edit-recipe-container'>
-            <h1>Edit Recipe</h1>
+        <>
+            <h1 className='edit-recipe'>Edit Recipe</h1>
             <RecipeForm initialData={recipe} onSubmit={updateRecipe} />
-        </div>
+        </>
     );
 };
 

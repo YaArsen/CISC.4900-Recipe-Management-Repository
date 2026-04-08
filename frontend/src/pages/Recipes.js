@@ -63,9 +63,12 @@ const Recipes = () => {
         <>
             <Header user={user} page={'recipes'} />
 
+            <div className='recipes-toast-notification'>
+                <ToastNotification message={message} setMessage={setMessage} /> {/* Display notification */}
+            </div>
+
             <div className='recipes-header'>
                 <h1>Your Recipes</h1>
-                <ToastNotification message={message} setMessage={setMessage} /> {/* Display notification */}
                 <button onClick={() => navigate(`/recipes/${currentPage}/add-recipe`)}>Add a New Recipe</button>
             </div>
 

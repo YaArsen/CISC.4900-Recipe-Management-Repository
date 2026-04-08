@@ -19,7 +19,17 @@ body {
     font-family: Arial, sans-serif;
 }
 
-.search-page-h2 {
+.add-recipe,
+.edit-recipe {
+    position: absolute;
+    width: 100%;
+    padding: 10px;
+}
+
+.search-page-h2,
+.recipes-page-p,
+.recipe-details h1,
+.loading {
     text-align: center;
 }
 
@@ -27,10 +37,6 @@ body {
     display: flex;
     justify-content: center;
     height: 100px;
-}
-
-.login-toast-notification .toast-notification {
-    align-self: center;
 }
 
 .login-container {
@@ -65,34 +71,20 @@ body {
     border-radius: 5px;
 }
 
-.login-container a {
-    display: flex;
-    align-self: flex-start;
-}
-
+.login-container a,
 .register-container p {
     display: flex;
     align-self: flex-start;
 }
 
-input:not(input[type='radio'],
-.search-results input,
-.filters input[type='number'],
-.filters input[type='date'],
-.register-container input,
-.login-container input,
-.email-container input,
-.password-reset-container input,
-.account-container input,
-input[type='button']) {
-    height: 50px;
-    width: 500px;
-    border-radius: 5px;
+.sandwich-button-container {
+    position: relative;
 }
 
 .sandwich-button-container .sandwich-button {
-    z-index: 1;
-    margin: 30px;
+    position: absolute;
+    top: 30px;
+    right: 30px;
 }
 
 .sandwich-button-container .sandwich-button:hover {
@@ -122,17 +114,19 @@ input[type='button']) {
 }
 
 .sandwich-button-container .nav-menu {
+    position: absolute;
     display: none;
     background: #333;
     padding: 10px;
     height: 200px;
-    width: 100%;
-    position: fixed;
     border: 2px solid #222;
     max-width: 150px;
     border-radius: 5px;
-    margin-left: -100px;
+    width: 250px;
     z-index: 1;
+    top: 65px;
+    right: 10px;
+    bottom: 0;
 }
 
 .sandwich-button-container .nav-menu.show {
@@ -219,21 +213,13 @@ input[type='button']) {
     align-self: flex-end;
 }
 
-.recipe-form-container .title {
-    display: flex;
-}
-
-.recipe-form-container .cookingTime {
-    display: flex;
-}
-
 /* Flex wrapper for ingredients */
 .recipe-form-container .ingredient-row {
   display: flex;
   gap: 10px;
 }
 
-.recipe-form-container .ingredient-row button[type='button'] {
+.recipe-form-container .ingredient-row button {
   height: 40px; /* Smaller height */
   width: 40px;
   border-radius: 5px;
@@ -265,12 +251,6 @@ input[type='button']) {
   }
 }
 
-.add-recipe-container h1,
-.edit-recipe-container h1,
-.recipes-header h1 {
-    align-self: center;
-}
-
 /* //////////////// Header //////////////// */
 .profile-header {
     display: flex;
@@ -298,7 +278,8 @@ input[type='button']) {
 }
 
 .profile-header .search-button,
-.profile-header .recipes-button {
+.profile-header .recipes-button,
+.recipes-header button {
     align-self: center;
     height: 50px;
     width: 500px;
@@ -390,8 +371,17 @@ input[type='radio'] {
     margin: 10px;
 }
 
-.recipes-page-p {
-    text-align: center;
+.recipes-toast-notification {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.recipes-toast-notification .toast-notification {
+    position: absolute;
+    margin: 30px 0;
+    z-index: 1;
 }
 
 .recipes-header {
@@ -401,14 +391,10 @@ input[type='radio'] {
     padding: 0 12px;
 }
 
-.recipes-header .toast-notification {
-    align-self: center;
-}
-
-.recipes-header button {
-    height: 50px;
-    width: 500px;
-    border-radius: 10px;
+.recipes-header h1,
+.recipes-header .toast-notification,
+.login-toast-notification .toast-notification,
+.recipe-view .likes-container h4 {
     align-self: center;
 }
 
@@ -440,6 +426,10 @@ input[type='radio'] {
     width: 100%;
 }
 
+.recipe-details h4 {
+    margin: 0 10px;
+}
+
 .recipe-form-container p,
 .filters p {
     margin: 10px;
@@ -462,6 +452,16 @@ input[type='radio'] {
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.recipe-username {
+    font-weight: bold;
+    color: #333;
+}
+
+.recipe-timestamp {
+    font-size: 0.8rem;
+    color: #888;
 }
 
 /* =========================================
@@ -498,13 +498,6 @@ input[type='radio'] {
 }
 
 /* =========================================
-   Section Headings
-========================================= */
-.recipe-view h4 {
-    color: #333;
-}
-
-/* =========================================
    Ingredients List
 ========================================= */
 .recipe-view ul {
@@ -527,10 +520,6 @@ input[type='radio'] {
 .recipe-view .likes-container {
     display: flex;
     gap: 5px;
-}
-
-.recipe-view .likes-container h4 {
-    align-self: center;
 }
 
 /* =========================================
@@ -637,76 +626,76 @@ input[type='radio'] {
 }
 
 .close-button:hover {
-  background-color: #e0e0e0;
-  cursor: pointer;
+    background-color: #e0e0e0;
+    cursor: pointer;
 }
 
 .comments-container .no-comments-msg {
-  text-align: center;
-  color: #333;
-  padding: 20px;
-  font-style: italic;
+    text-align: center;
+    color: #333;
+    padding: 20px;
+    font-style: italic;
 }
 
 /* =========================================
    CommentForm Styles
    ========================================= */
 .comment-form {
-  background: white;
-  padding: 15px;
-  border-radius: 4px;
-  border: 1px solid #eee;
+    background: white;
+    padding: 15px;
+    border-radius: 4px;
+    border: 1px solid #eee;
 }
 
 .comment-form h4 {
-  margin: 0 0 10px 0;
-  font-size: 1rem;
-  color: #555;
+    margin: 0 0 10px 0;
+    font-size: 1rem;
+    color: #555;
 }
 
 .comment-form textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  resize: vertical;
-  box-sizing: border-box; /* Ensures padding doesn't affect width */
-  font-family: inherit;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+    font-family: inherit;
 }
 
 .comment-form textarea:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0,123,255,0.2);
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.2);
 }
 
 .submit-button {
-  margin-top: 10px;
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-weight: bold;
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
 }
 
 .submit-button:hover {
-  background-color: #0056b3;
-  cursor: pointer;
+    background-color: #0056b3;
+    cursor: pointer;
 }
 
 /* =========================================
    CommentItem Styles
    ========================================= */
 .comment-item {
-  margin-top: 15px;
+    margin-top: 15px;
 }
 
 /* Indentation for replies */
 .comment-item.is-reply {
-  margin-left: 20px;
-  border-left: 2px solid #ddd;
-  padding-left: 10px;
+    margin-left: 20px;
+    border-left: 2px solid #ddd;
+    padding-left: 10px;
 }
 
 .comment-content-wrapper {
@@ -770,11 +759,12 @@ input[type='radio'] {
 }
 
 .action-button {
-  background: none;
-  border: none;
-  color: #007bff;
-  padding: 0;
-  font-size: 0.9rem;
+    margin: 0 5px;
+    background: none;
+    border: none;
+    color: #007bff;
+    padding: 0;
+    font-size: 0.9rem;
 }
 
 .action-button:hover {
@@ -1002,8 +992,4 @@ input[type='radio'] {
 
 .pagination .page.show {
     background: aqua;
-}
-
-.loading {
-    text-align: center;
 }

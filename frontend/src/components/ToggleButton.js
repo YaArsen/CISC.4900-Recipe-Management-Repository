@@ -9,7 +9,7 @@ const ToggleButton = ({ page }) => {
 
     return (
         <div className='sandwich-button-container'>
-            {/* Hamburger button with 3 divs for styling */}
+            {/* Sandwich button with 3 spans for styling */}
             <div className={`sandwich-button ${isOpen ? 'change' : ''}`} onClick={() => setIsOpen(!isOpen)}>
                 <span></span>
                 <span></span>

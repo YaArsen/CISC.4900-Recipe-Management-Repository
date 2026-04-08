@@ -52,7 +52,7 @@ const RecipeView = () => {
                 <h4>{recipe.cookingTime} min</h4>
             </div>
             
-            <h4>Ingredients:</h4>
+            <h4 style={{ color: '#555' }}>Ingredients:</h4>
             <ul>
                 {recipe.ingredients.map((ingredient, index) => (
                     <li key={index}>{ingredient}</li> // List items need unique keys
@@ -73,8 +73,8 @@ const RecipeView = () => {
             </div>
             
             <div className='recipe-footer'>
-                <h4>Posted by {recipe.username}</h4>
-                <h4>{new Date(recipe.timestamp).toLocaleString()}</h4>
+                <span className='recipe-username'>Posted by {recipe.username}</span>
+                <span className='recipe-timestamp'>{new Date(recipe.timestamp).toLocaleString()}</span>
                 <button className='comments-button' onClick={() => navigate(`/${page}/${pageNumber}/recipe-view/${recipe._id}/comments`)}>Comments</button> {/* Navigation to comments section */}
             </div>
         </div>

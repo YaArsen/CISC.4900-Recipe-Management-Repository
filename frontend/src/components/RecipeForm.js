@@ -81,16 +81,14 @@ const RecipeForm = ({ initialData, onSubmit }) => {
         <form className='recipe-form-container' onSubmit={handleSubmit}>
             <button className='close-button' onClick={() => navigate('/recipes')}>x</button>
 
-            <div className='title'>
-                <input
-                    type='text'
-                    name='title'
-                    onChange={handleChange}
-                    value={recipe.title}
-                    placeholder='Recipe Title'
-                    required
-                />
-            </div>
+            <input
+                type='text'
+                name='title'
+                onChange={handleChange}
+                value={recipe.title}
+                placeholder='Recipe Title'
+                required
+            />
 
             {recipe.ingredients.map((ingredient, index) => (
                 <div key={index} className='ingredient-row'>
@@ -125,7 +123,7 @@ const RecipeForm = ({ initialData, onSubmit }) => {
                 required={!initialData}
             />
 
-            {url && <img src={url} alt='img' />}<br/>
+            {url && <img src={url} alt='img' />}
 
             <div>
                 <label>
@@ -151,16 +149,14 @@ const RecipeForm = ({ initialData, onSubmit }) => {
                 </label>
             </div>
 
-            <div className='cookingTime'>
-                <input
-                    type='number'
-                    name='cookingTime'
-                    onChange={handleChange}
-                    value={recipe.cookingTime}
-                    placeholder='Cooking time (min)'
-                    required
-                />
-            </div>
+            <input
+                type='number'
+                name='cookingTime'
+                onChange={handleChange}
+                value={recipe.cookingTime}
+                placeholder='Cooking time (min)'
+                required
+            />
 
             <div>
                 <p>Category</p>

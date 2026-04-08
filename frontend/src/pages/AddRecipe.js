@@ -19,10 +19,10 @@ const AddRecipe = () => {
     };
 
     return (
-        <div className='add-recipe-container'>
-            <h1>Add Recipe</h1>
+        <>
+            <h1 className='add-recipe'>Add Recipe</h1>
             <RecipeForm onSubmit={postRecipe} />
-        </div>
+        </>
     );
 };
 
