@@ -9,15 +9,15 @@ const commentSchema = new mongoose.Schema({
 });
 
 const recipeSchema = new mongoose.Schema({
-    title: { type: String, required: true, index: true },
+    title: { type: String, required: true },
     ingredients: [{ type: String }],
     instructions: { type: String, required: true },
     base64File: { type: String, required: true },
     isPublic: { type: Boolean, default: true },
-    cookingTime: { type: Number, required: true, index: true },
-    category: { type: String, required: true, index: true },
-    difficulty: { type: String, required: true, index: true },
-    likes: { type: Number, default: 0, index: true },
+    cookingTime: { type: Number, required: true },
+    category: { type: String, required: true },
+    difficulty: { type: String, required: true },
+    likes: { type: Number, default: 0 },
     comments: [commentSchema],
     username: String,
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },

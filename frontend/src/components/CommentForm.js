@@ -14,7 +14,7 @@ const CommentForm = ({ parentId, onSubmit }) => {
     return (
         <form onSubmit={handleSubmit} className='comment-form'>
             {/* Conditional title based on whether this is a reply */}
-            <h4 className='comment-h4'>{parentId ? 'Reply to Comment' : 'Post a New Comment'}</h4>
+            <h4>{parentId ? 'Reply to Comment' : 'Post a New Comment'}</h4>
 
             {/* Controlled textarea input */}
             <textarea
@@ -26,7 +26,7 @@ const CommentForm = ({ parentId, onSubmit }) => {
             />
 
             {/* Submit button */}
-            <button type='submit' className='submit-btn'>Send</button>
+            <button type='submit' className='submit-button'>Send</button>
         </form>
     );
 };

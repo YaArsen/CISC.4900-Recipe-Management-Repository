@@ -1,38 +1,19 @@
 import { fetchPasswordReset } from '../api';
-import passwordChecker from '../utils/passwordChecker';
+import { passwordChecker, requirements } from '../utils/checkPassword';
+import PasswordRequirements from '../components/PasswordRequirements';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const PasswordReset = () => {
     const { verificationToken } = useParams();
-    const [user, setUser] = useState({
-        password: '',
-        repeatPassword: ''
-    });
+    const [user, setUser] = useState('');
     const [isFocus, setIsFocus] = useState(false);
-    const [checkPassword, setCheckPassword] = useState({
-        isLowerCaseLetter: false,
-        isUpperCaseLetter: false,
-        isSpecialSymbol: false,
-        isNumber: false,
-        isLengthEightOrMore: false
-    });
-
+    const [checkPassword, setCheckPassword] = useState(false);
     const navigate = useNavigate();
  
-    const passwordReset = async (e) => {
+    const resetPassword = async (e) => {
         e.preventDefault();
-
-        if (!user.password.trim() || !user.repeatPassword.trim()) return;
-
-        if (!(
-            checkPassword.isLowerCaseLetter
-            && checkPassword.isUpperCaseLetter
-            && checkPassword.isSpecialSymbol
-            && checkPassword.isNumber
-            && checkPassword.isLengthEightOrMore
-        )) return;
-
+        if (!requirements(checkPassword) || !user.password.trim()) return;
         if (user.password.trim() !== user.repeatPassword.trim()) return alert('Passwords do not match');
 
         try {
@@ -50,25 +31,22 @@ const PasswordReset = () => {
     };
     
     return (
-        <form className='password-reset-container' onSubmit={passwordReset}>
+        <form className='password-reset-container' onSubmit={resetPassword}>
             <input
                 value={user.password}
                 type='password'
                 name='password'
                 placeholder='Password'
-                onChange={(e) => passwordChecker(e, user, setUser, setCheckPassword)}
+                onChange={(e) => {
+                    passwordChecker(e, setCheckPassword);
+                    handleChange(e);
+                }}
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
                 required
             />
 
-            {isFocus && <>
-                <p style={{ color: checkPassword.isLowerCaseLetter ? 'green' : 'red' }}>Lower case letter</p>
-                <p style={{ color: checkPassword.isUpperCaseLetter ? 'green' : 'red' }}>Upper case letter</p>
-                <p style={{ color: checkPassword.isSpecialSymbol ? 'green' : 'red' }}>Special symbol</p>
-                <p style={{ color: checkPassword.isNumber ? 'green' : 'red' }}>Number</p>
-                <p style={{ color: checkPassword.isLengthEightOrMore ? 'green' : 'red' }}>Min 8 symbols</p>
-            </>}
+            {isFocus && <PasswordRequirements checkPassword={checkPassword} />}
             
             <input
                 value={user.repeatPassword}

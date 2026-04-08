@@ -47,14 +47,14 @@ const CommentItem = ({ userId, recipeId, comment, allComments, onAddReply, setCo
                     )}
                 </div>
 
-                <p className="comment-text">{comment.content}</p>
+                <p className='comment-text'>{comment.content}</p>
 
-                <button className="action-button" onClick={() => setShowReplyForm(!showReplyForm)}>
+                <button className='action-button' onClick={() => setShowReplyForm(!showReplyForm)}>
                     {showReplyForm ? 'Cancel Reply' : 'Reply'}
                 </button>
 
                 {replies.length > 0 && (
-                    <button className="action-button" onClick={() => setShowReplies(!showReplies)}>
+                    <button className='action-button' onClick={() => setShowReplies(!showReplies)}>
                         {showReplies ? 'Hide replies' : `Show replies (${replies.length})`}
                     </button>
                 )}

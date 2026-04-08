@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const EditRecipe = () => {
-    const { recipeId } = useParams();
+    const { recipeId, pageNumber } = useParams();
     const [recipe, setRecipe] = useState(null); // State to hold the recipe data fetched from the API
     const navigate = useNavigate();
 
@@ -13,7 +13,7 @@ const EditRecipe = () => {
         const getRecipe = async () => {
             try {
                 const data = await fetchGetRecipe(recipeId);
-                setRecipe(data);
+                setRecipe(data.recipe);
             } catch (error) {
                 return alert(error);
             }
@@ -27,18 +27,18 @@ const EditRecipe = () => {
         try {
             const data = await fetchUpdateRecipe(recipeId, recipe);
             localStorage.setItem('message', data.message);
+            localStorage.setItem('pageNumber', pageNumber);
             navigate('/recipes');
         } catch (error) {
             return alert(error); // Basic error handling for updates
         }
     };
 
-    if (!recipe) return <p>Loading...</p>; // Show loading message while fetching data
+    if (!recipe) return <p className='loading'>Loading...</p>; // Show loading message while fetching data
 
     return (
         <div className='edit-recipe-container'>
             <h1>Edit Recipe</h1>
-            {/* RecipeForm pre-filled with existing data and handles submission */}
             <RecipeForm initialData={recipe} onSubmit={updateRecipe} />
         </div>
     );

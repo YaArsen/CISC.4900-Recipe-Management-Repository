@@ -12,9 +12,7 @@ const RecipeForm = ({ initialData, onSubmit }) => {
         category: '',
         difficulty: ''
     });
-
     const [url, setUrl] = useState('');
-
     const navigate = useNavigate();
     
     useEffect(() => {
@@ -36,11 +34,7 @@ const RecipeForm = ({ initialData, onSubmit }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!recipe.title.trim() || !recipe.instructions.trim()) return;
-        if (recipe.ingredients.filter(ingredient => ingredient.trim() === '').length !== 0) return;
-
-        setRecipe({ ...recipe, title: recipe.title.trim(), instructions: recipe.instructions.trim() });
-        setRecipe({ ...recipe, ingredients: recipe.ingredients.map(ingredient => ingredient.trim()) });
+        if (!recipe.title.trim() || !recipe.instructions.trim() || !recipe.ingredients[0].trim()) return;
 
         if (recipe.file instanceof File) {
             const reader = new FileReader();
@@ -84,9 +78,9 @@ const RecipeForm = ({ initialData, onSubmit }) => {
     };
 
     return (
-        <>
-            <form className='recipe-form-container' onSubmit={handleSubmit}>
-                <button className='close-btn' onClick={() => navigate('/recipes')}>x</button>
+        <form className='recipe-form-container' onSubmit={handleSubmit}>
+            <button className='close-button' onClick={() => navigate('/recipes')}>x</button>
+            <div className='title'>
                 <input
                     type='text'
                     name='title'
@@ -95,42 +89,44 @@ const RecipeForm = ({ initialData, onSubmit }) => {
                     placeholder='Recipe Title'
                     required
                 />
+            </div>
 
-                {recipe.ingredients.map((ingredient, index) => (
-                    <div key={index} className='ingredient-row'>
-                        <input
-                            type='text'
-                            name={`ingredient-${index}`}
-                            onChange={e => handleIngredientChange(index, e)}
-                            value={ingredient}
-                            placeholder={`Ingredient ${index + 1}`}
-                            required
-                        />
-                        {recipe.ingredients.length > 1 && (
-                            <button type='button' onClick={() => removeIngredient(index)}>x</button>
-                        )}
-                    </div>
-                ))}
+            {recipe.ingredients.map((ingredient, index) => (
+                <div key={index} className='ingredient-row'>
+                    <input
+                        type='text'
+                        name={`ingredient-${index}`}
+                        onChange={e => handleIngredientChange(index, e)}
+                        value={ingredient}
+                        placeholder={`Ingredient ${index + 1}`}
+                        required
+                    />
+                    {recipe.ingredients.length > 1 && (
+                        <button type='button' onClick={() => removeIngredient(index)}>x</button>
+                    )}
+                </div>
+            ))}
 
-                <button className='form-button' type='button' onClick={addIngredient}>+ Add Ingredient</button>
+            <button className='form-button' type='button' onClick={addIngredient}>+ Add Ingredient</button>
 
-                <textarea
-                    name='instructions'
-                    onChange={handleChange}
-                    value={recipe.instructions}
-                    placeholder='Instructions'
-                    required
-                />
+            <textarea
+                name='instructions'
+                onChange={handleChange}
+                value={recipe.instructions}
+                placeholder='Instructions'
+                required
+            />
 
-                <input
-                    type='file'
-                    name='file'
-                    onChange={handleChange}
-                    required={!initialData}
-                />
+            <input
+                type='file'
+                name='file'
+                onChange={handleChange}
+                required={!initialData}
+            />
 
-                {url && <img src={url} alt='img' />}
+            {url && <img src={url} alt='img' />}<br/>
 
+            <div>
                 <label>
                     <input
                         type='radio'
@@ -152,7 +148,9 @@ const RecipeForm = ({ initialData, onSubmit }) => {
                     />
                     Private
                 </label>
+            </div>
 
+            <div className='cookingTime'>
                 <input
                     type='number'
                     name='cookingTime'
@@ -161,7 +159,9 @@ const RecipeForm = ({ initialData, onSubmit }) => {
                     placeholder='Cooking time (min)'
                     required
                 />
+            </div>
 
+            <div>
                 <p>Category</p>
                 {['Breakfast', 'Lunch', 'Dinner'].map(category => (
                     <label key={category}>
@@ -176,7 +176,9 @@ const RecipeForm = ({ initialData, onSubmit }) => {
                         {category}
                     </label>
                 ))}
+            </div>
                 
+            <div>
                 <p>Difficulty</p>
                 {['Easy', 'Medium', 'Hard'].map(difficulty => (
                     <label key={difficulty}>
@@ -191,10 +193,10 @@ const RecipeForm = ({ initialData, onSubmit }) => {
                         {difficulty}
                     </label>
                 ))}
+            </div>
                 
-                <button className='form-button' type='submit'>Save recipe</button>
-            </form>
-        </>
+            <button className='form-button' type='submit'>Save recipe</button>
+        </form>
     );
 };
 

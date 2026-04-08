@@ -2,18 +2,7 @@ import SearchOutline from '../assets/search-outline.svg';
 import { useState } from 'react';
 
 const SearchForm = ({ onSubmit }) => {
-  // Define the initial shape of the search criteria for easy resetting
-  const initialData = {
-    title: '',
-    cookingTime: '',
-    likes: '',
-    difficulty: '',
-    category: '',
-    startDate: '',
-    endDate: ''
-  };
-
-  const [recipe, setRecipe] = useState(initialData); // State to manage all form field values
+  const [recipe, setRecipe] = useState(''); // State to manage all form field values
   const [isFilterOpen, setIsFilterOpen] = useState(false); // State to toggle the visibility of advanced filters
 
   // Handles form submission: prevents default reload and passes state to parent
@@ -24,7 +13,7 @@ const SearchForm = ({ onSubmit }) => {
 
   // Resets the search form to initial empty values
   const clear = () => {
-    setRecipe(initialData);
+    setRecipe('');
   };
 
   // Generic change handler: updates the state based on the input's name attribute
@@ -59,76 +48,75 @@ const SearchForm = ({ onSubmit }) => {
 
       {/* Advanced Filters Section: conditionally rendered */}
       {isFilterOpen && (
-        <div className='filters'>
+        <div className='filters-container'>
+          <div className='filters'>
           {/* Numeric inputs for filters */}
-          <div className='inputs'>
+          <div>
             <input
-            type='number'
-            min='0'
-            name='cookingTime'
-            value={recipe.cookingTime}
-            onChange={handleChange}
-            placeholder='Maximum cooking time (minutes)'
-          />
+              type='number'
+              min='0'
+              name='cookingTime'
+              value={recipe.cookingTime}
+              onChange={handleChange}
+              placeholder='Max cooking time (min)'
+            />
 
-          <input
-            type='number'
-            min='0'
-            name='likes'
-            value={recipe.likes}
-            onChange={handleChange}
-            placeholder='Minimum likes'
-          />
+            <input
+              type='number'
+              min='0'
+              name='likes'
+              value={recipe.likes}
+              onChange={handleChange}
+              placeholder='Min likes'
+            />
           </div>
 
           {/* Radio buttons for category */}
-          <div className='radio'>
+          <div>
             <p>Category</p>
-          {['Breakfast', 'Lunch', 'Dinner'].map(category => (
-            <label key={category}>
-              <input
-                type='radio'
-                name='category'
-                value={category}
-                checked={recipe.category === category}
-                onChange={handleChange}
-              />
-              {category}
-            </label>
-          ))}
+            {['Breakfast', 'Lunch', 'Dinner'].map(category => (
+              <label key={category}>
+                <input
+                  type='radio'
+                  name='category'
+                  value={category}
+                  checked={recipe.category === category}
+                  onChange={handleChange}
+                />
+                {category}
+              </label>
+            ))}
 
-          {/* Radio buttons for difficulty */}
-          <p>Difficulty</p>
-          {['Easy', 'Medium', 'Hard'].map(difficulty => (
-            <label key={difficulty}>
-              <input
-                type='radio'
-                name='difficulty'
-                value={difficulty}
-                checked={recipe.difficulty === difficulty}
-                onChange={handleChange}
-              />
-              {difficulty}
-            </label>
-          ))}
-          </div>
+            {/* Radio buttons for difficulty */}
+            <p>Difficulty</p>
+            {['Easy', 'Medium', 'Hard'].map(difficulty => (
+              <label key={difficulty}>
+                <input
+                  type='radio'
+                  name='difficulty'
+                  value={difficulty}
+                  checked={recipe.difficulty === difficulty}
+                  onChange={handleChange}
+                />
+                {difficulty}
+              </label>
+            ))}
 
-          {/* Date range filters */}
-          <p>Date Range</p>
-          <div className='inputs'>
+            {/* Date range filters */}
+            <p>Date Range</p>
             <input
-            type='date'
-            name='startDate'
-            value={recipe.startDate}
-            onChange={handleChange}
-          />
+              type='date'
+              name='startDate'
+              value={recipe.startDate}
+              onChange={handleChange}
+            />
 
-          <input
-            type='date'
-            name='endDate'
-            value={recipe.endDate}
-            onChange={handleChange}
-          />
+            <input
+              type='date'
+              name='endDate'
+              value={recipe.endDate}
+              onChange={handleChange}
+            />
           </div>
 
           {/* Action buttons for filters */}
@@ -150,6 +138,7 @@ const SearchForm = ({ onSubmit }) => {
           >
             Close Filters
           </button>
+        </div>
         </div>
       )}
     </>

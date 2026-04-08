@@ -30,17 +30,9 @@ export const fetchPostRecipe = async (recipe) => {
     return data;
 };
 
-export const fetchGetAllUserRecipes = async () => {
+export const fetchGetAllUserRecipes = async (page) => {
     const token = localStorage.getItem('token');
-    const res = await Fetch('/api/recipes', { token });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message);
-    return data;
-};
-
-export const fetchIsActivated = async (recipeId) => {
-    const token = localStorage.getItem('token');
-    const res = await Fetch(`/api/recipes/isActivated/${recipeId}`, { token });
+    const res = await Fetch(`/api/recipes/${page}/10`, { token });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message);
     return data;
@@ -62,9 +54,9 @@ export const fetchUpdateRecipe = async (recipeId, recipe) => {
     return data;
 };
 
-export const fetchDeleteRecipe = async (recipeId) => {
+export const fetchDeleteRecipe = async (recipeId, page) => {
     const token = localStorage.getItem('token');
-    const res = await Fetch(`/api/recipes/${recipeId}`, { method: 'DELETE', token });
+    const res = await Fetch(`/api/recipes/${recipeId}/${page}/10`, { method: 'DELETE', token });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message);
     return data;
@@ -78,9 +70,9 @@ export const fetchToggleLike = async (recipeId) => {
     return data;
 };
 
-export const fetchSearchRecipes = async (recipe) => {
+export const fetchSearchRecipes = async (recipe, page) => {
     const token = localStorage.getItem('token');
-    const res = await Fetch(`/api/recipes/search`, { method: 'POST', token, body: recipe });
+    const res = await Fetch(`/api/recipes/search/${page}/10`, { method: 'POST', token, body: recipe });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message);
     return data;
@@ -104,14 +96,14 @@ export const fetchUpdateComment = async (recipeId, commentId, comment) => {
 
 export const fetchDeleteComment = async (recipeId, commentId) => {
     const token = localStorage.getItem('token');
-    const res = await Fetch(`/api/recipes/${recipeId}/comments/${commentId}`, { method: 'DELETE', token });
+    const res = await Fetch(`/api/recipes/${recipeId}/comments/delete-comment/${commentId}`, { method: 'DELETE', token });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message);
     return data;
 };
 
 export const fetchPasswordReset = async (user) => {
-    const res = await Fetch('/api/auth/reset', { method: 'PUT', body: user });
+    const res = await Fetch('/api/auth/reset-password', { method: 'PUT', body: user });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message);
     return data;

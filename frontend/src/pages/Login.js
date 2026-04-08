@@ -41,11 +41,12 @@ const Login = () => {
     // Render the login form UI
     return (
         <>
-            <ToastNotification message={message} setMessage={setMessage} />
+            <div className='login-toast-notification'>
+                <ToastNotification message={message} setMessage={setMessage} />
+            </div>
 
-            <div className='login-container'>
                 {/* The form element with an onSubmit handler pointing to the login function */}
-                <form onSubmit={login}>
+                <form className='login-container' onSubmit={login}>
                     <h2>Login</h2>
 
                     {/* Email input field with handlers for change events */}
@@ -66,11 +67,10 @@ const Login = () => {
                         required
                     />
                     
-                    <button>Login</button> {/* Submit button for the form */}
+                    <button type='submit'>Login</button> {/* Submit button for the form */}
                     <Link to='/register'>Register</Link> {/* A link to navigate to the registration page */}
                     <Link to='/email'>Reset password</Link>
                 </form>
-            </div>
         </>
     );
 };

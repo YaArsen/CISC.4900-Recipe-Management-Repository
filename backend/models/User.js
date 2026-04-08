@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
     favorites: [mongoose.Schema.Types.ObjectId],
     liked: [mongoose.Schema.Types.ObjectId],
     commented: { type: Map, of: Number, default: new Map() },
+    recipes: { type: Number, default: 0 },
     timestamp: { type: Date, default: Date.now }
 });
 

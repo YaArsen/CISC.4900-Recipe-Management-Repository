@@ -6,26 +6,25 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
 const CommentsContainer = () => {
-    const { page, recipeId } = useParams(); // Extract recipeId from the URL parameters to fetch the correct recipe data
+    const { page, pageNumber, recipeId } = useParams(); // Extract recipeId from the URL parameters to fetch the correct recipe data
     const [user, setUser] = useState(null);
     const [comments, setComments] = useState([]); // State to store the list of comments
     const [recipe, setRecipe] = useState(null);
     const navigate = useNavigate();
-    const token = localStorage.getItem('token'); // Retrieve token for authentication
 
     useEffect(() => {
-        if (!token) return;
+        const token = localStorage.getItem('token'); // Retrieve token for authentication
         const user = jwtDecode(token);
         setUser(user);
-    }, [token]);
+    }, []);
 
     // Fetch comments for the recipe when the component mounts or recipeId changes
     useEffect(() => {
         const getRecipe = async () => {
             try {
                 const data = await fetchGetRecipe(recipeId);
-                setRecipe(data);
-                setComments(data.comments);
+                setRecipe(data.recipe);
+                setComments(data.recipe.comments);
             } catch (error) {
                 return alert(error);
             }
@@ -44,7 +43,7 @@ const CommentsContainer = () => {
         }
     };
 
-    if (!user || !comments || !recipe) return <p>Loading...</p>; // Simple loading state
+    if (!user || !comments || !recipe) return <p className='loading'>Loading...</p>; // Simple loading state
 
     // Filter to get only top-level comments (those without a parentId) and sort them by timestamp (newest first)
     const topLevelComments = comments
@@ -53,13 +52,14 @@ const CommentsContainer = () => {
 
     return (
         <div className="comments-container">
-            <div className='recipe-img-and-title'>
+            <div className='comments-page-header'>
                 <img src={recipe.base64File} alt={recipe.title} />
                 <h1>{recipe.title}</h1>
             </div>
+
             <div className="comments-header-row">
-                <h1 className="comments-title">Recipe comments {comments.length}</h1> {/* Header displaying the total number of comments */}
-                <button className="close-btn" onClick={() => navigate(`/${page}/recipe-view/${recipeId}`)}>x</button>
+                <h1>Recipe comments {comments.length}</h1> {/* Header displaying the total number of comments */}
+                <button className='close-button' onClick={() => navigate(`/${page}/${pageNumber}/recipe-view/${recipeId}`)}>x</button>
             </div>
 
             <CommentForm parentId={undefined} onSubmit={(content) => postComment(undefined, content)} /> {/* Form to submit a new top-level comment */}

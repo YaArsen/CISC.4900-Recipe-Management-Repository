@@ -72,10 +72,10 @@ exports.login = async (req, res) => {
                 userId: user._id,
                 name: user.name,
                 email: user.email,
-                timestamp: user.timestamp,
                 favorites: user.favorites,
                 liked: user.liked,
-                commented: user.commented
+                commented: user.commented,
+                timestamp: user.timestamp
             }, 
             process.env.JWT_SECRET, // Secret key from environment variables for signing the token
             {
@@ -100,7 +100,7 @@ exports.deleteAccount = async (req, res) => {
     }
 };
 
-exports.passwordReset = async (req, res) => {
+exports.resetPassword = async (req, res) => {
     const { email, password, verificationToken } = req.body;
 
     try {
@@ -180,12 +180,14 @@ exports.updateName = async (req, res) => {
 
 exports.updateEmail = async (req, res) => {
     const { userId, exp } = req.user;
-    const { email, password, verificationToken } = req.body;
+    const { page, email, password, verificationToken } = req.body;
 
     try {
         if (verificationToken) {
-            const user = jwt.verify(verificationToken, process.env.JWT_SECRET);
-            await User.findByIdAndUpdate(user.userId, { email: user.email });
+            const decoded = jwt.verify(verificationToken, process.env.JWT_SECRET);
+            const user = await User.findById({ _id: decoded.userId });
+            user.email = decoded.email;
+            await user.save();
 
             const token = jwt.sign(
                 {
@@ -208,7 +210,6 @@ exports.updateEmail = async (req, res) => {
             if (email) {
                 const user = await User.findById({ _id: userId });
                 if (!await bcrypt.compare(password, user.password)) return res.status(401).json({ message: 'Password does not match' });
-                
                 const token = jwt.sign(
                     {
                         userId,
@@ -227,7 +228,7 @@ exports.updateEmail = async (req, res) => {
                     text: 'Please verify your email',
                     html: `
                         <p>Click on the link to verify your email</p>
-                        <a href='http://localhost:3000/verify-new-email/${token}'>Verify Email</a>
+                        <a href='http://localhost:3000/${page}/account/verify-new-email/${token}'>Verify Email</a>
                     `
                 });
 

@@ -2,23 +2,24 @@ import { fetchUpdateEmail } from '../api';
 import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-const VerifyEmail = () => {
-    const { verificationToken } = useParams();
+const VerifyNewEmail = () => {
+    const { page, verificationToken } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
-        const verifyEmail = async () => {
+        const verifyNewEmail = async () => {
             try {
                 const data = await fetchUpdateEmail({ verificationToken });
                 localStorage.setItem('message', data.message);
-                navigate('/account');
+                localStorage.setItem('token', data.token);
+                navigate(`/${page}/account`);
             } catch (error) {
                 return alert(error);
             }
         };
 
-       verifyEmail();
-    }, [verificationToken, navigate]);
+       verifyNewEmail();
+    }, [page, verificationToken, navigate]);
 };
 
-export default VerifyEmail;
+export default VerifyNewEmail;

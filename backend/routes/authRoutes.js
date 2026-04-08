@@ -6,7 +6,7 @@ const router = express.Router();
 router.post('/register', authController.register);
 router.post('/login', authController.login);
 router.delete('/delete', auth, authController.deleteAccount);
-router.put('/reset', authController.passwordReset);
+router.put('/reset-password', authController.resetPassword);
 
 router.put('/update-name', auth, authController.updateName);
 router.put('/update-email', auth, authController.updateEmail);
