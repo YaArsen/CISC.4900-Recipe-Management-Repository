@@ -7,6 +7,7 @@ const RecipeForm = ({ initialData, onSubmit }) => {
         ingredients: [''],
         instructions: '',
         file: null,
+        base64File: '',
         isPublic: true,
         cookingTime: '',
         category: '',
@@ -22,15 +23,16 @@ const RecipeForm = ({ initialData, onSubmit }) => {
     }, [initialData]);
 
     useEffect(() => {
-        if (!recipe.file || typeof recipe.file === 'string') {
-            setUrl(recipe.file);
-            return;
+        if (recipe.file) {
+            const objectUrl = URL.createObjectURL(recipe.file);
+            setUrl(objectUrl);
+            return () => URL.revokeObjectURL(objectUrl);
         }
 
-        const objectUrl = URL.createObjectURL(recipe.file);
-        setUrl(objectUrl);
-        return () => URL.revokeObjectURL(objectUrl);
-    }, [recipe.file]);
+        if (recipe.base64File) {
+            setUrl(recipe.base64File);
+        }
+    }, [recipe.file, recipe.base64File]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
