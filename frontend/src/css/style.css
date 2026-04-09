@@ -421,8 +421,10 @@ input[type='radio'] {
     cursor: pointer;
 }
 
-.recipe-details-container .recipe-details img {
+.recipe-details-container .recipe-details img:not(.recipe-details-container .recipe-details .manage-button img) {
     width: 100%;
+    height: 200px;
+    object-fit: cover;
 }
 
 .recipe-details h4 {
