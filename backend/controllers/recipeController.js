@@ -77,7 +77,7 @@ exports.updateRecipe = async (req, res) => {
     title,
     ingredients,
     instructions,
-    base64File,
+    file,
     isPublic,
     cookingTime,
     category,
@@ -90,7 +90,7 @@ exports.updateRecipe = async (req, res) => {
     recipe.title = title;
     recipe.ingredients = ingredients;
     recipe.instructions = instructions;
-    recipe.base64File = base64File;
+    recipe.base64File = file || recipe.base64File;
     recipe.isPublic = isPublic;
     recipe.cookingTime = Number(cookingTime);
     recipe.category = category;
@@ -272,9 +272,6 @@ exports.searchRecipes = async (req, res) => {
       query.timestamp.$lte = end;
     }
   }
-
-  const hasMoreThanOne = Object.keys(query).length > 1;
-  if (!hasMoreThanOne) return res.status(400).json({ message: 'Enter some text or apply at least one filter' });
 
   try {
     const startIndex = (page - 1) * limit;

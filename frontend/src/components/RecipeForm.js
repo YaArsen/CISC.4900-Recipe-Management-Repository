@@ -5,13 +5,8 @@ const RecipeForm = ({ initialData, onSubmit }) => {
     const [recipe, setRecipe] = useState({
         title: '',
         ingredients: [''],
-        instructions: '',
-        file: null,
-        base64File: '',
         isPublic: true,
-        cookingTime: '',
-        category: '',
-        difficulty: ''
+        cookingTime: ''
     });
     const [url, setUrl] = useState('');
     const navigate = useNavigate();
@@ -37,6 +32,7 @@ const RecipeForm = ({ initialData, onSubmit }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!recipe.title.trim() || !recipe.instructions.trim() || !recipe.ingredients[0].trim()) return;
+        delete recipe.base64File;
 
         if (recipe.file instanceof File) {
             const reader = new FileReader();
