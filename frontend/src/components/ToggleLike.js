@@ -1,6 +1,6 @@
 import { fetchToggleLike } from '../api';
 
-const ToggleLike = ({ isActivated, recipeId, setRecipe, setIsActivated }) => {
+const ToggleLike = ({ isActivated, setIsActivated, recipeId, setRecipe }) => {
     // Handles the API call and state updates when the button is clicked
     const toggleLike = async () => {
         try {
@@ -8,11 +8,19 @@ const ToggleLike = ({ isActivated, recipeId, setRecipe, setIsActivated }) => {
             setRecipe(data.recipe); // Update the recipe details (e.g., like count) in the parent component
             setIsActivated(data.isActivated); // Update the local button activation state (true/false)
         } catch (error) {
-            return alert(error);
+            alert(error);
         }
     };
 
-    return <button type='button' className={`like-button ${isActivated ? 'activated' : ''}`}  onClick={toggleLike}>Like</button>;
+    return (
+        <button
+            type='button'
+            className={`likes-button ${isActivated ? 'activated' : ''}`} 
+            onClick={toggleLike}
+        >
+            {!isActivated ? 'Like' : 'Unlike'}
+        </button>
+    );
 };
 
 export default ToggleLike;

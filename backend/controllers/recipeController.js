@@ -61,8 +61,10 @@ exports.getRecipe = async (req, res) => {
 
   try {
     const recipe = await Recipe.findById({ _id: recipeId });
-    const isActivated = (await User.findById({ _id: userId })).liked.includes(recipeId);
-    res.status(200).json({ recipe, isActivated });
+    const user = await User.findById({ _id: userId });
+    const isFavoriteButtonActivated = user.favorites.includes(recipeId);
+    const isLikeButtonActivated = user.liked.includes(recipeId);
+    res.status(200).json({ recipe, isFavoriteButtonActivated, isLikeButtonActivated });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -124,6 +126,29 @@ exports.deleteRecipe = async (req, res) => {
   }
 };
 
+exports.toggleFavorite = async (req, res) => {
+  const { userId } = req.user;
+  const { recipeId } = req.params;
+
+  try {
+    const user = await User.findById({ _id: userId });
+    const isFavorite = user.favorites.includes(recipeId);
+    let isActivated = false;
+
+    if (isFavorite) {
+      user.favorites.pull(recipeId);
+    } else {
+      user.favorites.push(recipeId);
+      isActivated = true;
+    }
+
+    await user.save();
+    res.status(200).json(isActivated);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 exports.toggleLike = async (req, res) => {
   const { userId } = req.user;
   const { recipeId } = req.params;
@@ -131,7 +156,6 @@ exports.toggleLike = async (req, res) => {
   try {
     const user = await User.findById({ _id: userId });
     const recipe = await Recipe.findById({ _id: recipeId });
-    if (!recipe) return res.status(404).json({ message: 'Recipe not found.' });
 
     const isLiked = user.liked.includes(recipeId);
     let isActivated = false;
@@ -321,3 +345,61 @@ function merge(left, right) {
     }
     return result.concat(left.slice(i), right.slice(j));
 }
+
+exports.getFavoriteRecipes = async (req, res) => {
+  const { userId } = req.user;
+  const { page, limit } = req.params;
+
+  try {
+    const user = await User.findById({ _id: userId });
+    const startIndex = (page - 1) * limit;
+    const recipesIds = user.favorites.slice(startIndex, startIndex + limit);
+    const recipes = [];
+    let removedRecipesIds = 0;
+
+    for (let i = 0; i < recipesIds.length; i++) {
+      const recipe = await Recipe.findById({ _id: recipesIds[i] });
+
+      if (!recipe) {
+        removedRecipesIds++;
+        user.favorites.pull(recipesIds[i]);
+        await user.save();
+      } else {
+        recipes.push(recipe);
+      }
+    }
+
+    res.status(200).json({ recipes, totalPages: Math.ceil((user.favorites.length - removedRecipesIds) / limit), currentPage: parseInt(page) });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.getLikedRecipes = async (req, res) => {
+  const { userId } = req.user;
+  const { page, limit } = req.params;
+
+  try {
+    const user = await User.findById({ _id: userId });
+    const startIndex = (page - 1) * limit;
+    const recipesIds = user.liked.slice(startIndex, startIndex + limit);
+    const recipes = [];
+    let removedRecipesIds = 0;
+
+    for (let i = 0; i < recipesIds.length; i++) {
+      const recipe = await Recipe.findById({ _id: recipesIds[i] });
+
+      if (!recipe) {
+        removedRecipesIds++;
+        user.liked.pull(recipesIds[i]);
+        await user.save();
+      } else {
+        recipes.push(recipe);
+      }
+    }
+
+    res.status(200).json({ recipes, totalPages: Math.ceil((user.liked.length - removedRecipesIds) / limit), currentPage: parseInt(page) });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

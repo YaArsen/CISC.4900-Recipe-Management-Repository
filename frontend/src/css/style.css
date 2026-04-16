@@ -150,13 +150,13 @@ body {
     cursor: pointer;
 }
 
-.like-button.activated {
+.likes-button.activated {
     background-color: aqua;
     border-color: aqua;
     color: white;
 }
 
-.like-button {
+.likes-button {
     border-radius: 3rem;
     border: 2px solid #8a8a8a;
     background-color: transparent;
@@ -166,7 +166,7 @@ body {
     transition: all ease 0.4s;
 }
 
-.like-button:hover {
+.likes-button:hover {
     border-color: aqua;
     color: aqua;
     cursor: pointer;

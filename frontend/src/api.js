@@ -62,6 +62,14 @@ export const fetchDeleteRecipe = async (recipeId, page) => {
     return data;
 };
 
+export const fetchToggleFavorite = async (recipeId) => {
+    const token = localStorage.getItem('token');
+    const res = await Fetch(`/api/recipes/${recipeId}/favorites`, { method: 'PUT',  token });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    return data;
+};
+
 export const fetchToggleLike = async (recipeId) => {
     const token = localStorage.getItem('token');
     const res = await Fetch(`/api/recipes/${recipeId}/likes`, { method: 'PUT',  token });
@@ -144,6 +152,22 @@ export const fetchGetRecipeUsername = async (userId) => {
 export const fetchGetCommentUsername = async (recipeId, commentId) => {
     const token = localStorage.getItem('token');
     const res = await Fetch(`/api/recipes/${recipeId}/comments/${commentId}`, { token });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    return data;
+};
+
+export const fetchGetFavoriteRecipes = async (page) => {
+    const token = localStorage.getItem('token');
+    const res = await Fetch(`/api/recipes/favorite-recipes/${page}/10`, { token });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    return data;
+};
+
+export const fetchGetLikedRecipes = async (page) => {
+    const token = localStorage.getItem('token');
+    const res = await Fetch(`/api/recipes/liked-recipes/${page}/10`, { token });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message);
     return data;

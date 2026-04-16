@@ -1,4 +1,5 @@
 import { fetchGetRecipe, fetchGetRecipeUsername } from '../api';
+import ToggleFavorite from '../components/ToggleFavorite';
 import ToggleLike from '../components/ToggleLike';
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -7,7 +8,8 @@ const RecipeView = () => {
     const { page, pageNumber, recipeId } = useParams();
     const [username, setUsername] = useState('');
     const [recipe, setRecipe] = useState({}); // State to store the fetched recipe data
-    const [isActivated, setIsActivated] = useState(null); // State to check if the current user has liked the recipe
+    const [isFavoriteButtonActivated, setIsFavoriteButtonActivated] = useState(null);
+    const [isLikeButtonActivated, setIsLikeButtonActivated] = useState(null); // State to check if the current user has liked the recipe
     const navigate = useNavigate();
  
     // Fetch recipe data and like status when component mounts or recipeId changes
@@ -17,9 +19,10 @@ const RecipeView = () => {
             try {
                 const data = await fetchGetRecipe(recipeId);
                 setRecipe(data.recipe);
-                setIsActivated(data.isActivated);
+                setIsFavoriteButtonActivated(data.isFavoriteButtonActivated);
+                setIsLikeButtonActivated(data.isLikeButtonActivated);
             } catch (error) {
-                return alert(error);
+                alert(error);
             }
         };
 
@@ -38,7 +41,7 @@ const RecipeView = () => {
         }
     }, [recipe.user]);
 
-    if (!recipe || isActivated === null) return <p className='loading'>Loading...</p>; // Render loading state while data is being fetched
+    if (!recipe || isFavoriteButtonActivated === null || isLikeButtonActivated === null) return <p className='loading'>Loading...</p>; // Render loading state while data is being fetched
 
     return (
         <div className='recipe-view'>
@@ -50,7 +53,7 @@ const RecipeView = () => {
                     className='close-button'
                     onClick={() => {
                         localStorage.setItem('pageNumber', pageNumber);
-                        navigate(`/${page}`);
+                        page.split(' ').length === 2 ? navigate(`/${page.split(' ')[0]}/${page.split(' ')[1]}`) : navigate(`/${page}`);
                     }}
                 >
                     x
@@ -75,12 +78,18 @@ const RecipeView = () => {
 
             <h4 className='instructions'>Instructions:<br/>{recipe.instructions}</h4>
 
+            <ToggleFavorite
+                isActivated={isFavoriteButtonActivated}
+                recipeId={recipe._id}
+                setIsActivated={setIsFavoriteButtonActivated}
+            />
+
             <div className='likes-container'>
                 <ToggleLike
-                    isActivated={isActivated}
+                    isActivated={isLikeButtonActivated}
                     recipeId={recipe._id}
                     setRecipe={setRecipe}
-                    setIsActivated={setIsActivated}
+                    setIsActivated={setIsLikeButtonActivated}
                 />
 
                 <h4>{recipe.likes}</h4>
