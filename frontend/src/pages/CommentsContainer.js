@@ -1,4 +1,5 @@
 import { fetchGetRecipe, fetchPostComment } from '../api';
+import mergeSort from '../utils/sortingAlgorithm';
 import CommentItem from '../components/CommentItem';
 import CommentForm from '../components/CommentForm';
 import { useState, useEffect } from 'react';
@@ -46,9 +47,7 @@ const CommentsContainer = () => {
     if (!user || !comments || !recipe) return <p className='loading'>Loading...</p>; // Simple loading state
 
     // Filter to get only top-level comments (those without a parentId) and sort them by timestamp (newest first)
-    const topLevelComments = comments
-        .filter(c => !c.parentId)
-        .sort((a, b) => b.timestamp - a.timestamp);
+    const topLevelComments = mergeSort(comments.filter(c => !c.parentId));
 
     return (
         <div className="comments-container">
@@ -59,7 +58,7 @@ const CommentsContainer = () => {
 
             <div className="comments-header-row">
                 <h1>Recipe comments {comments.length}</h1> {/* Header displaying the total number of comments */}
-                <button className='close-button' onClick={() => navigate(`/${page}/${pageNumber}/recipe-view/${recipeId}`)}>x</button>
+                <button type='button' className='close-button' onClick={() => navigate(`/${page}/${pageNumber}/recipe-view/${recipeId}`)}>x</button>
             </div>
 
             <CommentForm parentId={undefined} onSubmit={(content) => postComment(undefined, content)} /> {/* Form to submit a new top-level comment */}

@@ -8,6 +8,7 @@ router.post('/login', authController.login);
 router.delete('/delete', auth, authController.deleteAccount);
 router.put('/reset-password', authController.resetPassword);
 
+router.get('/:userId', auth, authController.getRecipeUsername);
 router.put('/update-name', auth, authController.updateName);
 router.put('/update-email', auth, authController.updateEmail);
 router.put('/update-password', auth, authController.updatePassword);

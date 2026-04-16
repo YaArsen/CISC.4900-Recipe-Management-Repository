@@ -1,4 +1,4 @@
-import Login from './pages/Login';
+import LogIn from './pages/LogIn';
 import Register from './pages/Register';
 import VerifyEmail from './components/VerifyEmail';
 import Email from './pages/Email';
@@ -19,7 +19,7 @@ const App = () => {
         <BrowserRouter>
             <Routes>
                 {/* Public Routes */}
-                <Route path='/' element={<Login />} />
+                <Route path='/' element={<LogIn />} />
                 <Route path='/register' element={<Register />} />
                 <Route path='/verify-email/:verificationToken' element={<VerifyEmail />} />
                 <Route path='/email' element={<Email />} />

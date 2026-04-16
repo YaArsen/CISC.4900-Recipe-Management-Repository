@@ -2,12 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const RecipeForm = ({ initialData, onSubmit }) => {
-    const [recipe, setRecipe] = useState({
-        title: '',
-        ingredients: [''],
-        isPublic: true,
-        cookingTime: ''
-    });
+    const [recipe, setRecipe] = useState({ ingredients: [''], isPublic: true });
     const [url, setUrl] = useState('');
     const navigate = useNavigate();
 
@@ -77,13 +72,13 @@ const RecipeForm = ({ initialData, onSubmit }) => {
 
     return (
         <form className='recipe-form-container' onSubmit={handleSubmit}>
-            <button className='close-button' onClick={() => navigate('/recipes')}>x</button>
+            <button type='button' className='close-button' onClick={() => navigate('/recipes')}>x</button>
 
             <input
                 type='text'
                 name='title'
                 onChange={handleChange}
-                value={recipe.title}
+                value={recipe.title ? recipe.title : ''}
                 placeholder='Recipe Title'
                 required
             />
@@ -151,7 +146,7 @@ const RecipeForm = ({ initialData, onSubmit }) => {
                 type='number'
                 name='cookingTime'
                 onChange={handleChange}
-                value={recipe.cookingTime}
+                value={recipe.cookingTime ? recipe.cookingTime : ''}
                 placeholder='Cooking time (min)'
                 required
             />

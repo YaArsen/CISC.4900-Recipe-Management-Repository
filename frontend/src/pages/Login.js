@@ -3,7 +3,7 @@ import ToastNotification from '../components/ToastNotification'; // Import a cus
 import { useState, useEffect } from 'react'; // Import necessary React hooks for state management and side effects
 import { useNavigate, Link } from 'react-router-dom'; // Import navigation utilities from react-router-dom for routing
 
-const Login = () => {
+const LogIn = () => {
     const [user, setUser] = useState(null); // State hook to store user credentials (email and password)
     const [message, setMessage] = useState(''); // State hook to manage notification messages
     const navigate = useNavigate(); // Hook to enable programmatic navigation between routes
@@ -20,7 +20,7 @@ const Login = () => {
     }, []);
 
     // Async function to handle the login form submission
-    const login = async (e) => {
+    const logIn = async (e) => {
         e.preventDefault(); // Prevent the default form submission behavior (page reload)
         if (!user.email.trim() || !user.password.trim()) return;
 
@@ -45,8 +45,8 @@ const Login = () => {
             </div>
 
             {/* The form element with an onSubmit handler pointing to the login function */}
-            <form className='login-container' onSubmit={login}>
-                <h2>Login</h2>
+            <form className='login-container' onSubmit={logIn}>
+                <h2>Log in</h2>
 
                 {/* Email input field with handlers for change events */}
                 <input
@@ -66,7 +66,7 @@ const Login = () => {
                     required
                 />
                     
-                <button type='submit'>Login</button> {/* Submit button for the form */}
+                <button type='submit'>Log in</button> {/* Submit button for the form */}
                 <Link to='/register'>Register</Link> {/* A link to navigate to the registration page */}
                 <Link to='/email'>Reset password</Link>
             </form>
@@ -74,4 +74,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default LogIn;

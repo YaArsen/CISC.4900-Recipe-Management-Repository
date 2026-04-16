@@ -6,9 +6,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const PasswordReset = () => {
     const { verificationToken } = useParams();
-    const [user, setUser] = useState('');
+    const [user, setUser] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
-    const [checkPassword, setCheckPassword] = useState(false);
+    const [checkPassword, setCheckPassword] = useState({});
     const navigate = useNavigate();
  
     const resetPassword = async (e) => {
@@ -33,7 +33,6 @@ const PasswordReset = () => {
     return (
         <form className='password-reset-container' onSubmit={resetPassword}>
             <input
-                value={user.password}
                 type='password'
                 name='password'
                 placeholder='Password'
@@ -49,7 +48,6 @@ const PasswordReset = () => {
             {isFocus && <PasswordRequirements checkPassword={checkPassword} />}
             
             <input
-                value={user.repeatPassword}
                 type='password'
                 name='repeatPassword'
                 placeholder='Repeat password'

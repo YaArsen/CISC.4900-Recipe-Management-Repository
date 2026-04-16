@@ -69,7 +69,7 @@ const Recipes = () => {
 
             <div className='recipes-header'>
                 <h1>Your Recipes</h1>
-                <button onClick={() => navigate(`/recipes/${currentPage}/add-recipe`)}>Add a New Recipe</button>
+                <button type='button' onClick={() => navigate(`/recipes/${currentPage}/add-recipe`)}>Add a New Recipe</button>
             </div>
 
             {recipes.length === 0 ? (
@@ -85,6 +85,7 @@ const Recipes = () => {
 
                                 {/* Edit button sets the active recipe ID and switches view */}
                                 <button
+                                    type='button'
                                     className='manage-button'
                                     onClick={(e) => {
                                         e.stopPropagation();
@@ -97,6 +98,7 @@ const Recipes = () => {
                                 {activeManageId === recipe._id && (
                                     <div className='is-managing-container'>
                                         <button
+                                            type='button'
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 navigate(`/recipes/${currentPage}/edit-recipe/${recipe._id}`);

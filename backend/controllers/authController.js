@@ -136,6 +136,17 @@ exports.resetPassword = async (req, res) => {
     }
 };
 
+exports.getRecipeUsername = async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        const user = await User.findById({ _id: userId });
+        res.status(200).json(user.name);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 exports.updateName = async (req, res) => {
     const { userId, exp } = req.user;
     const { name } = req.body;

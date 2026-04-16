@@ -61,8 +61,7 @@ exports.getRecipe = async (req, res) => {
 
   try {
     const recipe = await Recipe.findById({ _id: recipeId });
-    const user = await User.findById({ _id: userId });
-    const isActivated = user.liked.includes(recipeId);
+    const isActivated = (await User.findById({ _id: userId })).liked.includes(recipeId);
     res.status(200).json({ recipe, isActivated });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -95,6 +94,7 @@ exports.updateRecipe = async (req, res) => {
     recipe.cookingTime = Number(cookingTime);
     recipe.category = category;
     recipe.difficulty = difficulty;
+    recipe.timestamp = new Date();
 
     await recipe.save();
 
@@ -154,7 +154,7 @@ exports.toggleLike = async (req, res) => {
 };
 
 exports.postComment = async (req, res) => {
-  const { name, userId } = req.user;
+  const { userId } = req.user;
   const { content, parentId } = req.body;
   const { recipeId } = req.params;
 
@@ -163,7 +163,6 @@ exports.postComment = async (req, res) => {
     if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
 
     recipe.comments.push({
-      username: name,
       parentId: parentId,
       content: content,
       user: userId
@@ -182,6 +181,19 @@ exports.postComment = async (req, res) => {
   }
 };
 
+exports.getCommentUsername = async (req, res) => {
+    const { recipeId, commentId } = req.params;
+
+    try {
+        const recipe = await Recipe.findById({ _id: recipeId });
+        const comment = recipe.comments.id(commentId);
+        const user = await User.findById({ _id: comment.user });
+        res.status(200).json(user.name);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 exports.updateComment = async (req, res) => {
   const { recipeId, commentId } = req.params;
   const { content } = req.body;
@@ -193,6 +205,7 @@ exports.updateComment = async (req, res) => {
     if (!comment) return res.status(404).json({ message: 'Comment not found' });
 
     comment.content = content;
+    comment.timestamp = new Date();
     await recipe.save();
     res.status(200).json(recipe.comments);
   } catch (error) {
@@ -275,10 +288,36 @@ exports.searchRecipes = async (req, res) => {
 
   try {
     const startIndex = (page - 1) * limit;
-    const recipes = (await Recipe.find(query).skip(startIndex).limit(parseInt(limit))).reverse();
+    const recipes = mergeSort(await Recipe.find(query).skip(startIndex).limit(parseInt(limit)));
     const total = await Recipe.countDocuments(query);
     res.status(200).json({ recipes, totalPages: Math.ceil(total / limit), currentPage: parseInt(page) });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
+function mergeSort(arr) {
+    if (arr.length <= 1) {
+        return arr;
+    }
+    const mid = Math.floor(arr.length / 2);
+    const left = mergeSort(arr.slice(0, mid));
+    const right = mergeSort(arr.slice(mid));
+    return merge(left, right);
+}
+
+function merge(left, right) {
+    let result = [];
+    let i = 0;
+    let j = 0;
+    while (i < left.length && j < right.length) {
+        if (new Date(left[i].timestamp) > new Date(right[j].timestamp)) {
+            result.push(left[i]);
+            i++;
+        } else {
+            result.push(right[j]);
+            j++;
+        }
+    }
+    return result.concat(left.slice(i), right.slice(j));
+}

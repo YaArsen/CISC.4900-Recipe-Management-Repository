@@ -2,7 +2,7 @@ import SearchOutline from '../assets/search-outline.svg';
 import { useState } from 'react';
 
 const SearchForm = ({ onSubmit }) => {
-    const [recipe, setRecipe] = useState(''); // State to manage all form field values
+    const [recipe, setRecipe] = useState({}); // State to manage all form field values
     const [isFilterOpen, setIsFilterOpen] = useState(false); // State to toggle the visibility of advanced filters
 
     // Handles form submission: prevents default reload and passes state to parent
@@ -13,7 +13,7 @@ const SearchForm = ({ onSubmit }) => {
 
     // Resets the search form to initial empty values
     const clear = () => {
-        setRecipe('');
+        setRecipe({});
     };
 
     // Generic change handler: updates the state based on the input's name attribute
@@ -28,7 +28,7 @@ const SearchForm = ({ onSubmit }) => {
                 <input
                     type='text'
                     name='title'
-                    value={recipe.title}
+                    value={recipe.title ? recipe.title : ''}
                     onChange={handleChange}
                     placeholder='Search...'
                 />
@@ -58,7 +58,7 @@ const SearchForm = ({ onSubmit }) => {
                                 type='number'
                                 min='0'
                                 name='cookingTime'
-                                value={recipe.cookingTime}
+                                value={recipe.cookingTime ? recipe.cookingTime : ''}
                                 onChange={handleChange}
                                 placeholder='Max cooking time (min)'
                             />
@@ -67,7 +67,7 @@ const SearchForm = ({ onSubmit }) => {
                                 type='number'
                                 min='0'
                                 name='likes'
-                                value={recipe.likes}
+                                value={recipe.likes ? recipe.likes : ''}
                                 onChange={handleChange}
                                 placeholder='Min likes'
                             />
@@ -109,14 +109,14 @@ const SearchForm = ({ onSubmit }) => {
                             <input
                                 type='date'
                                 name='startDate'
-                                value={recipe.startDate}
+                                value={recipe.startDate ? recipe.startDate : ''}
                                 onChange={handleChange}
                             />
 
                             <input
                                 type='date'
                                 name='endDate'
-                                value={recipe.endDate}
+                                value={recipe.endDate ? recipe.endDate : ''}
                                 onChange={handleChange}
                             />
                         </div>

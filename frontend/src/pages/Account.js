@@ -9,8 +9,8 @@ import { jwtDecode } from 'jwt-decode';
 const Account = () => {
     const { page } = useParams();
     const [userData, setUserData] = useState(null);
-    const [user, setUser] = useState('');
-    const [checkPassword, setCheckPassword] = useState(false);
+    const [user, setUser] = useState({});
+    const [checkPassword, setCheckPassword] = useState({});
     const [isFocus, setIsFocus] = useState(false);
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
@@ -83,13 +83,13 @@ const Account = () => {
         <div className='account-container'>
             <div className='account-header'>
                 <ToastNotification message={message} setMessage={setMessage} />
-                <button className='close-button' onClick={() => navigate(`/${page}`)}>x</button>
+                <button type='button' className='close-button' onClick={() => navigate(`/${page}`)}>x</button>
             </div>
 
             <h4>User email: {userData.email}</h4>
             <form onSubmit={updateEmail}>
                 <input
-                    value={user.email} 
+                    value={user.email ? user.email : ''} 
                     type='email' 
                     name='email' 
                     onChange={handleChange} 
@@ -98,7 +98,7 @@ const Account = () => {
                 />
 
                 <input
-                    value={user.passwordToChangeEmail}
+                    value={user.passwordToChangeEmail ? user.passwordToChangeEmail : ''}
                     type='password'
                     name='passwordToChangeEmail'
                     onChange={handleChange}
@@ -112,7 +112,7 @@ const Account = () => {
             <h4>Username: {userData.name}</h4>
             <form onSubmit={updateName}>
                 <input
-                    value={user.name}
+                    value={user.name ? user.name : ''}
                     type='text'
                     name='name'
                     onChange={handleChange}
@@ -125,7 +125,7 @@ const Account = () => {
 
             <form onSubmit={updatePassword}>
                 <input
-                    value={user.password}
+                    value={user.password ? user.password : ''}
                     type='password'
                     name='password'
                     onChange={handleChange}
@@ -134,7 +134,7 @@ const Account = () => {
                 />
 
                 <input
-                    value={user.newPassword}
+                    value={user.newPassword ? user.newPassword : ''}
                     type='password'
                     name='newPassword'
                     placeholder='New password'
@@ -150,7 +150,7 @@ const Account = () => {
                 {isFocus && <PasswordRequirements checkPassword={checkPassword} />}
                     
                 <input
-                    value={user.repeatPassword}
+                    value={user.repeatPassword ? user.repeatPassword : ''}
                     type='password'
                     name='repeatPassword'
                     placeholder='Repeat password'

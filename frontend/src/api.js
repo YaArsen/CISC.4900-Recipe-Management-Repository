@@ -132,3 +132,19 @@ export const fetchUpdatePassword = async (user) => {
     if (!res.ok) throw new Error(data.message);
     return data;
 };
+
+export const fetchGetRecipeUsername = async (userId) => {
+    const token = localStorage.getItem('token');
+    const res = await Fetch(`/api/auth/${userId}`, { token });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    return data;
+};
+
+export const fetchGetCommentUsername = async (recipeId, commentId) => {
+    const token = localStorage.getItem('token');
+    const res = await Fetch(`/api/recipes/${recipeId}/comments/${commentId}`, { token });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    return data;
+};

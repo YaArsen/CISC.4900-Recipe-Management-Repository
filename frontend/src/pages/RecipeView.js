@@ -1,11 +1,12 @@
-import { fetchGetRecipe } from '../api';
+import { fetchGetRecipe, fetchGetRecipeUsername } from '../api';
 import ToggleLike from '../components/ToggleLike';
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const RecipeView = () => {
     const { page, pageNumber, recipeId } = useParams();
-    const [recipe, setRecipe] = useState(null); // State to store the fetched recipe data
+    const [username, setUsername] = useState('');
+    const [recipe, setRecipe] = useState({}); // State to store the fetched recipe data
     const [isActivated, setIsActivated] = useState(null); // State to check if the current user has liked the recipe
     const navigate = useNavigate();
  
@@ -25,6 +26,18 @@ const RecipeView = () => {
         getRecipe();
     }, [recipeId]);
 
+    useEffect(() => {
+        try {
+            const getRecipeUsername = async () => {
+                const data = await fetchGetRecipeUsername(recipe.user);
+                setUsername(data);
+            };
+            if (recipe.user) getRecipeUsername();
+        } catch (error) {
+            alert(error);
+        }
+    }, [recipe.user]);
+
     if (!recipe || isActivated === null) return <p className='loading'>Loading...</p>; // Render loading state while data is being fetched
 
     return (
@@ -33,6 +46,7 @@ const RecipeView = () => {
                 <h4>{recipe.title}</h4>
 
                 <button
+                    type='button'
                     className='close-button'
                     onClick={() => {
                         localStorage.setItem('pageNumber', pageNumber);
@@ -73,9 +87,10 @@ const RecipeView = () => {
             </div>
             
             <div className='recipe-footer'>
-                <span className='recipe-username'>Posted by {recipe.username}</span>
+                <span className='recipe-username'>{username}</span>
                 <span className='recipe-timestamp'>{new Date(recipe.timestamp).toLocaleString()}</span>
-                <button className='comments-button' onClick={() => navigate(`/${page}/${pageNumber}/recipe-view/${recipe._id}/comments`)}>Comments</button> {/* Navigation to comments section */}
+                {/* Navigation to comments section */}
+                <button type='button' className='comments-button' onClick={() => navigate(`/${page}/${pageNumber}/recipe-view/${recipe._id}/comments`)}>Comments</button>
             </div>
         </div>
     );

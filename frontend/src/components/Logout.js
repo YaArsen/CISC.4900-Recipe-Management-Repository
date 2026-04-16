@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-const Logout = () => {
+const LogOut = () => {
     const navigate = useNavigate();
 
     const handleClick = () => {
@@ -8,7 +8,7 @@ const Logout = () => {
         navigate('/'); // 2. Navigates the user to the login page.
     };
 
-    return <button onClick={handleClick}>Logout</button>; // Renders a button that triggers the handleClick function when clicked.
+    return <button onClick={handleClick}>Log out</button>; // Renders a button that triggers the handleClick function when clicked.
 };
 
-export default Logout;
+export default LogOut;

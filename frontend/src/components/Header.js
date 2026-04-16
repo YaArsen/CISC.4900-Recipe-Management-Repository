@@ -6,10 +6,11 @@ const Header = ({ user, page }) => {
 
     return (
         <div className='profile-header'>
-            <h2>Welcome, {user.name}</h2>
+            <h2>Welcome, {user.name.split(' ')[0]}</h2>
 
             {/* Navigation Buttons */}
             <button
+                type='button'
                 className={`search-button ${page === 'search' ? 'show' : ''}`}
                 onClick={() => navigate('/search')}
             >
@@ -17,6 +18,7 @@ const Header = ({ user, page }) => {
             </button>
 
             <button
+                type='button'
                 className={`recipes-button ${page === 'recipes' ? 'show' : ''}`}
                 onClick={() => navigate('/recipes')}
             >
