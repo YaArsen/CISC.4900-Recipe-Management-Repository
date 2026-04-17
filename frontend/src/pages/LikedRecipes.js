@@ -29,7 +29,7 @@ const LikedRecipes = () => {
             setTotalPages(data.totalPages);
             setCurrentPage(data.currentPage);
         } catch (error) {
-            return alert(error);
+            alert(error);
         }
     };
     

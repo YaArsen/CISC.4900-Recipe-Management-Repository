@@ -22,7 +22,7 @@ const EditComment = ({ setActiveManageId, recipeId, commentId, currentContent, s
             setIsEditing(false);
             setActiveManageId('');
         } catch (error) {
-            return alert(error); // Basic error handling
+            alert(error); // Basic error handling
         }
     };
 
@@ -38,7 +38,7 @@ const EditComment = ({ setActiveManageId, recipeId, commentId, currentContent, s
                 />
 
                 <button type='submit'>Save</button>
-                <button onClick={() => setIsEditing(false)}>Cancel</button>
+                <button type='button' onClick={() => setIsEditing(false)}>Cancel</button>
             </form>
         );
     }

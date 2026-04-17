@@ -13,7 +13,7 @@ const Search = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [user, setUser] = useState(null);
     const [recipes, setRecipes] = useState([]); // State to store fetched recipes
-    const [isFetchedOk, setIsFetchedOk] = useState(false); // State to track if the API request has finished
+    const [isFetched, setIsFetched] = useState(false); // State to track if the API request has finished
     const navigate = useNavigate(); // Initialize navigation function
 
     useEffect(() => {
@@ -36,7 +36,7 @@ const Search = () => {
 
     // Async function to handle search submission
     const searchRecipes = async (recipe, page) => {
-        setIsFetchedOk(false); // Reset status before fetching
+        setIsFetched(false); // Reset status before fetching
         setRecipes([]); // Clear previous results
 
         try {
@@ -44,11 +44,10 @@ const Search = () => {
             setRecipes(data.recipes); // Set results in state
             setTotalPages(data.totalPages);
             setCurrentPage(data.currentPage);
-            setIsFetchedOk(true); // Mark fetch as complete
+            setIsFetched(true); // Mark fetch as complete
         } catch (error) {
+            setIsFetched(true);
             alert(error); // Alert error if request fails
-            setIsFetchedOk(true); // Mark fetch as complete anyway to hide loading state
-            return;
         }
     };
 
@@ -62,7 +61,7 @@ const Search = () => {
             <SearchForm onSubmit={setRecipe} /> {/* Search form component, calling searchRecipes on submission */}
 
             {/* Conditional rendering: display recipes if found, or message if not */}
-            {isFetchedOk && recipes.length > 0 ? (
+            {isFetched && recipes.length > 0 ? (
                 <>
                     <div className='recipe-details-container'>
                         {recipes.map((recipe) => (
@@ -81,7 +80,7 @@ const Search = () => {
                     />
                 </>
             ) : (
-                isFetchedOk && <h2 className='search-page-h2'>No recipes found</h2>
+                isFetched && <h2 className='search-page-h2'>No recipes found</h2>
             )}
         </>
     );

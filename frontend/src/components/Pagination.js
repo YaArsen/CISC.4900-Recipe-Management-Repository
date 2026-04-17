@@ -7,6 +7,7 @@ const Pagination = ({ currentPage, setCurrentPage, totalPages, handlePageChange 
             {[...Array(totalPages).keys()].map((_, index) => (
                 <button
                     key={index}
+                    type='button'
                     onClick={() => handlePageChange(index + 1)}
                     className={`page ${currentPage === index + 1 ? 'show' : ''}`}
                 >

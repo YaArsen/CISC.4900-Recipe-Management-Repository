@@ -53,7 +53,7 @@ exports.register = async (req, res) => {
     }
 };
 
-exports.login = async (req, res) => {
+exports.logIn = async (req, res) => {
     const { email, password } = req.body;
 
     try {

@@ -1,6 +1,6 @@
 import { fetchGetRecipe, fetchGetRecipeUsername } from '../api';
-import ToggleFavorite from '../components/ToggleFavorite';
-import ToggleLike from '../components/ToggleLike';
+import ToggleFavoriteButton from '../components/ToggleFavoriteButton';
+import ToggleLikeButton from '../components/ToggleLikeButton';
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -53,7 +53,8 @@ const RecipeView = () => {
                     className='close-button'
                     onClick={() => {
                         localStorage.setItem('pageNumber', pageNumber);
-                        page.split(' ').length === 2 ? navigate(`/${page.split(' ')[0]}/${page.split(' ')[1]}`) : navigate(`/${page}`);
+                        const array = page.split(' ');
+                        array.length === 2 ? navigate(`/${array[0]}/${array[1]}`) : navigate(`/${page}`);
                     }}
                 >
                     x
@@ -78,14 +79,14 @@ const RecipeView = () => {
 
             <h4 className='instructions'>Instructions:<br/>{recipe.instructions}</h4>
 
-            <ToggleFavorite
+            <ToggleFavoriteButton
                 isActivated={isFavoriteButtonActivated}
                 recipeId={recipe._id}
                 setIsActivated={setIsFavoriteButtonActivated}
             />
 
             <div className='likes-container'>
-                <ToggleLike
+                <ToggleLikeButton
                     isActivated={isLikeButtonActivated}
                     recipeId={recipe._id}
                     setRecipe={setRecipe}

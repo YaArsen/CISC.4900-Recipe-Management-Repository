@@ -1,4 +1,4 @@
-import ToggleButton from './ToggleButton';
+import ToggleSandwichButton from './ToggleSandwichButton';
 import { useNavigate } from 'react-router-dom';
 
 const Header = ({ user, page }) => {
@@ -25,7 +25,7 @@ const Header = ({ user, page }) => {
                 Recipes
             </button>
 
-            <ToggleButton page={page} />
+            <ToggleSandwichButton page={page} />
         </div>
     );
 };

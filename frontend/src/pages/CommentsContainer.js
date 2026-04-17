@@ -27,7 +27,7 @@ const CommentsContainer = () => {
                 setRecipe(data.recipe);
                 setComments(data.recipe.comments);
             } catch (error) {
-                return alert(error);
+                alert(error);
             }
         };
 
@@ -40,7 +40,7 @@ const CommentsContainer = () => {
             const data = await fetchPostComment(recipeId, { parentId, content });
             setComments(data); // Update local state with the new list of comments returned from the API
         } catch (error) {
-            return alert(error);
+            alert(error);
         }
     };
 

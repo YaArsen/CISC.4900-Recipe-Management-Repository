@@ -8,7 +8,7 @@ const LogOut = () => {
         navigate('/'); // 2. Navigates the user to the login page.
     };
 
-    return <button onClick={handleClick}>Log out</button>; // Renders a button that triggers the handleClick function when clicked.
+    return <button type='button' onClick={handleClick}>Log out</button>; // Renders a button that triggers the handleClick function when clicked.
 };
 
 export default LogOut;

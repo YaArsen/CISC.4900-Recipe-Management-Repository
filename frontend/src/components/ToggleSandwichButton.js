@@ -3,7 +3,7 @@ import LogOut from './LogOut';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const ToggleButton = ({ page }) => {
+const ToggleSandwichButton = ({ page }) => {
     const [isOpen, setIsOpen] = useState(false); // State to track if the menu is open or closed
     const navigate = useNavigate();
 
@@ -26,4 +26,4 @@ const ToggleButton = ({ page }) => {
     );
 };
 
-export default ToggleButton;
+export default ToggleSandwichButton;

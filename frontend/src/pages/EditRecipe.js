@@ -30,7 +30,7 @@ const EditRecipe = () => {
             localStorage.setItem('pageNumber', pageNumber);
             navigate('/recipes');
         } catch (error) {
-            return alert(error); // Basic error handling for updates
+            alert(error); // Basic error handling for updates
         }
     };
 

@@ -1,6 +1,6 @@
 import { fetchToggleLike } from '../api';
 
-const ToggleLike = ({ isActivated, setIsActivated, recipeId, setRecipe }) => {
+const ToggleLikeButton = ({ isActivated, setIsActivated, recipeId, setRecipe }) => {
     // Handles the API call and state updates when the button is clicked
     const toggleLike = async () => {
         try {
@@ -23,4 +23,4 @@ const ToggleLike = ({ isActivated, setIsActivated, recipeId, setRecipe }) => {
     );
 };
 
-export default ToggleLike;
+export default ToggleLikeButton;

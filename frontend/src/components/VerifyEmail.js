@@ -13,7 +13,7 @@ const VerifyEmail = () => {
                 localStorage.setItem('message', data.message);
                 navigate('/');
             } catch (error) {
-                return alert(error);
+                alert(error);
             }
         };
 

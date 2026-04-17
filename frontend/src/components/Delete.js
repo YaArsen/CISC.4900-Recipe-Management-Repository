@@ -11,11 +11,11 @@ const Delete = () => {
             localStorage.setItem('message', data.message); // Store a success message in local storage to be displayed on the redirected page.
             navigate('/'); // Redirect the user to the login page ('/').
         } catch (error) {
-            return alert(error);
+            alert(error);
         }
     };
 
-    return <button onClick={deleteAccount}>Delete account</button>; // Render a button that, when clicked, triggers the deleteAccount function.
+    return <button type='button' onClick={deleteAccount}>Delete account</button>; // Render a button that, when clicked, triggers the deleteAccount function.
 };
 
 export default Delete;

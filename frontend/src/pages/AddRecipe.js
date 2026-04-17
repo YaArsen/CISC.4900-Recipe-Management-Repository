@@ -14,7 +14,7 @@ const AddRecipe = () => {
             localStorage.setItem('pageNumber', pageNumber);
             navigate('/recipes');
         } catch (error) {
-            return alert(error);
+            alert(error);
         }
     };
 

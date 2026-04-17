@@ -1,4 +1,4 @@
-import { fetchLogin } from '../api'; // Import the API function for handling login requests
+import { fetchLogIn } from '../api'; // Import the API function for handling login requests
 import ToastNotification from '../components/ToastNotification'; // Import a custom Notification component to display messages
 import { useState, useEffect } from 'react'; // Import necessary React hooks for state management and side effects
 import { useNavigate, Link } from 'react-router-dom'; // Import navigation utilities from react-router-dom for routing
@@ -25,11 +25,11 @@ const LogIn = () => {
         if (!user.email.trim() || !user.password.trim()) return;
 
         try {
-            const data = await fetchLogin({ email: user.email.trim(), password: user.password.trim() }); // Call the API function to fetch login data using the user state
+            const data = await fetchLogIn({ email: user.email.trim(), password: user.password.trim() }); // Call the API function to fetch login data using the user state
             localStorage.setItem('token', data.token); // Store the returned token in localStorage for authentication purposes
             navigate('/search'); // Navigate the user to the profile page upon successful login
         } catch (error) {
-            return alert(error); // If an error occurs during login, display an alert with the error message
+            alert(error); // If an error occurs during login, display an alert with the error message
         }
     };
 

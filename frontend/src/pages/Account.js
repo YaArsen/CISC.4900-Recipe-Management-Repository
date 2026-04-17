@@ -40,7 +40,7 @@ const Account = () => {
             setMessage(data.message);
             setUser({ ...user, password: '', newPassword: '', repeatPassword: '' });
         } catch (error) {
-            return alert(error);
+            alert(error);
         }
     };
 
@@ -53,7 +53,7 @@ const Account = () => {
             setMessage(data.message);
             setUser({ ...user, email: '', passwordToChangeEmail: '' });
         } catch (error) {
-            return alert(error);
+            alert(error);
         }
     };
 
@@ -68,7 +68,7 @@ const Account = () => {
             setUserData({ ...userData, name: user.name.trim() });
             localStorage.setItem('token', data.token);
         } catch (error) {
-            return alert(error);
+            alert(error);
         }
     };
 

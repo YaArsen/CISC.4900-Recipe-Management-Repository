@@ -1,6 +1,6 @@
 import { fetchToggleFavorite } from '../api';
 
-const ToggleFavorite = ({ isActivated, setIsActivated, recipeId }) => {
+const ToggleFavoriteButton = ({ isActivated, setIsActivated, recipeId }) => {
 
     const toggleFavorite = async () => {
         try {
@@ -22,4 +22,4 @@ const ToggleFavorite = ({ isActivated, setIsActivated, recipeId }) => {
     );
 };
 
-export default ToggleFavorite;
+export default ToggleFavoriteButton;

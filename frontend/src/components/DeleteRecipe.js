@@ -17,11 +17,11 @@ const DeleteRecipe = ({ setTotalPages, currentPage, setCurrentPage, setMessage, 
                 setTotalPages(data.totalPages);
             }
         } catch (error) {
-            return alert(error); // Alert user if the deletion fails
+            alert(error); // Alert user if the deletion fails
         }
     };
 
-    return <button onClick={deleteRecipe}>Delete</button>; // Button triggers the delete operation
+    return <button type='button' onClick={deleteRecipe}>Delete</button>; // Button triggers the delete operation
 };
 
 export default DeleteRecipe;

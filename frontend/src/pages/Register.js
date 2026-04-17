@@ -24,7 +24,7 @@ const Register = () => {
             localStorage.setItem('message', data.message); // Stores a success message in localStorage for display on the next page/route.
             navigate('/');
         } catch (error) {
-            return alert(error);
+            alert(error);
         }
     };
 
