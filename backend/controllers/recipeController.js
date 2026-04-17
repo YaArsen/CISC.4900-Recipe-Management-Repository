@@ -159,12 +159,12 @@ exports.toggleLike = async (req, res) => {
         let isActivated = false;
 
         if (isLiked) {
-        recipe.likes -= 1;
-        user.liked.pull(recipeId);
+            recipe.likes -= 1;
+            user.liked.pull(recipeId);
         } else {
-        recipe.likes += 1;
-        user.liked.push(recipeId);
-        isActivated = true;
+            recipe.likes += 1;
+            user.liked.push(recipeId);
+            isActivated = true;
         }
 
         await recipe.save();
@@ -184,9 +184,9 @@ exports.postComment = async (req, res) => {
         const recipe = await Recipe.findById({ _id: recipeId });
 
         recipe.comments.push({
-        parentId: parentId,
-        content: content,
-        user: userId
+            parentId: parentId,
+            content: content,
+            user: userId
         });
 
         await recipe.save();

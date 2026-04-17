@@ -153,7 +153,6 @@ exports.updateName = async (req, res) => {
 
     try {
         const user = await User.findById({ _id: userId });
-        if (!user) return res.status(404).json({ message: 'User not found' });
         user.name = name;
         await user.save();
 
@@ -209,6 +208,7 @@ exports.updateEmail = async (req, res) => {
             res.status(200).json({ token, message: 'User email updated successfully '});
         } else {
             if (email) {
+                if (await User.findOne({ email: email })) return res.status(400).json({ message: 'Email already exists '});
                 const user = await User.findById({ _id: userId });
                 if (!await bcrypt.compare(password, user.password)) return res.status(401).json({ message: 'Password does not match' });
 
@@ -248,7 +248,6 @@ exports.updatePassword = async (req, res) => {
 
     try {
         const user = await User.findById({ _id: userId });
-        if (!user) return res.status(404).json({ message: 'User not found' });
         if (!await bcrypt.compare(password, user.password)) return res.status(401).json({ message: 'Current password does not match' });
         user.password = await bcrypt.hash(newPassword, 10);
         await user.save();

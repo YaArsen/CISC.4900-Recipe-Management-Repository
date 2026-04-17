@@ -150,20 +150,34 @@ body {
     cursor: pointer;
 }
 
+.favorites-button.activated {
+    background-color: #cfcf2b;
+    border-color: #cfcf2b;
+    color: white;
+}
+
 .likes-button.activated {
     background-color: aqua;
     border-color: aqua;
     color: white;
 }
 
+.favorites-button,
 .likes-button {
+    height: 50px;
+    width: 100px;
     border-radius: 3rem;
     border: 2px solid #8a8a8a;
     background-color: transparent;
     text-decoration: none;
-    padding: 1rem;
     color: #8a8a8a;
     transition: all ease 0.4s;
+}
+
+.favorites-button:hover {
+    border-color: #cfcf2b;
+    color: #cfcf2b;
+    cursor: pointer;
 }
 
 .likes-button:hover {
