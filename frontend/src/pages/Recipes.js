@@ -3,8 +3,8 @@ import Header from '../components/Header';
 import Pagination from '../components/Pagination';
 import DeleteRecipe from '../components/DeleteRecipe';
 import RecipeDetails from '../components/RecipeDetails';
+import KebabMenuButton from '../components/KebabMenuButton';
 import ToastNotification from '../components/ToastNotification';
-import threeVerticalDots from '../assets/three-dots-vertical.svg';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
@@ -83,17 +83,11 @@ const Recipes = () => {
                                 <RecipeDetails recipe={recipe} />
                                 <h4>{recipe.isPublic ? 'Public' : 'Private'}</h4>
 
-                                {/* Edit button sets the active recipe ID and switches view */}
-                                <button
-                                    type='button'
-                                    className='manage-button'
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        setActiveManageId(activeManageId === recipe._id ? '' : recipe._id.toString());
-                                    }}
-                                >
-                                    <img src={threeVerticalDots} alt='manage' />
-                                </button>
+                                <KebabMenuButton
+                                    setActiveManageId={setActiveManageId}
+                                    activeManageId={activeManageId}
+                                    id={recipe._id}
+                                />
 
                                 {activeManageId === recipe._id && (
                                     <div className='is-managing-container'>
@@ -106,7 +100,7 @@ const Recipes = () => {
                                         >
                                             Edit
                                         </button>
-
+                                
                                         {/* Delete component handles API call and state update */}
                                         <DeleteRecipe
                                             setTotalPages={setTotalPages}

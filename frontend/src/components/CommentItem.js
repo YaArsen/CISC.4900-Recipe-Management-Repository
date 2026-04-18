@@ -1,9 +1,9 @@
 import { fetchGetCommentUsername } from '../api';
+import KebabMenuButton from './KebabMenuButton';
 import EditComment from './EditComment';
 import DeleteComment from './DeleteComment';
 import CommentForm from './CommentForm';
 import { useState, useEffect } from 'react';
-import threeVerticalDots from '../assets/three-dots-vertical.svg';
 
 const CommentItem = ({ userId, recipeId, comment, allComments, onAddReply, setComments }) => {
     const [showReplyForm, setShowReplyForm] = useState(false);
@@ -39,9 +39,11 @@ const CommentItem = ({ userId, recipeId, comment, allComments, onAddReply, setCo
                         <span className="comment-timestamp">{new Date(comment.timestamp).toLocaleString()}</span>
                     </div>
 
-                    <button type='button' className='manage-button' onClick={() => setActiveManageId(activeManageId === comment._id ? '' : comment._id.toString())}>
-                        <img src={threeVerticalDots} alt='manage' />
-                    </button>
+                    <KebabMenuButton 
+                        setActiveManageId={setActiveManageId}
+                        activeManageId={activeManageId}
+                        id={comment._id}
+                    />
 
                     {activeManageId === comment._id && userId.toString() === comment.user.toString() && (
                         <div className='is-managing-container'>
