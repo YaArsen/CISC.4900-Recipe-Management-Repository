@@ -29,6 +29,8 @@ body {
 
 .search-page-h2,
 .recipes-page-p,
+.favorite-recipes-page-p,
+.liked-recipes-page-p,
 .recipe-details h1,
 .loading {
     text-align: center;
@@ -538,6 +540,11 @@ input[type='radio'] {
     gap: 5px;
 }
 
+.action-button-container {
+    display: flex;
+    justify-content: space-between;
+}
+
 /* =========================================
    Footer (likes, user, date)
 ========================================= */
@@ -1010,4 +1017,31 @@ input[type='radio'] {
 
 .password-requirement.matching {
     color: green;
+}
+
+.favorite-recipes,
+.liked-recipes {
+    background-color: white;
+    border-radius: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.favorite-recipes-header,
+.liked-recipes-header {
+    display:flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.favorite-recipes-header h1,
+.favorite-recipes-header .close-button,
+.liked-recipes-header h1,
+.liked-recipes-header .close-button {
+    margin: 10px;
 }

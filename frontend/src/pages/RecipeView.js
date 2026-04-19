@@ -74,27 +74,29 @@ const RecipeView = () => {
             <h4 style={{ color: '#555' }}>Ingredients:</h4>
             <ul>
                 {recipe.ingredients.map((ingredient, index) => (
-                    <li key={index}>{ingredient}</li> // List items need unique keys
+                    <li key={index}>{ingredient}</li>
                 ))}
             </ul>
 
             <h4 className='instructions'>Instructions:<br/>{recipe.instructions}</h4>
 
-            <ToggleFavoriteButton
-                isActivated={isFavoriteButtonActivated}
-                recipeId={recipe._id}
-                setIsActivated={setIsFavoriteButtonActivated}
-            />
+            <div className='action-button-container'>
+                <div className='likes-container'>
+                    <ToggleLikeButton
+                        isActivated={isLikeButtonActivated}
+                        recipeId={recipe._id}
+                        setRecipe={setRecipe}
+                        setIsActivated={setIsLikeButtonActivated}
+                    />
 
-            <div className='likes-container'>
-                <ToggleLikeButton
-                    isActivated={isLikeButtonActivated}
+                    <h4>{recipe.likes}</h4>
+                </div>
+
+                <ToggleFavoriteButton
+                    isActivated={isFavoriteButtonActivated}
                     recipeId={recipe._id}
-                    setRecipe={setRecipe}
-                    setIsActivated={setIsLikeButtonActivated}
+                    setIsActivated={setIsFavoriteButtonActivated}
                 />
-
-                <h4>{recipe.likes}</h4>
             </div>
 
             <div className='recipe-footer'>

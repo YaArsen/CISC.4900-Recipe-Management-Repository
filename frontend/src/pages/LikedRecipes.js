@@ -39,13 +39,15 @@ const LikedRecipes = () => {
 
     return (
         <>
-            <h1>Liked Recipes</h1>
-            <button type='button' className='close-button' onClick={() => navigate(`/${page}`)}>x</button>
-
             {recipes.length === 0 ? (
-                <p>No liked recipes!</p>
+                <p className='liked-recipes-page-p'>No liked recipes!</p>
             ) : (
-                <>
+                <div className='liked-recipes'>
+                    <div className='liked-recipes-header'>
+                        <h1>Liked Recipes</h1>
+                        <button type='button' className='close-button' onClick={() => navigate(`/${page}`)}>x</button>
+                    </div>
+
                     <div className='recipe-details-container'>
                         {recipes.map((recipe) => (
                             // Clickable area to view full recipe details
@@ -61,7 +63,7 @@ const LikedRecipes = () => {
                         totalPages={totalPages}
                         handlePageChange={handlePageChange}
                     />
-                </>
+                </div>
             )}
         </>
     );
