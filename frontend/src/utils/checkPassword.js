@@ -11,7 +11,7 @@ export const passwordChecker = (e, setCheckPassword) => {
     });
 };
 
-export const requirements = (checkPassword) => {
+export const areMatchingPasswordRequirements = (checkPassword) => {
     return checkPassword.isLowerCaseLetter
     && checkPassword.isUpperCaseLetter
     && checkPassword.isSpecialSymbol

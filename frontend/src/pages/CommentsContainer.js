@@ -63,23 +63,21 @@ const CommentsContainer = () => {
 
             <CommentForm parentId={undefined} onSubmit={(content) => postComment(undefined, content)} /> {/* Form to submit a new top-level comment */}
 
-            <div style={{ marginTop: '30px' }}>
-                {/* Map over top-level comments and render each CommentItem */}
-                {topLevelComments.map(comment => (
-                    <CommentItem
-                        key={comment._id}
-                        userId={user.userId}
-                        recipeId={recipeId}
-                        comment={comment}
-                        allComments={comments}
-                        onAddReply={postComment}
-                        setComments={setComments}
-                    />
-                ))}
+            {/* Map over top-level comments and render each CommentItem */}
+            {topLevelComments.map(comment => (
+                <CommentItem
+                    key={comment._id}
+                    userId={user.userId}
+                    recipeId={recipeId}
+                    comment={comment}
+                    allComments={comments}
+                    onAddReply={postComment}
+                    setComments={setComments}
+                />
+            ))}
 
-                {/* Message displayed when there are no comments */}
-                {topLevelComments.length === 0 && <p className="no-comments-msg">Be the first to share your thoughts!</p>}
-            </div>
+            {/* Message displayed when there are no comments */}
+            {topLevelComments.length === 0 && <p className="no-comments-msg">Be the first to share your thoughts!</p>}
         </div>
     );
 };

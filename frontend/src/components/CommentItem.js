@@ -1,5 +1,5 @@
 import { fetchGetCommentUsername } from '../api';
-import KebabMenuButton from './KebabMenuButton';
+import KebabMenu from './KebabMenu';
 import EditComment from './EditComment';
 import DeleteComment from './DeleteComment';
 import CommentForm from './CommentForm';
@@ -39,7 +39,7 @@ const CommentItem = ({ userId, recipeId, comment, allComments, onAddReply, setCo
                         <span className="comment-timestamp">{new Date(comment.timestamp).toLocaleString()}</span>
                     </div>
 
-                    <KebabMenuButton 
+                    <KebabMenu
                         setActiveManageId={setActiveManageId}
                         activeManageId={activeManageId}
                         id={comment._id}
@@ -79,21 +79,17 @@ const CommentItem = ({ userId, recipeId, comment, allComments, onAddReply, setCo
 
             {showReplyForm && <CommentForm parentId={comment._id} onSubmit={handleReplySubmit} />}
 
-            {showReplies && (
-                <div style={{ marginTop: '10px' }}>
-                    {replies.map(reply => (
-                        <CommentItem
-                            key={reply._id}
-                            userId={userId}
-                            recipeId={recipeId}
-                            comment={reply}
-                            allComments={allComments}
-                            onAddReply={onAddReply}
-                            setComments={setComments}
-                        />
-                    ))}
-                </div>
-            )}
+            {showReplies && replies.map(reply => (
+                <CommentItem
+                    key={reply._id}
+                    userId={userId}
+                    recipeId={recipeId}
+                    comment={reply}
+                    allComments={allComments}
+                    onAddReply={onAddReply}
+                    setComments={setComments}
+                />
+            ))}
         </div>
     );
 };

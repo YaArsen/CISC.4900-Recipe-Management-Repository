@@ -1,5 +1,5 @@
 import { fetchRegister } from '../api';
-import { passwordChecker, requirements } from '../utils/checkPassword';
+import { passwordChecker, areMatchingPasswordRequirements } from '../utils/checkPassword';
 import PasswordRequirements from '../components/PasswordRequirements';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +15,7 @@ const Register = () => {
     // Handler function called when the registration form is submitted.
     const register = async (e) => {
         e.preventDefault(); // Prevents the default browser form submission behavior.
-        if (!requirements(checkPassword) || !user.name.trim() || !user.email.trim() || !user.password.trim()) return;
+        if (!areMatchingPasswordRequirements(checkPassword) || !user.name.trim() || !user.email.trim() || !user.password.trim()) return;
         if (user.password.trim() !== user.repeatPassword.trim()) return alert('Passwords do not match');
 
         try {

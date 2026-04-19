@@ -1,6 +1,6 @@
 import threeVerticalDots from '../assets/three-dots-vertical.svg';
 
-const KebabMenuButton = ({ setActiveManageId, activeManageId, id }) => {
+const KebabMenu = ({ setActiveManageId, activeManageId, id }) => {
     return (
         <>
             {/* Edit button sets the active recipe ID and switches view */}
@@ -18,4 +18,4 @@ const KebabMenuButton = ({ setActiveManageId, activeManageId, id }) => {
     );
 };
 
-export default KebabMenuButton;
+export default KebabMenu;

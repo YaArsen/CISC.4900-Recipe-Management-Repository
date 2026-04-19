@@ -1,9 +1,10 @@
 import { fetchGetAllUserRecipes } from '../api';
 import Header from '../components/Header';
 import Pagination from '../components/Pagination';
+import EditRecipe from '../components/EditRecipe';
 import DeleteRecipe from '../components/DeleteRecipe';
 import RecipeDetails from '../components/RecipeDetails';
-import KebabMenuButton from '../components/KebabMenuButton';
+import KebabMenu from '../components/KebabMenu';
 import ToastNotification from '../components/ToastNotification';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -83,7 +84,7 @@ const Recipes = () => {
                                 <RecipeDetails recipe={recipe} />
                                 <h4>{recipe.isPublic ? 'Public' : 'Private'}</h4>
 
-                                <KebabMenuButton
+                                <KebabMenu
                                     setActiveManageId={setActiveManageId}
                                     activeManageId={activeManageId}
                                     id={recipe._id}
@@ -91,15 +92,10 @@ const Recipes = () => {
 
                                 {activeManageId === recipe._id && (
                                     <div className='is-managing-container'>
-                                        <button
-                                            type='button'
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                navigate(`/recipes/${currentPage}/edit-recipe/${recipe._id}`);
-                                            }}
-                                        >
-                                            Edit
-                                        </button>
+                                        <EditRecipe
+                                            currentPage={currentPage}
+                                            recipeId={recipe._id}
+                                        />
 
                                         {/* Delete component handles API call and state update */}
                                         <DeleteRecipe

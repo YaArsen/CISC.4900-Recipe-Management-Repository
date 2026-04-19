@@ -1003,3 +1003,11 @@ input[type='radio'] {
 .pagination .page.show {
     background: aqua;
 }
+
+.password-requirement {
+    color: red;
+}
+
+.password-requirement.matching {
+    color: green;
+}

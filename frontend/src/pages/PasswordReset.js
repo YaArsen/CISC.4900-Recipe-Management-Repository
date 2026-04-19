@@ -1,5 +1,5 @@
 import { fetchPasswordReset } from '../api';
-import { passwordChecker, requirements } from '../utils/checkPassword';
+import { passwordChecker, areMatchingPasswordRequirements } from '../utils/checkPassword';
 import PasswordRequirements from '../components/PasswordRequirements';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -13,7 +13,7 @@ const PasswordReset = () => {
 
     const resetPassword = async (e) => {
         e.preventDefault();
-        if (!requirements(checkPassword) || !user.password.trim()) return;
+        if (!areMatchingPasswordRequirements(checkPassword) || !user.password.trim()) return;
         if (user.password.trim() !== user.repeatPassword.trim()) return alert('Passwords do not match');
 
         try {

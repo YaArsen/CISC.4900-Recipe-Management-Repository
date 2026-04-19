@@ -1,11 +1,11 @@
 const PasswordRequirements = ({ checkPassword }) => {
     return (
         <>
-            <p style={{ color: checkPassword.isLowerCaseLetter ? 'green' : 'red' }}>Lower case letter</p>
-            <p style={{ color: checkPassword.isUpperCaseLetter ? 'green' : 'red' }}>Upper case letter</p>
-            <p style={{ color: checkPassword.isSpecialSymbol ? 'green' : 'red' }}>Special symbol</p>
-            <p style={{ color: checkPassword.isNumber ? 'green' : 'red' }}>Number</p>
-            <p style={{ color: checkPassword.isLengthEightOrMore ? 'green' : 'red' }}>Min 8 symbols</p>
+            <p className={`password-requirement ${checkPassword.isLowerCaseLetter ? 'matching' : '' }`}>Lower case letter</p>
+            <p className={`password-requirement ${checkPassword.isUpperCaseLetter ? 'matching' : '' }`}>Upper case letter</p>
+            <p className={`password-requirement ${checkPassword.isSpecialSymbol ? 'matching' : '' }`}>Special symbol</p>
+            <p className={`password-requirement ${checkPassword.isNumber ? 'matching' : '' }`}>Number</p>
+            <p className={`password-requirement ${checkPassword.isLengthEightOrMore ? 'matching' : '' }`}>Min 8 symbols</p>
         </>
     );
 };

@@ -1,4 +1,4 @@
-import ToggleSandwichButton from './ToggleSandwichButton';
+import HamburgerMenu from './HamburgerMenu';
 import { useNavigate } from 'react-router-dom';
 
 const Header = ({ user, page }) => {
@@ -25,7 +25,7 @@ const Header = ({ user, page }) => {
                 Recipes
             </button>
 
-            <ToggleSandwichButton page={page} />
+            <HamburgerMenu page={page} />
         </div>
     );
 };

@@ -1,5 +1,5 @@
 import { fetchUpdateName, fetchUpdateEmail, fetchUpdatePassword } from '../api';
-import { passwordChecker, requirements } from '../utils/checkPassword';
+import { passwordChecker, areMatchingPasswordRequirements } from '../utils/checkPassword';
 import PasswordRequirements from '../components/PasswordRequirements';
 import ToastNotification from '../components/ToastNotification';
 import { useState, useEffect } from 'react';
@@ -32,13 +32,14 @@ const Account = () => {
 
     const updatePassword = async (e) => {
         e.preventDefault();
-        if (!requirements(checkPassword) || !user.password.trim() || !user.newPassword.trim()) return;
+        if (!areMatchingPasswordRequirements(checkPassword) || !user.password.trim() || !user.newPassword.trim()) return;
         if (user.newPassword.trim() !== user.repeatPassword.trim()) return alert('Passwords do not match');
 
         try {
             const data = await fetchUpdatePassword({ password: user.password.trim(), newPassword: user.newPassword.trim() });
             setMessage(data.message);
             setUser({ ...user, password: '', newPassword: '', repeatPassword: '' });
+            setCheckPassword({});
         } catch (error) {
             alert(error);
         }
@@ -52,6 +53,7 @@ const Account = () => {
             const data = await fetchUpdateEmail({ page, email: user.email.trim(), password: user.passwordToChangeEmail.trim() });
             setMessage(data.message);
             setUser({ ...user, email: '', passwordToChangeEmail: '' });
+            setUserData({ ...userData, email: user.email.trim() });
         } catch (error) {
             alert(error);
         }
