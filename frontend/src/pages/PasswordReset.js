@@ -10,7 +10,7 @@ const PasswordReset = () => {
     const [isFocus, setIsFocus] = useState(false);
     const [checkPassword, setCheckPassword] = useState({});
     const navigate = useNavigate();
- 
+
     const resetPassword = async (e) => {
         e.preventDefault();
         if (!requirements(checkPassword) || !user.password.trim()) return;
@@ -29,7 +29,7 @@ const PasswordReset = () => {
     const handleChange = (e) => {
         setUser({ ...user, [e.target.name]: e.target.value }); // Updates the user state dynamically based on the input field's name attribute.
     };
-    
+
     return (
         <form className='password-reset-container' onSubmit={resetPassword}>
             <input
@@ -46,7 +46,7 @@ const PasswordReset = () => {
             />
 
             {isFocus && <PasswordRequirements checkPassword={checkPassword} />}
-            
+
             <input
                 type='password'
                 name='repeatPassword'
