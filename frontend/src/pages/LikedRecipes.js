@@ -32,7 +32,7 @@ const LikedRecipes = () => {
             alert(error);
         }
     };
-    
+
     const handlePageChange = (page) => getLikedRecipes(page);
 
     if (!recipes) return <p className='loading'>Loading...</p>; // Loading state

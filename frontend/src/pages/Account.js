@@ -60,7 +60,7 @@ const Account = () => {
     const updateName = async (e) => {
         e.preventDefault();
         if (!user.name.trim()) return;
-        
+
         try {
             const data = await fetchUpdateName({ name: user.name.trim() });
             setMessage(data.message);
@@ -148,7 +148,7 @@ const Account = () => {
                 />
 
                 {isFocus && <PasswordRequirements checkPassword={checkPassword} />}
-                    
+
                 <input
                     value={user.repeatPassword ? user.repeatPassword : ''}
                     type='password'

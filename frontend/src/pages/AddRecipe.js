@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 const AddRecipe = () => {
     const { pageNumber } = useParams();
     const navigate = useNavigate();
-    
+
     // Handles form submission, API request, and state updates
     const postRecipe = async (recipe) => {
         try {

@@ -11,7 +11,7 @@ const RecipeView = () => {
     const [isFavoriteButtonActivated, setIsFavoriteButtonActivated] = useState(null);
     const [isLikeButtonActivated, setIsLikeButtonActivated] = useState(null); // State to check if the current user has liked the recipe
     const navigate = useNavigate();
- 
+
     // Fetch recipe data and like status when component mounts or recipeId changes
     useEffect(() => {
         // API call to get detailed recipe information
@@ -35,6 +35,7 @@ const RecipeView = () => {
                 const data = await fetchGetRecipeUsername(recipe.user);
                 setUsername(data);
             };
+
             if (recipe.user) getRecipeUsername();
         } catch (error) {
             alert(error);
@@ -69,7 +70,7 @@ const RecipeView = () => {
                 <h4>Difficulty: {recipe.difficulty}</h4>
                 <h4>{recipe.cookingTime} min</h4>
             </div>
-            
+
             <h4 style={{ color: '#555' }}>Ingredients:</h4>
             <ul>
                 {recipe.ingredients.map((ingredient, index) => (
@@ -95,7 +96,7 @@ const RecipeView = () => {
 
                 <h4>{recipe.likes}</h4>
             </div>
-            
+
             <div className='recipe-footer'>
                 <span className='recipe-username'>{username}</span>
                 <span className='recipe-timestamp'>{new Date(recipe.timestamp).toLocaleString()}</span>

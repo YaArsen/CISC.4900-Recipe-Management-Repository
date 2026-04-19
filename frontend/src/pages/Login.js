@@ -65,7 +65,7 @@ const LogIn = () => {
                     onChange={handleChange}
                     required
                 />
-                    
+
                 <button type='submit'>Log in</button> {/* Submit button for the form */}
                 <Link to='/register'>Register</Link> {/* A link to navigate to the registration page */}
                 <Link to='/email'>Reset password</Link>

@@ -100,7 +100,7 @@ const Recipes = () => {
                                         >
                                             Edit
                                         </button>
-                                
+
                                         {/* Delete component handles API call and state update */}
                                         <DeleteRecipe
                                             setTotalPages={setTotalPages}
