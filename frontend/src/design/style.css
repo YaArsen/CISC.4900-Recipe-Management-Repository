@@ -19,27 +19,12 @@ body {
     font-family: Arial, sans-serif;
 }
 
-.add-recipe,
-.edit-recipe {
-    position: absolute;
-    z-index: -1;
-    width: 100%;
-    padding: 10px;
-}
-
-.search-page-h2,
 .recipes-page-p,
 .favorite-recipes-page-p,
 .liked-recipes-page-p,
 .recipe-details h1,
 .loading {
     text-align: center;
-}
-
-.login-toast-notification {
-    display: flex;
-    justify-content: center;
-    height: 100px;
 }
 
 .login-container {
@@ -61,6 +46,7 @@ body {
     width: 100%;
     max-width: 400px;
     border: 1px solid;
+    border-radius: 10px;
     padding: 20px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
@@ -80,22 +66,18 @@ body {
     align-self: flex-start;
 }
 
-.hamburger-menu-container {
-    position: relative;
-}
-
-.hamburger-menu-container .hamburger-menu {
+.hamburger-menu {
     position: absolute;
     top: 30px;
     right: 30px;
 }
 
-.hamburger-menu-container .hamburger-menu:hover {
+.hamburger-menu:hover {
     opacity: 0.5;
     cursor: pointer;
 }
 
-.hamburger-menu-container .hamburger-menu span {
+.hamburger-menu span {
     display: block;
     width: 30px;
     height: 3px;
@@ -104,19 +86,19 @@ body {
     transition: 0.4s;
 }
 
-.hamburger-menu-container .hamburger-menu.change span:nth-child(1) {
+.hamburger-menu.change span:nth-child(1) {
     transform: rotate(-45deg) translate(-6px, 6px);
 }
  
-.hamburger-menu-container .hamburger-menu.change span:nth-child(2) {
+.hamburger-menu.change span:nth-child(2) {
     opacity: 0;
 }
  
-.hamburger-menu-container .hamburger-menu.change span:nth-child(3) {
+.hamburger-menu.change span:nth-child(3) {
     transform: rotate(45deg) translate(-6px, -6px);
 }
 
-.hamburger-menu-container .nav-menu {
+.nav-menu {
     position: absolute;
     display: none;
     background: #333;
@@ -132,12 +114,12 @@ body {
     bottom: 0;
 }
 
-.hamburger-menu-container .nav-menu.show {
+.nav-menu.show {
     display: flex;
     flex-direction: column;
 }
 
-.hamburger-menu-container .nav-menu button {
+.nav-menu button {
     display: flex;
     align-self: flex-start;
     background: 0;
@@ -147,7 +129,7 @@ body {
     padding: 10px;
 }
 
-.hamburger-menu-container .nav-menu button:hover {
+.nav-menu button:hover {
     background-color: #222;
     cursor: pointer;
 }
@@ -255,18 +237,6 @@ body {
     cursor: pointer;
 }
 
-/* Mobile Adjustments */
-@media (max-width: 600px) {
-  .recipe-form {
-    padding: 15px;
-    margin: 10px auto;
-  }
-  
-  .recipe-form-container .close-button {
-    margin-bottom: 10px;
-  }
-}
-
 /* //////////////// Header //////////////// */
 .profile-header {
     display: flex;
@@ -286,6 +256,7 @@ body {
         rgba(15, 12, 12, 1) 74%
     );
     border-bottom: 2px solid #222;
+    position: relative;
 }
 
 .profile-header h2 {
@@ -327,10 +298,17 @@ body {
 /* //////////////// Search results //////////////// */
 .search-results {
     display: flex;
-    width: 100%;
-    max-width: 700px;
-    margin: 20px auto;
     gap: 5px;
+    flex-wrap: wrap; /* Allows items to move to a new line */
+    justify-content: center; /* Centers the content */
+    width: 100%;
+    max-width: 750px;
+    margin: 20px auto;
+}
+
+.search-results .search-page-h2 {
+    flex-basis: 100%; 
+    text-align: center;
 }
 
 .search-results button {
@@ -354,12 +332,12 @@ body {
     position: relative;
     width: 100%;
     max-width: 450px;
-    margin: 60px auto;
+    margin: 0 auto;
 }
 /* //////////////// filters //////////////// */
 .filters {
     position: absolute;
-    z-index: 10;
+    z-index: 1;
     background: white;
     width: 100%;
     padding: 10px;
@@ -387,14 +365,18 @@ input[type='radio'] {
     margin: 10px;
 }
 
-.recipes-toast-notification {
+.login-toast-notification,
+.recipes-toast-notification,
+.account-toast-notification {
     position: relative;
     display: flex;
     justify-content: center;
     width: 100%;
 }
 
-.recipes-toast-notification .toast-notification {
+.login-toast-notification .toast-notification,
+.recipes-toast-notification .toast-notification,
+.account-toast-notification .toast-notification {
     position: absolute;
     margin: 30px 0;
     z-index: 1;
@@ -408,8 +390,6 @@ input[type='radio'] {
 }
 
 .recipes-header h1,
-.recipes-header .toast-notification,
-.login-toast-notification .toast-notification,
 .recipe-view .likes-container h4 {
     align-self: center;
 }
@@ -452,6 +432,11 @@ input[type='radio'] {
 .filters p {
     margin: 10px;
     font-weight: bold;
+}
+
+.recipe-form-header {
+    display: flex;
+    justify-content: space-between;
 }
 
 /* =========================================
@@ -573,42 +558,7 @@ input[type='radio'] {
    Responsive Breakpoints
 ========================================= */
 
-/* Tablets */
-@media (max-width: 768px) {
-    .recipe-view {
-        padding: 15px;
-    }
 
-    .recipe-view .recipe-view-header h4 {
-        font-size: 1.3rem;
-    }
-
-    .recipe-view .recipe-meta {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-}
-
-/* Mobile */
-@media (max-width: 480px) {
-    .recipe-view {
-        margin: 20px 10px;
-        padding: 15px;
-    }
-
-    .recipe-view .recipe-view-header h4 {
-        font-size: 1.2rem;
-    }
-
-    .recipe-view .close-button {
-        width: 28px;
-        height: 28px;
-    }
-
-    .recipe-view img {
-        max-height: 250px;
-    }
-}
 
 /* =========================================
    CommentsContainer Styles
@@ -891,9 +841,8 @@ input[type='radio'] {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.account-container .account-header {
-    display: flex;
-    justify-content: space-between;
+.account-container .close-button {
+    align-self: flex-end;
 }
 
 /* Inputs */
@@ -915,58 +864,6 @@ input[type='radio'] {
 /* Password validation text */
 .account-container p {
     font-size: 14px;
-}
-
-/* -------- Tablet -------- */
-@media (max-width: 768px) {
-    .account-container {
-        margin: 80px auto;
-        padding: 30px;
-    }
-
-    .account-container input,
-    .account-container button:not(.account-container .close-button) {
-        height: 45px;
-    }
-}
-
-/* -------- Mobile -------- */
-@media (max-width: 480px) {
-    .account-container {
-        width: 95%;
-        margin: 60px auto;
-        padding: 20px;
-        border-radius: 6px;
-    }
-
-    .account-container input,
-    .account-container button:not(.account-container .close-button) {
-        height: 42px;
-        font-size: 14px;
-    }
-
-    .account-container h4 {
-        font-size: 14px;
-    }
-
-    .account-container button.close-button {
-        width: 30px;
-        height: 30px;
-        top: 10px;
-        right: 10px;
-    }
-}
-
-/* -------- Very small devices -------- */
-@media (max-width: 360px) {
-    .account-container {
-        padding: 15px;
-    }
-
-    .account-container input,
-    .account-container button:not(.account-container .close-button) {
-        height: 40px;
-    }
 }
 
 .toast-notification {
@@ -1028,7 +925,7 @@ input[type='radio'] {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 10px auto;
+    margin: 0 auto;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -1044,4 +941,47 @@ input[type='radio'] {
 .liked-recipes-header h1,
 .liked-recipes-header .close-button {
     margin: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+    .login-container,
+    .email-container,
+    .password-reset-container {
+        margin: 50px auto;
+    }
+
+    .register-container {
+        margin: 100px auto;
+    }
+
+    .recipes-header {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .recipes-header button {
+        width: 200px;
+    }
+
+    .profile-header {
+        height: auto; /* Allow height to grow with stacked content */
+        flex-direction: column; /* Stack children vertically */
+        padding-bottom: 10px; /* Add space at the bottom */
+    }
+
+    .profile-header h2 {
+        margin: 10px auto; /* Center the title */
+    }
+
+    .profile-header .search-button,
+    .profile-header .recipes-button {
+        width: 90%; /* Buttons take up most of the width */
+        margin: 5px auto; /* Center buttons */
+    }
+
+    .hamburger-menu {
+        top: 15px; /* Adjust top position for smaller screen */
+        right: 15px; /* Adjust right position for smaller screen */
+        position: absolute; /* Keep it in top right */
+    }
 }

@@ -83,10 +83,11 @@ const Account = () => {
 
     return (
         <div className='account-container'>
-            <div className='account-header'>
+            <div className='account-toast-notification'>
                 <ToastNotification message={message} setMessage={setMessage} />
-                <button type='button' className='close-button' onClick={() => navigate(`/${page}`)}>x</button>
             </div>
+
+            <button type='button' className='close-button' onClick={() => navigate(`/${page}`)}>x</button>
 
             <h4>User email: {userData.email}</h4>
             <form onSubmit={updateEmail}>

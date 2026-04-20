@@ -32,11 +32,11 @@ const CommentItem = ({ userId, recipeId, comment, allComments, onAddReply, setCo
 
     return (
         <div className={`comment-item ${comment.parentId ? 'is-reply' : ''}`}>
-            <div className="comment-content-wrapper">
-                <div className="comment-header">
-                    <div className="comment-info">
-                        <span className="comment-username">{username}</span>
-                        <span className="comment-timestamp">{new Date(comment.timestamp).toLocaleString()}</span>
+            <div className='comment-content-wrapper'>
+                <div className='comment-header'>
+                    <div className='comment-info'>
+                        <span className='comment-username'>{username}</span>
+                        <span className='comment-timestamp'>{new Date(comment.timestamp).toLocaleString()}</span>
                     </div>
 
                     <KebabMenu

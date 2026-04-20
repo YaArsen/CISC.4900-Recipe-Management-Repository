@@ -172,7 +172,7 @@ exports.updateName = async (req, res) => {
             }
         );
 
-        res.status(200).json({ token, message: 'User name updated successfully'});
+        res.status(200).json({ token, message: 'Username updated successfully'});
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

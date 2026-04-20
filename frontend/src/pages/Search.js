@@ -58,10 +58,10 @@ const Search = () => {
     return (
         <>
             <Header user={user} page={'search'} />
-            <SearchForm onSubmit={setRecipe} /> {/* Search form component, calling searchRecipes on submission */}
+            <SearchForm onSubmit={setRecipe} isFetched={isFetched} length={recipes.length} /> {/* Search form component, calling searchRecipes on submission */}
 
             {/* Conditional rendering: display recipes if found, or message if not */}
-            {isFetched && recipes.length > 0 ? (
+            {isFetched && recipes.length > 0 && (
                 <>
                     <div className='recipe-details-container'>
                         {recipes.map((recipe) => (
@@ -79,8 +79,6 @@ const Search = () => {
                         handlePageChange={handlePageChange}
                     />
                 </>
-            ) : (
-                isFetched && <h2 className='search-page-h2'>No recipes found</h2>
             )}
         </>
     );

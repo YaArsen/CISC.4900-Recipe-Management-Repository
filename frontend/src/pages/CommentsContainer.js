@@ -50,13 +50,13 @@ const CommentsContainer = () => {
     const topLevelComments = mergeSort(comments.filter(c => !c.parentId));
 
     return (
-        <div className="comments-container">
+        <div className='comments-container'>
             <div className='comments-page-header'>
                 <img src={recipe.base64File} alt={recipe.title} />
                 <h1>{recipe.title}</h1>
             </div>
 
-            <div className="comments-header-row">
+            <div className='comments-header-row'>
                 <h1>Recipe comments {comments.length}</h1> {/* Header displaying the total number of comments */}
                 <button type='button' className='close-button' onClick={() => navigate(`/${page}/${pageNumber}/recipe-view/${recipeId}`)}>x</button>
             </div>
@@ -77,7 +77,7 @@ const CommentsContainer = () => {
             ))}
 
             {/* Message displayed when there are no comments */}
-            {topLevelComments.length === 0 && <p className="no-comments-msg">Be the first to share your thoughts!</p>}
+            {topLevelComments.length === 0 && <p className='no-comments-msg'>Be the first to share your thoughts!</p>}
         </div>
     );
 };

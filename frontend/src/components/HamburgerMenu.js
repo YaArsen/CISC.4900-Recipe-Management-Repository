@@ -8,7 +8,7 @@ const HamburgerMenu = ({ page }) => {
     const navigate = useNavigate();
 
     return (
-        <div className='hamburger-menu-container'>
+        <div>
             {/* Hamburger button with 3 spans for styling */}
             <div className={`hamburger-menu ${isOpen ? 'change' : ''}`} onClick={() => setIsOpen(!isOpen)}>
                 <span></span>

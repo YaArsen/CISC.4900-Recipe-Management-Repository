@@ -1,7 +1,7 @@
 import SearchOutline from '../assets/search-outline.svg';
 import { useState } from 'react';
 
-const SearchForm = ({ onSubmit }) => {
+const SearchForm = ({ onSubmit, isFetched, length }) => {
     const [recipe, setRecipe] = useState({}); // State to manage all form field values
     const [isFilterOpen, setIsFilterOpen] = useState(false); // State to toggle the visibility of advanced filters
 
@@ -46,6 +46,8 @@ const SearchForm = ({ onSubmit }) => {
                 <button type='submit'>
                     <img src={SearchOutline} alt='Search' />
                 </button>
+
+                {isFetched && length === 0 && <h2 className='search-page-h2'>No recipes found</h2>}
             </div>
 
             {/* Advanced Filters Section: conditionally rendered */}

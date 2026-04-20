@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const RecipeForm = ({ initialData, onSubmit }) => {
+const RecipeForm = ({ initialData, onSubmit, page }) => {
     const [recipe, setRecipe] = useState({ ingredients: [''], isPublic: true });
     const [url, setUrl] = useState('');
     const navigate = useNavigate();
@@ -72,7 +72,10 @@ const RecipeForm = ({ initialData, onSubmit }) => {
 
     return (
         <form className='recipe-form-container' onSubmit={handleSubmit}>
-            <button type='button' className='close-button' onClick={() => navigate('/recipes')}>x</button>
+            <div className='recipe-form-header'>
+                <h2>{page}</h2>
+                <button type='button' className='close-button' onClick={() => navigate('/recipes')}>x</button>
+            </div>
 
             <input
                 type='text'

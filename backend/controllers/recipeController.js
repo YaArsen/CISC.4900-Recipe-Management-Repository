@@ -303,6 +303,9 @@ exports.searchRecipes = async (req, res) => {
         }
     }
 
+    const isThereMoreThanOne = Object.keys(query).length > 1;
+    if (!isThereMoreThanOne) return res.status(400).json({ message: 'Enter some text or apply at least one filter' });
+
     try {
         const startIndex = (page - 1) * limit;
         const recipes = mergeSort(await Recipe.find(query).skip(startIndex).limit(parseInt(limit)));
