@@ -27,14 +27,6 @@ body {
     text-align: center;
 }
 
-.log-in-container {
-    margin: 300px auto;
-}
-
-.register-container {
-    margin: 400px auto;
-}
-
 .register-container,
 .log-in-container {
     display: flex;
@@ -48,6 +40,7 @@ body {
     border: 1px solid;
     border-radius: 10px;
     padding: 20px;
+    margin: 400px auto;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -938,8 +931,8 @@ input[type='radio'] {
 }
 
 @media only screen and (max-width: 600px) {
-    .log-in-container,
     .register-container,
+    .log-in-container,
     .email-container,
     .password-reset-container {
         margin: 100px auto;
