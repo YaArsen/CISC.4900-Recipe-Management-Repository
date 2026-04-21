@@ -11,7 +11,7 @@ const CommentsContainer = () => {
     const [user, setUser] = useState(null);
     const [comments, setComments] = useState(null); // State to store the list of comments
     const [recipe, setRecipe] = useState(null);
-    const [tempRecipe, setTempRecipe] = useState({});
+    const [tempRecipe, setTempRecipe] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -73,7 +73,7 @@ const CommentsContainer = () => {
                     type='button'
                     className='close-button'
                     onClick={() => {
-                        if (tempRecipe !== {}) localStorage.setItem('recipe', JSON.stringify(tempRecipe));
+                        if (tempRecipe) localStorage.setItem('recipe', JSON.stringify(tempRecipe));
                         navigate(`/${page}/${pageNumber}/recipe-view/${recipeId}`);
                     }}
                 >

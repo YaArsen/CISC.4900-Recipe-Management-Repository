@@ -40,12 +40,12 @@ const LogIn = () => {
 
     return (
         <>
-            <div className='login-toast-notification'>
+            <div className='log-in-toast-notification'>
                 <ToastNotification message={message} setMessage={setMessage} />
             </div>
 
             {/* The form element with an onSubmit handler pointing to the login function */}
-            <form className='login-container' onSubmit={logIn}>
+            <form className='log-in-container' onSubmit={logIn}>
                 <h2>Log in</h2>
 
                 {/* Email input field with handlers for change events */}

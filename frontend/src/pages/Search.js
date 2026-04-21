@@ -75,7 +75,7 @@ const Search = () => {
                                 key={recipe._id}
                                 className='recipe-details'
                                 onClick={() => {
-                                    localStorage.setItem('recipe', JSON.stringify(tempRecipe));
+                                    if (tempRecipe) localStorage.setItem('recipe', JSON.stringify(tempRecipe));
                                     navigate(`/search/${currentPage}/recipe-view/${recipe._id}`);
                                 }}
                             >

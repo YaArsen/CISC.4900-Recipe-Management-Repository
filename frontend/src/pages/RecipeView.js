@@ -63,7 +63,7 @@ const RecipeView = () => {
                     type='button'
                     className='close-button'
                     onClick={() => {
-                        if (tempRecipe !== {}) localStorage.setItem('recipe', JSON.stringify(tempRecipe));
+                        if (tempRecipe) localStorage.setItem('recipe', JSON.stringify(tempRecipe));
                         localStorage.setItem('pageNumber', pageNumber);
                         const array = page.split(' ');
                         array.length === 2 ? navigate(`/${array[0]}/${array[1]}`) : navigate(`/${page}`);
@@ -119,7 +119,7 @@ const RecipeView = () => {
                     type='button'
                     className='comments-button'
                     onClick={() => {
-                        if (tempRecipe !== {}) localStorage.setItem('recipe', JSON.stringify(tempRecipe));
+                        if (tempRecipe) localStorage.setItem('recipe', JSON.stringify(tempRecipe));
                         navigate(`/${page}/${pageNumber}/recipe-view/${recipe._id}/comments`);
                     }}
                 >
