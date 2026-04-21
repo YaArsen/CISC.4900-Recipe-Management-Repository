@@ -1,9 +1,15 @@
 import SearchOutline from '../assets/search-outline.svg';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const SearchForm = ({ onSubmit, isFetched, length }) => {
+const SearchForm = ({ initialRecipe, onSubmit, isFetched, length }) => {
     const [recipe, setRecipe] = useState({}); // State to manage all form field values
     const [isFilterOpen, setIsFilterOpen] = useState(false); // State to toggle the visibility of advanced filters
+
+    useEffect(() => {
+        if (initialRecipe) {
+            setRecipe(initialRecipe);
+        }
+    }, [initialRecipe]);
 
     // Handles form submission: prevents default reload and passes state to parent
     const handleSubmit = (e) => {

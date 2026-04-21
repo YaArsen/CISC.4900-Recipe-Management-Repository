@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'; // Hook for navigation/routing
 import { jwtDecode } from 'jwt-decode';
 
 const Search = () => {
-    const [recipe, setRecipe] = useState(null);
+    const [tempRecipe, setTempRecipe] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [user, setUser] = useState(null);
@@ -18,15 +18,20 @@ const Search = () => {
 
     useEffect(() => {
         const pageNumber = localStorage.getItem('pageNumber');
+        const recipe = localStorage.getItem('recipe');
 
-        if (pageNumber) {
+        if (pageNumber && recipe) {
             localStorage.removeItem('pageNumber');
+            localStorage.removeItem('recipe');
+            setTempRecipe(JSON.parse(recipe));
+            setCurrentPage(JSON.parse(pageNumber));
+            searchRecipes(JSON.parse(recipe), pageNumber);
         } else {
-            if (recipe) {
-                searchRecipes(recipe, currentPage);
+            if (tempRecipe) {
+                searchRecipes(tempRecipe, currentPage);
             }
         }
-    }, [recipe, currentPage]);
+    }, [tempRecipe, currentPage]);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -51,14 +56,14 @@ const Search = () => {
         }
     };
 
-    const handlePageChange = (page) => searchRecipes(recipe, page);
+    const handlePageChange = (page) => searchRecipes(tempRecipe, page);
 
     if (!user) return <p className='loading'>Loading...</p>;
 
     return (
         <>
             <Header user={user} page={'search'} />
-            <SearchForm onSubmit={setRecipe} isFetched={isFetched} length={recipes.length} /> {/* Search form component, calling searchRecipes on submission */}
+            <SearchForm initialRecipe={tempRecipe} onSubmit={setTempRecipe} isFetched={isFetched} length={recipes.length} /> {/* Search form component, calling searchRecipes on submission */}
 
             {/* Conditional rendering: display recipes if found, or message if not */}
             {isFetched && recipes.length > 0 && (
@@ -66,7 +71,14 @@ const Search = () => {
                     <div className='recipe-details-container'>
                         {recipes.map((recipe) => (
                             // Make each recipe clickable, navigating to the detailed view
-                            <div key={recipe._id} className='recipe-details' onClick={() => navigate(`/search/${currentPage}/recipe-view/${recipe._id}`)}>
+                            <div
+                                key={recipe._id}
+                                className='recipe-details'
+                                onClick={() => {
+                                    localStorage.setItem('recipe', JSON.stringify(tempRecipe));
+                                    navigate(`/search/${currentPage}/recipe-view/${recipe._id}`);
+                                }}
+                            >
                                 <RecipeDetails recipe={recipe} />
                             </div>
                         ))}

@@ -8,9 +8,19 @@ const RecipeView = () => {
     const { page, pageNumber, recipeId } = useParams();
     const [username, setUsername] = useState('');
     const [recipe, setRecipe] = useState({}); // State to store the fetched recipe data
+    const [tempRecipe, setTempRecipe] = useState(null);
     const [isFavoriteButtonActivated, setIsFavoriteButtonActivated] = useState(null);
     const [isLikeButtonActivated, setIsLikeButtonActivated] = useState(null); // State to check if the current user has liked the recipe
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const recipe = localStorage.getItem('recipe');
+
+        if (recipe) {
+            localStorage.removeItem('recipe');
+            setTempRecipe(JSON.parse(recipe));
+        }
+    }, []);
 
     // Fetch recipe data and like status when component mounts or recipeId changes
     useEffect(() => {
@@ -42,7 +52,7 @@ const RecipeView = () => {
         }
     }, [recipe.user]);
 
-    if (!recipe || isFavoriteButtonActivated === null || isLikeButtonActivated === null) return <p className='loading'>Loading...</p>; // Render loading state while data is being fetched
+    if (isLikeButtonActivated === null) return <p className='loading'>Loading...</p>; // Render loading state while data is being fetched
 
     return (
         <div className='recipe-view'>
@@ -53,6 +63,7 @@ const RecipeView = () => {
                     type='button'
                     className='close-button'
                     onClick={() => {
+                        if (tempRecipe !== {}) localStorage.setItem('recipe', JSON.stringify(tempRecipe));
                         localStorage.setItem('pageNumber', pageNumber);
                         const array = page.split(' ');
                         array.length === 2 ? navigate(`/${array[0]}/${array[1]}`) : navigate(`/${page}`);
@@ -102,8 +113,18 @@ const RecipeView = () => {
             <div className='recipe-footer'>
                 <span className='recipe-username'>{username}</span>
                 <span className='recipe-timestamp'>{new Date(recipe.timestamp).toLocaleString()}</span>
+
                 {/* Navigation to comments section */}
-                <button type='button' className='comments-button' onClick={() => navigate(`/${page}/${pageNumber}/recipe-view/${recipe._id}/comments`)}>Comments</button>
+                <button
+                    type='button'
+                    className='comments-button'
+                    onClick={() => {
+                        if (tempRecipe !== {}) localStorage.setItem('recipe', JSON.stringify(tempRecipe));
+                        navigate(`/${page}/${pageNumber}/recipe-view/${recipe._id}/comments`);
+                    }}
+                >
+                    Comments
+                </button>
             </div>
         </div>
     );

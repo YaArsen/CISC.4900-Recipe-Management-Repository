@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const LikedRecipes = () => {
     const { page } = useParams();
-    const [recipes, setRecipes] = useState([]);
+    const [recipes, setRecipes] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const navigate = useNavigate();

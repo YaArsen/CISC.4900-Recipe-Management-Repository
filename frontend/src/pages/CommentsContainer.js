@@ -9,9 +9,19 @@ import { jwtDecode } from 'jwt-decode';
 const CommentsContainer = () => {
     const { page, pageNumber, recipeId } = useParams(); // Extract recipeId from the URL parameters to fetch the correct recipe data
     const [user, setUser] = useState(null);
-    const [comments, setComments] = useState([]); // State to store the list of comments
+    const [comments, setComments] = useState(null); // State to store the list of comments
     const [recipe, setRecipe] = useState(null);
+    const [tempRecipe, setTempRecipe] = useState({});
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const recipe = localStorage.getItem('recipe');
+
+        if (recipe) {
+            localStorage.removeItem('recipe');
+            setTempRecipe(JSON.parse(recipe));
+        }
+    }, []);
 
     useEffect(() => {
         const token = localStorage.getItem('token'); // Retrieve token for authentication
@@ -58,7 +68,17 @@ const CommentsContainer = () => {
 
             <div className='comments-header-row'>
                 <h1>Recipe comments {comments.length}</h1> {/* Header displaying the total number of comments */}
-                <button type='button' className='close-button' onClick={() => navigate(`/${page}/${pageNumber}/recipe-view/${recipeId}`)}>x</button>
+
+                <button
+                    type='button'
+                    className='close-button'
+                    onClick={() => {
+                        if (tempRecipe !== {}) localStorage.setItem('recipe', JSON.stringify(tempRecipe));
+                        navigate(`/${page}/${pageNumber}/recipe-view/${recipeId}`);
+                    }}
+                >
+                    x
+                </button>
             </div>
 
             <CommentForm parentId={undefined} onSubmit={(content) => postComment(undefined, content)} /> {/* Form to submit a new top-level comment */}
