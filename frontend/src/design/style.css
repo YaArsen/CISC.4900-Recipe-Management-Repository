@@ -60,9 +60,7 @@ body {
 }
 
 .hamburger-menu {
-    position: absolute;
-    top: 30px;
-    right: 30px;
+    margin: 30px;
 }
 
 .hamburger-menu:hover {
@@ -96,15 +94,13 @@ body {
     display: none;
     background: #333;
     padding: 10px;
-    height: 200px;
     border: 2px solid #222;
     max-width: 150px;
     border-radius: 5px;
-    width: 250px;
+    width: 100%;
     z-index: 1;
     top: 65px;
     right: 10px;
-    bottom: 0;
 }
 
 .nav-menu.show {
@@ -963,6 +959,7 @@ input[type='radio'] {
     }
 
     .hamburger-menu {
+        margin: 0;
         top: 15px; /* Adjust top position for smaller screen */
         right: 15px; /* Adjust right position for smaller screen */
         position: absolute; /* Keep it in top right */

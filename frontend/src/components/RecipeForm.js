@@ -32,11 +32,13 @@ const RecipeForm = ({ initialData, onSubmit, page }) => {
         if (recipe.file instanceof File) {
             const reader = new FileReader();
             reader.readAsDataURL(recipe.file); // Reads as base64
+
             reader.onload = () => {
                 const base64File = reader.result;
                 onSubmit({ ...recipe, file: base64File });
             };
-            reader.onerror = (error) => console.error("Error reading file:", error);
+
+            reader.onerror = (error) => console.error('Error reading file:', error);
         } else {
             onSubmit(recipe);
         }  

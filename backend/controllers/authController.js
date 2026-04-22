@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Recipe = require('../models/Recipe');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const transporter = require('../config/transporter');
@@ -136,17 +137,6 @@ exports.resetPassword = async (req, res) => {
     }
 };
 
-exports.getRecipeUsername = async (req, res) => {
-    const { userId } = req.params;
-
-    try {
-        const user = await User.findById({ _id: userId });
-        res.status(200).json(user.name);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
 exports.updateName = async (req, res) => {
     const { userId, exp } = req.user;
     const { name } = req.body;
@@ -171,6 +161,20 @@ exports.updateName = async (req, res) => {
                 expiresIn: exp
             }
         );
+
+        await Recipe.updateMany({ user: userId }, { username: name });
+
+        for (let recipeId of user.commented.keys()) {
+            const recipe = await Recipe.findById({ _id: recipeId });
+
+            if (recipe) {
+                recipe.comments.map(comment => comment.user.toString() === userId.toString() ? comment.username = name : comment);
+                await recipe.save();
+            } else {
+                user.commented.delete(recipeId);
+                await user.save();
+            }
+        }
 
         res.status(200).json({ token, message: 'Username updated successfully'});
     } catch (error) {

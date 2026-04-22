@@ -13,7 +13,6 @@ router.put('/:recipeId/favorites', auth, recipeController.toggleFavorite);
 router.put('/:recipeId/likes', auth, recipeController.toggleLike);
 
 router.post('/:recipeId/comments', auth, recipeController.postComment);
-router.get('/:recipeId/comments/:commentId', auth, recipeController.getCommentUsername);
 router.put('/:recipeId/comments/:commentId', auth, recipeController.updateComment);
 router.delete('/:recipeId/comments/delete-comment/:commentId', auth, recipeController.deleteComment);
 

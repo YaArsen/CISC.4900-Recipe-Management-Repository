@@ -1,4 +1,4 @@
-import { fetchGetRecipe, fetchGetRecipeUsername } from '../api';
+import { fetchGetRecipe } from '../api';
 import ToggleFavoriteButton from '../components/ToggleFavoriteButton';
 import ToggleLikeButton from '../components/ToggleLikeButton';
 import { useState, useEffect } from 'react';
@@ -6,8 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const RecipeView = () => {
     const { page, pageNumber, recipeId } = useParams();
-    const [username, setUsername] = useState('');
-    const [recipe, setRecipe] = useState({}); // State to store the fetched recipe data
+    const [recipe, setRecipe] = useState(null); // State to store the fetched recipe data
     const [tempRecipe, setTempRecipe] = useState(null);
     const [isFavoriteButtonActivated, setIsFavoriteButtonActivated] = useState(null);
     const [isLikeButtonActivated, setIsLikeButtonActivated] = useState(null); // State to check if the current user has liked the recipe
@@ -38,19 +37,6 @@ const RecipeView = () => {
 
         getRecipe();
     }, [recipeId]);
-
-    useEffect(() => {
-        try {
-            const getRecipeUsername = async () => {
-                const data = await fetchGetRecipeUsername(recipe.user);
-                setUsername(data);
-            };
-
-            if (recipe.user) getRecipeUsername();
-        } catch (error) {
-            alert(error);
-        }
-    }, [recipe.user]);
 
     if (isLikeButtonActivated === null) return <p className='loading'>Loading...</p>; // Render loading state while data is being fetched
 
@@ -111,7 +97,7 @@ const RecipeView = () => {
             </div>
 
             <div className='recipe-footer'>
-                <span className='recipe-username'>{username}</span>
+                <span className='recipe-username'>{recipe.username}</span>
                 <span className='recipe-timestamp'>{new Date(recipe.timestamp).toLocaleString()}</span>
 
                 {/* Navigation to comments section */}

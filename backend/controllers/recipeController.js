@@ -34,8 +34,7 @@ exports.postRecipe = async (req, res) => {
         user.recipes++;
         await user.save();
 
-        const recipes = await Recipe.find({ _id: userId });
-        res.status(201).json({ message: `Recipe '${recipe.title}' added successfully`, recipes });
+        res.status(201).json({ message: `Recipe '${recipe.title}' added successfully` });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -100,8 +99,7 @@ exports.updateRecipe = async (req, res) => {
 
         await recipe.save();
 
-        const recipes = await Recipe.find({ _id: userId });
-        res.status(200).json({ message: `Recipe '${recipe.title}' updated successfully`, recipes });
+        res.status(200).json({ message: `Recipe '${recipe.title}' updated successfully` });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -176,7 +174,7 @@ exports.toggleLike = async (req, res) => {
 };
 
 exports.postComment = async (req, res) => {
-    const { userId } = req.user;
+    const { userId, name } = req.user;
     const { content, parentId } = req.body;
     const { recipeId } = req.params;
 
@@ -184,6 +182,7 @@ exports.postComment = async (req, res) => {
         const recipe = await Recipe.findById({ _id: recipeId });
 
         recipe.comments.push({
+            username: name,
             parentId: parentId,
             content: content,
             user: userId
@@ -192,24 +191,15 @@ exports.postComment = async (req, res) => {
         await recipe.save();
 
         const user = await User.findById({ _id: userId });
-        if (!user.commented.has(recipeId)) user.commented.set(recipeId, 0);
+
+        if (!user.commented.has(recipeId)) {
+            user.commented.set(recipeId, 0);
+        }
+
         user.commented.set(recipeId, user.commented.get(recipeId) + 1);
         await user.save();
 
         res.status(201).json(recipe.comments);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-exports.getCommentUsername = async (req, res) => {
-    const { recipeId, commentId } = req.params;
-
-    try {
-        const recipe = await Recipe.findById({ _id: recipeId });
-        const comment = recipe.comments.id(commentId);
-        const user = await User.findById({ _id: comment.user });
-        res.status(200).json(user.name);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

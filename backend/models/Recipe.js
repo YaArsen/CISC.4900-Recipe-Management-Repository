@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const commentSchema = new mongoose.Schema({
+    username: String,
     parentId: mongoose.Schema.Types.ObjectId,
     content: { type: String, required: true },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
@@ -18,6 +19,7 @@ const recipeSchema = new mongoose.Schema({
     difficulty: { type: String, required: true },
     likes: { type: Number, default: 0 },
     comments: [commentSchema],
+    username: String,
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     timestamp: { type: Date, default: Date.now }
 });
