@@ -61,7 +61,7 @@ const SearchForm = ({ initialRecipe, onSubmit, isFetched, length }) => {
                 <div className='filters-container'>
                     <div className='filters'>
                         {/* Numeric inputs for filters */}
-                        <div>
+                        <>
                             <input
                                 type='number'
                                 min='0'
@@ -79,10 +79,10 @@ const SearchForm = ({ initialRecipe, onSubmit, isFetched, length }) => {
                                 onChange={handleChange}
                                 placeholder='Min likes'
                             />
-                        </div>
+                        </>
 
                         {/* Radio buttons for category */}
-                        <div>
+                        <>
                             <p>Category</p>
                             {['Breakfast', 'Lunch', 'Dinner'].map(category => (
                                 <label key={category}>
@@ -127,7 +127,7 @@ const SearchForm = ({ initialRecipe, onSubmit, isFetched, length }) => {
                                 value={recipe.endDate ? recipe.endDate : ''}
                                 onChange={handleChange}
                             />
-                        </div>
+                        </>
 
                         {/* Action buttons for filters */}
                         <button
