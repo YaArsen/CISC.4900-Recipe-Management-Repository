@@ -18,6 +18,7 @@ router.delete('/:recipeId/comments/delete-comment/:commentId', auth, recipeContr
 
 router.get('/favorite-recipes/:page/:limit', auth, recipeController.getFavoriteRecipes);
 router.get('/liked-recipes/:page/:limit', auth, recipeController.getLikedRecipes);
+router.get('/commented-recipes/:page/:limit', auth, recipeController.getCommentedRecipes);
 
 router.post('/search/:page/:limit', auth, recipeController.searchRecipes);
 

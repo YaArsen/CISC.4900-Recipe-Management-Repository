@@ -22,6 +22,7 @@ body {
 .recipes-page-p,
 .favorite-recipes-page-p,
 .liked-recipes-page-p,
+.commented-recipes-page-p,
 .recipe-details h1,
 .loading {
     text-align: center;
@@ -900,7 +901,8 @@ input[type='radio'] {
 }
 
 .favorite-recipes,
-.liked-recipes {
+.liked-recipes,
+.commented-recipes {
     background-color: white;
     border-radius: 10px;
     width: 100%;
@@ -913,7 +915,8 @@ input[type='radio'] {
 }
 
 .favorite-recipes-header,
-.liked-recipes-header {
+.liked-recipes-header,
+.commented-recipes-header {
     display:flex;
     width: 100%;
     justify-content: space-between;
@@ -922,7 +925,9 @@ input[type='radio'] {
 .favorite-recipes-header h1,
 .favorite-recipes-header .close-button,
 .liked-recipes-header h1,
-.liked-recipes-header .close-button {
+.liked-recipes-header .close-button,
+.commented-recipes-header h1,
+.commented-recipes-header .close-button {
     margin: 10px;
 }
 

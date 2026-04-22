@@ -14,6 +14,7 @@ import Account from './pages/Account';
 import VerifyNewEmail from './components/VerifyNewEmail';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import LikedRecipes from './pages/LikedRecipes';
+import CommentedRecipes from './pages/CommentedRecipes';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const App = () => {
@@ -39,6 +40,7 @@ const App = () => {
                     <Route path='/:page/account/verify-new-email/:verificationToken' element={<VerifyNewEmail />} />
                     <Route path='/:page/favorite-recipes' element={<FavoriteRecipes />} />
                     <Route path='/:page/liked-recipes' element={<LikedRecipes />} />
+                    <Route path='/:page/commented-recipes' element={<CommentedRecipes />} />
                 </Route>
 
                 <Route path='*' element={<div>404 Not Found</div>} />

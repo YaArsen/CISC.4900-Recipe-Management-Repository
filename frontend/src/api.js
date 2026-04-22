@@ -156,3 +156,11 @@ export const fetchGetLikedRecipes = async (page) => {
     if (!res.ok) throw new Error(data.message);
     return data;
 };
+
+export const fetchGetCommentedRecipes = async (page) => {
+    const token = localStorage.getItem('token');
+    const res = await Fetch(`/api/recipes/commented-recipes/${page}/10`, { token });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    return data;
+};

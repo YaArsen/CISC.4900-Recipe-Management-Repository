@@ -124,7 +124,7 @@ const RecipeForm = ({ initialData, onSubmit, page }) => {
 
             {url && <img src={url} alt='img' />}
 
-            <>
+            <div>
                 <label>
                     <input
                         type='radio'
@@ -146,7 +146,7 @@ const RecipeForm = ({ initialData, onSubmit, page }) => {
                     />
                     Private
                 </label>
-            </>
+            </div>
 
             <input
                 type='number'
@@ -157,7 +157,7 @@ const RecipeForm = ({ initialData, onSubmit, page }) => {
                 required
             />
 
-            <>
+            <div>
                 <p>Category</p>
                 {['Breakfast', 'Lunch', 'Dinner'].map(category => (
                     <label key={category}>
@@ -172,9 +172,9 @@ const RecipeForm = ({ initialData, onSubmit, page }) => {
                         {category}
                     </label>
                 ))}
-            </>
+            </div>
 
-            <>
+            <div>
                 <p>Difficulty</p>
                 {['Easy', 'Medium', 'Hard'].map(difficulty => (
                     <label key={difficulty}>
@@ -189,7 +189,7 @@ const RecipeForm = ({ initialData, onSubmit, page }) => {
                         {difficulty}
                     </label>
                 ))}
-            </>
+            </div>
 
             <button className='form-button' type='submit'>Save recipe</button>
         </form>
