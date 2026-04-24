@@ -19,21 +19,32 @@ body {
     font-family: Arial, sans-serif;
 }
 
+.register-form,
+.log-in-form,
 .recipes-page-p,
-.favorite-recipes-page-p,
-.liked-recipes-page-p,
-.commented-recipes-page-p,
 .recipe-details h1,
 .loading {
     text-align: center;
 }
 
 .register-container,
-.log-in-container {
+.log-in-container,
+.email-container,
+.password-reset-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; /* Centers horizontally */
+    align-items: center;     /* Centers vertically */
+    min-height: 100vh;       /* Takes up full screen height */
+    width: 100%;
+}
+
+.register-form,
+.log-in-form,
+.email-form,
+.password-reset-form {
+    display: flex;
+    flex-direction: column;
     gap: 5px;
     background: white;
     width: 100%;
@@ -41,21 +52,20 @@ body {
     border: 1px solid;
     border-radius: 10px;
     padding: 20px;
-    margin: 400px auto;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.register-container button,
-.log-in-container button,
-.register-container input,
-.log-in-container input {
+.register-form button,
+.log-in-form button,
+.register-form input,
+.log-in-form input {
     height: 50px;
     width: 100%;
     border-radius: 5px;
 }
 
-.log-in-container a,
-.register-container p {
+.log-in-form a,
+.register-form p {
     display: flex;
     align-self: flex-start;
 }
@@ -96,7 +106,7 @@ body {
     background: #333;
     padding: 10px;
     border: 2px solid #222;
-    max-width: 150px;
+    max-width: 170px;
     border-radius: 5px;
     width: 100%;
     z-index: 1;
@@ -125,8 +135,8 @@ body {
 }
 
 .favorites-button.activated {
-    background-color: #cfcf2b;
-    border-color: #cfcf2b;
+    background-color: #e5e51a;
+    border-color: #e5e51a;
     color: white;
 }
 
@@ -149,8 +159,8 @@ body {
 }
 
 .favorites-button:hover {
-    border-color: #cfcf2b;
-    color: #cfcf2b;
+    border-color: #e5e51a;
+    color: #e5e51a;
     cursor: pointer;
 }
 
@@ -263,10 +273,10 @@ body {
     border-radius: 10px;
 }
 
-.register-container button:hover,
-.log-in-container button:hover,
-.email-container button:hover,
-.password-reset-container button:hover,
+.register-form button:hover,
+.log-in-form button:hover,
+.email-form button:hover,
+.password-reset-form button:hover,
 .pagination input:hover,
 .pagination .page:hover,
 .pagination .page.show:hover,
@@ -787,25 +797,10 @@ input[type='radio'] {
     margin: 0;
 }
 
-.email-container,
-.password-reset-container {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    background: white;
-    width: 100%;
-    max-width: 400px;
-    margin: 400px auto;
-    padding: 30px;
-    border: 1px solid;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.email-container button,
-.email-container input,
-.password-reset-container button,
-.password-reset-container input {
+.email-form button,
+.email-form input,
+.password-reset-form button,
+.password-reset-form input {
     height: 50px;
     width: 100%;
     border-radius: 5px;
@@ -900,45 +895,35 @@ input[type='radio'] {
     color: green;
 }
 
-.favorite-recipes,
-.liked-recipes,
-.commented-recipes {
-    background-color: white;
-    border-radius: 10px;
-    width: 100%;
+.activity-page-container p {
+    text-align: center;
+}
+
+.activity-page-header {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.favorite-recipes-header,
-.liked-recipes-header,
-.commented-recipes-header {
-    display:flex;
-    width: 100%;
-    justify-content: space-between;
-}
-
-.favorite-recipes-header h1,
-.favorite-recipes-header .close-button,
-.liked-recipes-header h1,
-.liked-recipes-header .close-button,
-.commented-recipes-header h1,
-.commented-recipes-header .close-button {
+.activity-page-header h1,
+.activity-page-header .previous-button {
     margin: 10px;
 }
 
-@media only screen and (max-width: 600px) {
-    .register-container,
-    .log-in-container,
-    .email-container,
-    .password-reset-container {
-        margin: 100px auto;
-    }
+.previous-button {
+    padding: 8px 16px;
+    background-color: white;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    font-weight: bold;
+    color: #555;
+    transition: background-color 0.2s;
+}
 
+.previous-button:hover {
+    background-color: #e0e0e0;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
     .recipes-header {
         flex-direction: column;
     }

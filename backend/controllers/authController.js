@@ -164,7 +164,7 @@ exports.updateName = async (req, res) => {
 
         await Recipe.updateMany({ user: userId }, { username: name });
 
-        for (let recipeId of user.commented.keys()) {
+        for (const recipeId of user.commented.keys()) {
             const recipe = await Recipe.findById({ _id: recipeId });
 
             if (recipe) {

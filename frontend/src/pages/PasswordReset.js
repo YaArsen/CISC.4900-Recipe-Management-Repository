@@ -31,32 +31,34 @@ const PasswordReset = () => {
     };
 
     return (
-        <form className='password-reset-container' onSubmit={resetPassword}>
-            <input
-                type='password'
-                name='password'
-                placeholder='Password'
-                onChange={(e) => {
-                    passwordChecker(e, setCheckPassword);
-                    handleChange(e);
-                }}
-                onFocus={() => setIsFocus(true)}
-                onBlur={() => setIsFocus(false)}
-                required
-            />
+        <div className='password-reset-container'>
+            <form className='password-reset-form' onSubmit={resetPassword}>
+                <input
+                    type='password'
+                    name='password'
+                    placeholder='Password'
+                    onChange={(e) => {
+                        passwordChecker(e, setCheckPassword);
+                        handleChange(e);
+                    }}
+                    onFocus={() => setIsFocus(true)}
+                    onBlur={() => setIsFocus(false)}
+                    required
+                />
 
-            {isFocus && <PasswordRequirements checkPassword={checkPassword} />}
+                {isFocus && <PasswordRequirements checkPassword={checkPassword} />}
 
-            <input
-                type='password'
-                name='repeatPassword'
-                placeholder='Repeat password'
-                onChange={handleChange}
-                required
-            />
+                <input
+                    type='password'
+                    name='repeatPassword'
+                    placeholder='Repeat password'
+                    onChange={handleChange}
+                    required
+                />
 
-            <button type='submit'>Reset password</button>
-        </form>
+                <button type='submit'>Reset password</button>
+            </form>
+        </div>
     );
 };
 

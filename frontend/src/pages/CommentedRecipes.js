@@ -38,16 +38,16 @@ const CommentedRecipes = () => {
     if (!recipes) return <p className='loading'>Loading...</p>; // Loading state
 
     return (
-        <>
-            {recipes.length === 0 ? (
-                <p className='commented-recipes-page-p'>No commented recipes!</p>
-            ) : (
-                <div className='commented-recipes'>
-                    <div className='commented-recipes-header'>
-                        <h1>Commented Recipes</h1>
-                        <button type='button' className='close-button' onClick={() => navigate(`/${page}`)}>x</button>
-                    </div>
+        <div className='activity-page-container'>
+            <div className='activity-page-header'>
+                <input type='button' value='<' className='previous-button' onClick={() => navigate(`/${page}`)} />
+                <h1>Commented Recipes</h1>
+            </div>`
 
+            {recipes.length === 0 ? (
+                <p>No commented recipes!</p>
+            ) : (
+                <>
                     <div className='recipe-details-container'>
                         {recipes.map((recipe) => (
                             // Clickable area to view full recipe details
@@ -63,9 +63,9 @@ const CommentedRecipes = () => {
                         totalPages={totalPages}
                         handlePageChange={handlePageChange}
                     />
-                </div>
+                </>
             )}
-        </>
+        </div>
     );
 };
 

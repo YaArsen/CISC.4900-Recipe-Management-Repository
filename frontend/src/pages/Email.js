@@ -20,10 +20,12 @@ const Email = () => {
     };
 
     return (
-        <form className='email-container' onSubmit={passwordReset}>
-            <input type='email' placeholder='Email' onChange={(e) => setEmail(e.target.value)} required />
-            <button type='submit'>Verify email</button>
-        </form>
+        <div className='email-container'>
+            <form className='email-form' onSubmit={passwordReset}>
+                <input type='email' placeholder='Email' onChange={(e) => setEmail(e.target.value)} required />
+                <button type='submit'>Verify email</button>
+            </form>
+        </div>
     );
 };
 

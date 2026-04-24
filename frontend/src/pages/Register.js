@@ -34,52 +34,54 @@ const Register = () => {
     };
 
     return (
-        <form className='register-container' onSubmit={register}>
-            <h2>Register</h2>
+        <div className='register-container'>
+            <form className='register-form' onSubmit={register}>
+                <h2>Register</h2>
 
-            {/* Standard input fields with change handlers and required attributes */}
-            <input
-                name='name'
-                placeholder='Name'
-                onChange={handleChange}
-                required
-            />
+                {/* Standard input fields with change handlers and required attributes */}
+                <input
+                    name='name'
+                    placeholder='Name'
+                    onChange={handleChange}
+                    required
+                />
 
-            <input
-                type='email'
-                name='email'
-                placeholder='Email'
-                onChange={handleChange}
-                required
-            />
+                <input
+                    type='email'
+                    name='email'
+                    placeholder='Email'
+                    onChange={handleChange}
+                    required
+                />
 
-            {/* Password input with specific handlers for validation (checkPassword) and focus tracking (onFocus, onBlur) */}
-            <input
-                type='password'
-                name='password'
-                placeholder='Password'
-                onChange={(e) => {
-                    passwordChecker(e, setCheckPassword);
-                    handleChange(e);
-                }}
-                onFocus={() => setIsFocus(true)}
-                onBlur={() => setIsFocus(false)}
-                required
-            />
+                {/* Password input with specific handlers for validation (checkPassword) and focus tracking (onFocus, onBlur) */}
+                <input
+                    type='password'
+                    name='password'
+                    placeholder='Password'
+                    onChange={(e) => {
+                        passwordChecker(e, setCheckPassword);
+                        handleChange(e);
+                    }}
+                    onFocus={() => setIsFocus(true)}
+                    onBlur={() => setIsFocus(false)}
+                    required
+                />
 
-            {/* Conditionally renders password criteria feedback only when the input is focused */}
-            {isFocus && <PasswordRequirements checkPassword={checkPassword} />}
+                {/* Conditionally renders password criteria feedback only when the input is focused */}
+                {isFocus && <PasswordRequirements checkPassword={checkPassword} />}
 
-            <input
-                type='password'
-                name='repeatPassword'
-                placeholder='Repeat password'
-                onChange={handleChange}
-                required
-            />
+                <input
+                    type='password'
+                    name='repeatPassword'
+                    placeholder='Repeat password'
+                    onChange={handleChange}
+                    required
+                />
 
-            <button type='submit'>Register</button>
-        </form>
+                <button type='submit'>Register</button>
+            </form>
+        </div>
     );
 };
 

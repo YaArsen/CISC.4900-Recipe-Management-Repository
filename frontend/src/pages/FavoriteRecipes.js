@@ -38,16 +38,16 @@ const FavoriteRecipes = () => {
     if (!recipes) return <p className='loading'>Loading...</p>; // Loading state
 
     return (
-        <>
-            {recipes.length === 0 ? (
-                <p className='favorite-recipes-page-p'>No favorite recipes!</p>
-            ) : (
-                <div className='favorite-recipes'>
-                    <div className='favorite-recipes-header'>
-                        <h1>Favorite Recipes</h1>
-                        <button type='button' className='close-button' onClick={() => navigate(`/${page}`)}>x</button>
-                    </div>
+        <div className='activity-page-container'>
+            <div className='activity-page-header'>
+                <input type='button' value='<' className='previous-button' onClick={() => navigate(`/${page}`)} />
+                <h1>Favorite Recipes</h1>
+            </div>
 
+            {recipes.length === 0 ? (
+                <p>No favorite recipes!</p>
+            ) : (
+                <>
                     <div className='recipe-details-container'>
                         {recipes.map((recipe) => (
                             // Clickable area to view full recipe details
@@ -63,9 +63,9 @@ const FavoriteRecipes = () => {
                         totalPages={totalPages}
                         handlePageChange={handlePageChange}
                     />
-                </div>
+                </>
             )}
-        </>
+        </div>
     );
 };
 

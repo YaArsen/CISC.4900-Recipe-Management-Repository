@@ -226,38 +226,41 @@ exports.deleteComment = async (req, res) => {
     const { userId } = req.user;
     const { recipeId, commentId } = req.params;
     let topLevelCommentId = commentId; // topLevelCommentId is an ID of the comment the user wants to delete
-    const stack1 = []; // Used to track sub comments that need to be checked
-    const stack2 = [topLevelCommentId]; // Stores IDs of comments to be deleted
+    const stack = []; // Used to track sub comments that need to be checked
+    const set = new Set(); // Stores IDs of comments to be deleted
+    set.add(topLevelCommentId);
 
     try {
         const recipe = await Recipe.findById({ _id: recipeId });
+
         // Find all sub comments of the comment
         while (topLevelCommentId !== null) {
             for (let i = 0; i < recipe.comments.length; i++) {
                 const parentId = recipe.comments[i].parentId;
+
                 // Check if current comment in loop is a sub comment of the current comment
                 if (!parentId ? false : topLevelCommentId.toString() === parentId.toString()) {
-                    stack1.push(recipe.comments[i]._id.toString());
-                    stack2.push(recipe.comments[i]._id.toString());
+                    const subCommentId = recipe.comments[i]._id.toString();
+                    stack.push(subCommentId);
+                    set.add(subCommentId);
                 }
             }
+
             // Move to the next nested comment, or break while loop
-            if (stack1.length !== 0) {
-                topLevelCommentId = stack1.pop();
+            if (stack.length !== 0) {
+                topLevelCommentId = stack.pop();
             } else {
                 topLevelCommentId = null;
             }
         }
-        // Count how many comments in the deletion list belong to the user to update user stats
-        const count = recipe.comments.filter(comment => comment.user.toString() === userId.toString() && stack2.includes(comment._id.toString())).length;
-        // Update the user's total comment count for this recipe
+
         const user = await User.findById({ _id: userId });
-        const userNumberOfComments = user.commented.get(recipeId);
-        user.commented.set(recipeId, userNumberOfComments - count);
-        if (user.commented.get(recipeId) === 0) user.commented.delete(recipeId); // Remove the recipe from the user's map if they have 0 comments left
+        const count = recipe.comments.filter(comment => comment.user.toString() === userId.toString() && set.has(comment._id.toString())).length;
+        user.commented.set(recipeId, user.commented.get(recipeId) - count);
+        if (user.commented.get(recipeId) === 0) user.commented.delete(recipeId);
         await user.save();
 
-        while (stack2.length !== 0) recipe.comments.pull(stack2.pop()); // Pull all gathered comments by their IDs from the recipe document
+        for (const commentId of set) recipe.comments.pull(commentId); // Pull all gathered comments by their IDs from the recipe document
         await recipe.save();
         res.status(200).json(recipe.comments);
     } catch (error) {
@@ -341,13 +344,11 @@ exports.getFavoriteRecipes = async (req, res) => {
         const startIndex = (page - 1) * limit;
         const recipesIds = user.favorites.slice(startIndex, startIndex + limit);
         const recipes = [];
-        let removedRecipesIds = 0;
 
         for (let i = 0; i < recipesIds.length; i++) {
             const recipe = await Recipe.findById({ _id: recipesIds[i] });
 
             if (!recipe) {
-                removedRecipesIds++;
                 user.favorites.pull(recipesIds[i]);
                 await user.save();
             } else {
@@ -355,7 +356,7 @@ exports.getFavoriteRecipes = async (req, res) => {
             }
         }
 
-        res.status(200).json({ recipes, totalPages: Math.ceil((user.favorites.length - removedRecipesIds) / limit), currentPage: parseInt(page) });
+        res.status(200).json({ recipes, totalPages: Math.ceil(user.favorites.length / limit), currentPage: parseInt(page) });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -370,13 +371,11 @@ exports.getLikedRecipes = async (req, res) => {
         const startIndex = (page - 1) * limit;
         const recipesIds = user.liked.slice(startIndex, startIndex + limit);
         const recipes = [];
-        let removedRecipesIds = 0;
 
         for (let i = 0; i < recipesIds.length; i++) {
             const recipe = await Recipe.findById({ _id: recipesIds[i] });
 
             if (!recipe) {
-                removedRecipesIds++;
                 user.liked.pull(recipesIds[i]);
                 await user.save();
             } else {
@@ -384,7 +383,7 @@ exports.getLikedRecipes = async (req, res) => {
             }
         }
 
-        res.status(200).json({ recipes, totalPages: Math.ceil((user.liked.length - removedRecipesIds) / limit), currentPage: parseInt(page) });
+        res.status(200).json({ recipes, totalPages: Math.ceil(user.liked.length / limit), currentPage: parseInt(page) });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -399,13 +398,12 @@ exports.getCommentedRecipes = async (req, res) => {
         const startIndex = (page - 1) * limit;
         const recipeIds = [...user.commented.keys()].slice(startIndex, startIndex + limit);
         const recipes = [];
-        let removedRecipesIds = 0;
 
         for (let i = 0; i < recipeIds.length; i++) {
             const recipe = await Recipe.findById({ _id: recipeIds[i] });
+            const contains = recipe.comments.find(comment => comment.user.toString() === userId.toString());
 
-            if (!recipe) {
-                removedRecipesIds++;
+            if (!recipe || !contains) {
                 user.commented.delete(recipeIds[i]);
                 await user.save();
             } else {
@@ -413,7 +411,7 @@ exports.getCommentedRecipes = async (req, res) => {
             }
         }
 
-        res.status(200).json({ recipes, totalPages: Math.ceil((user.commented.size - removedRecipesIds) / limit), currentPage: parseInt(page) })
+        res.status(200).json({ recipes, totalPages: Math.ceil(user.commented.size / limit), currentPage: parseInt(page) });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

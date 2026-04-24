@@ -44,32 +44,34 @@ const LogIn = () => {
                 <ToastNotification message={message} setMessage={setMessage} />
             </div>
 
-            {/* The form element with an onSubmit handler pointing to the login function */}
-            <form className='log-in-container' onSubmit={logIn}>
-                <h2>Log in</h2>
+            <div className='log-in-container'>
+                {/* The form element with an onSubmit handler pointing to the login function */}
+                <form className='log-in-form' onSubmit={logIn}>
+                    <h2>Log in</h2>
 
-                {/* Email input field with handlers for change events */}
-                <input
-                    type='email'
-                    name='email'
-                    placeholder='Email'
-                    onChange={handleChange}
-                    required
-                />
+                    {/* Email input field with handlers for change events */}
+                    <input
+                        type='email'
+                        name='email'
+                        placeholder='Email'
+                        onChange={handleChange}
+                        required
+                    />
 
-                {/* Password input field with handlers for change events */}
-                <input
-                    type='password'
-                    name='password'
-                    placeholder='Password'
-                    onChange={handleChange}
-                    required
-                />
+                    {/* Password input field with handlers for change events */}
+                    <input
+                        type='password'
+                        name='password'
+                        placeholder='Password'
+                        onChange={handleChange}
+                        required
+                    />
 
-                <button type='submit'>Log in</button> {/* Submit button for the form */}
-                <Link to='/register'>Register</Link> {/* A link to navigate to the registration page */}
-                <Link to='/email'>Reset password</Link>
-            </form>
+                    <button type='submit'>Log in</button> {/* Submit button for the form */}
+                    <Link to='/register'>Register</Link> {/* A link to navigate to the registration page */}
+                    <Link to='/email'>Reset password</Link>
+                </form>
+            </div>
         </>
     );
 };
