@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Recipe = require('../models/Recipe');
-const mongoose = require('mongoose');
+const { getObjectId } = require('../utils/ObjectId');
+const { mergeSort } = require('../utils/sortingAlgorithm');
 
 exports.postRecipe = async (req, res) => {
     const { userId, name } = req.user; // From the decoded JWT
@@ -32,6 +33,7 @@ exports.postRecipe = async (req, res) => {
         await recipe.save();
 
         const user = await User.findById({ _id: userId });
+        if (!user) return res.status(404).json({ message: 'User not found' });
         user.recipes++;
         await user.save();
 
@@ -47,6 +49,7 @@ exports.getAllUserRecipes = async (req, res) => {
 
     try {
         const user = await User.findById({ _id: userId });
+        if (!user) return res.status(404).json({ message: 'User not found' });
         const startIndex = (page - 1) * limit;
         const recipes = await Recipe.find({ user: userId }).skip(startIndex).limit(parseInt(limit));
         res.status(200).json({ recipes, totalPages: Math.ceil(user.recipes / limit), currentPage: parseInt(page) });
@@ -61,6 +64,7 @@ exports.getRecipe = async (req, res) => {
 
     try {
         const recipe = await Recipe.findById({ _id: recipeId });
+        if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
         const user = await User.findById({ _id: recipe.user });
 
         if (user.name !== recipe.username) {
@@ -99,6 +103,7 @@ exports.updateRecipe = async (req, res) => {
 
     try {
         const recipe = await Recipe.findById({ _id: recipeId });
+        if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
 
         recipe.title = title;
         recipe.ingredients = ingredients;
@@ -124,7 +129,9 @@ exports.deleteRecipe = async (req, res) => {
 
     try {
         const recipe = await Recipe.findByIdAndDelete({ _id: recipeId });
+        if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
         const user = await User.findById({ _id: userId });
+        if (!user) return res.status(404).json({ message: 'User not found' });
         user.recipes--;
         await user.save();
 
@@ -142,13 +149,14 @@ exports.toggleFavorite = async (req, res) => {
 
     try {
         const user = await User.findById({ _id: userId });
+        if (!user) return res.status(404).json({ message: 'User not found' });
         const isFavorite = user.favorites.has(recipeId);
         let isActivated = false;
 
         if (isFavorite) {
             user.favorites.delete(recipeId);
         } else {
-            user.favorites.set(recipeId, 0);
+            user.favorites.set(recipeId, true);
             isActivated = true;
         }
 
@@ -165,7 +173,9 @@ exports.toggleLike = async (req, res) => {
 
     try {
         const user = await User.findById({ _id: userId });
+        if (!user) return res.status(404).json({ message: 'User not found' });
         const recipe = await Recipe.findById({ _id: recipeId });
+        if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
         const isLiked = user.liked.has(recipeId);
         let isActivated = false;
 
@@ -174,7 +184,7 @@ exports.toggleLike = async (req, res) => {
             user.liked.delete(recipeId);
         } else {
             recipe.likes += 1;
-            user.liked.set(recipeId, 0);
+            user.liked.set(recipeId, true);
             isActivated = true;
         }
 
@@ -193,7 +203,8 @@ exports.postComment = async (req, res) => {
 
     try {
         const recipe = await Recipe.findById({ _id: recipeId });
-        const commentId = new mongoose.Types.ObjectId();
+        if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
+        const commentId = getObjectId();
 
         recipe.comments.set(commentId, {
             _id: commentId,
@@ -206,7 +217,8 @@ exports.postComment = async (req, res) => {
         await recipe.save();
 
         const user = await User.findById({ _id: userId });
-        user.commented.set(recipeId, 0);
+        if (!user) return res.status(404).json({ message: 'User not found' });
+        user.commented.set(recipeId, true);
         await user.save();
 
         res.status(201).json([...recipe.comments.values()]);
@@ -221,7 +233,9 @@ exports.updateComment = async (req, res) => {
 
     try {
         const recipe = await Recipe.findById({ _id: recipeId });
+        if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
         const comment = recipe.comments.get(commentId);
+        if (!comment) return res.status(404).json({ message: 'Comment not found' });
 
         comment.content = content;
         comment.timestamp = new Date();
@@ -236,11 +250,12 @@ exports.deleteComment = async (req, res) => {
     const { userId } = req.user;
     const { recipeId, commentId } = req.params;
     let topLevelCommentId = commentId; // topLevelCommentId is an ID of the comment the user wants to delete
-    const stack1 = []; // Used to track sub comments that need to be checked
-    const stack2 = [topLevelCommentId]; // Stores IDs of comments to be deleted
+    const stack = []; // Used to track sub comments that need to be checked
 
     try {
         const recipe = await Recipe.findById({ _id: recipeId });
+        if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
+        recipe.comments.delete(commentId);
 
         // Find all sub comments of the comment
         while (topLevelCommentId !== null) {
@@ -248,23 +263,19 @@ exports.deleteComment = async (req, res) => {
                 const parentId = comment.parentId;
 
                 // Check if current comment in loop is a sub comment of the current comment
-                if (!parentId ? false : parentId.equals(topLevelCommentId)) {
+                if (parentId && parentId.equals(topLevelCommentId)) {
                     const subCommentId = comment._id;
-                    stack1.push(subCommentId);
-                    stack2.push(subCommentId);
+                    stack.push(subCommentId);
+                    recipe.comments.delete(subCommentId);
                 }
             }
 
             // Move to the next nested comment, or break while loop
-            if (stack1.length !== 0) {
-                topLevelCommentId = stack1.pop();
+            if (stack.length !== 0) {
+                topLevelCommentId = stack.pop();
             } else {
                 topLevelCommentId = null;
             }
-        }
-
-        while (stack2.length !== 0) {
-            recipe.comments.delete(stack2.pop()); // Pull all gathered comments by their IDs from the recipe document
         }
 
         await recipe.save();
@@ -279,7 +290,7 @@ exports.searchRecipes = async (req, res) => {
     const { title, cookingTime, difficulty, category, likes, startDate, endDate } = req.body;
     const query = { isPublic: true };
 
-    if (title && title.trim()) query.title = { $regex: title.trim(), $options: 'i' };
+    if (title.trim()) query.title = { $regex: title.trim(), $options: 'i' };
     if (cookingTime) query.cookingTime = { $lte: Number(cookingTime) };
     if (likes) query.likes = { $gte: Number(likes) };
     if (difficulty) query.difficulty = difficulty;
@@ -315,38 +326,13 @@ exports.searchRecipes = async (req, res) => {
     }
 };
 
-function mergeSort(arr) {
-    if (arr.length <= 1) {
-        return arr;
-    }
-    const mid = Math.floor(arr.length / 2);
-    const left = mergeSort(arr.slice(0, mid));
-    const right = mergeSort(arr.slice(mid));
-    return merge(left, right);
-}
-
-function merge(left, right) {
-    let result = [];
-    let i = 0;
-    let j = 0;
-    while (i < left.length && j < right.length) {
-        if (new Date(left[i].timestamp) > new Date(right[j].timestamp)) {
-            result.push(left[i]);
-            i++;
-        } else {
-            result.push(right[j]);
-            j++;
-        }
-    }
-    return result.concat(left.slice(i), right.slice(j));
-}
-
 exports.getFavoriteRecipes = async (req, res) => {
     const { userId } = req.user;
     const { page, limit } = req.params;
 
     try {
         const user = await User.findById({ _id: userId });
+        if (!user) return res.status(404).json({ message: 'User not found' });
         const startIndex = (page - 1) * limit;
         const recipesIds = [...user.favorites.keys()].slice(startIndex, startIndex + limit);
         const recipes = [];
@@ -362,7 +348,7 @@ exports.getFavoriteRecipes = async (req, res) => {
             }
         }
 
-        res.status(200).json({ recipes, totalPages: Math.ceil(user.favorites.length / limit), currentPage: parseInt(page) });
+        res.status(200).json({ recipes, totalPages: Math.ceil(user.favorites.size / limit), currentPage: parseInt(page) });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -374,6 +360,7 @@ exports.getLikedRecipes = async (req, res) => {
 
     try {
         const user = await User.findById({ _id: userId });
+        if (!user) return res.status(404).json({ message: 'User not found' });
         const startIndex = (page - 1) * limit;
         const recipesIds = [...user.liked.keys()].slice(startIndex, startIndex + limit);
         const recipes = [];
@@ -389,7 +376,7 @@ exports.getLikedRecipes = async (req, res) => {
             }
         }
 
-        res.status(200).json({ recipes, totalPages: Math.ceil(user.liked.length / limit), currentPage: parseInt(page) });
+        res.status(200).json({ recipes, totalPages: Math.ceil(user.liked.size / limit), currentPage: parseInt(page) });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -401,6 +388,7 @@ exports.getCommentedRecipes = async (req, res) => {
 
     try {
         const user = await User.findById({ _id: userId });
+        if (!user) return res.status(404).json({ message: 'User not found' });
         const startIndex = (page - 1) * limit;
         const recipeIds = [...user.commented.keys()].slice(startIndex, startIndex + limit);
         let isEqual = false;

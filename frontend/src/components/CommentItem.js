@@ -7,8 +7,8 @@ import { useState } from 'react';
 const CommentItem = ({ userId, recipeId, comment, allComments, onAddReply, setComments }) => {
     const [showReplyForm, setShowReplyForm] = useState(false);
     const [showReplies, setShowReplies] = useState(false);
-    const [activeManageId, setActiveManageId] = useState('');
-    const replies = allComments.filter(c => !c.parentId ? false : c.parentId.toString() === comment._id.toString());
+    const [activeManageId, setActiveManageId] = useState(null);
+    const replies = allComments.filter(c => c.parentId && c.parentId === comment._id);
 
     const handleReplySubmit = (content) => {
         onAddReply(comment._id, content);

@@ -8,21 +8,23 @@ exports.register = async (req, res) => {
     const { name, email, password, verificationToken } = req.body;
 
     try {
-        if (await User.findOne({ email: email })) return res.status(400).json({ message: 'Email already exists' });
-
         if (verificationToken) {
-            const user = jwt.verify(verificationToken, process.env.JWT_SECRET);
+            const decoded = jwt.verify(verificationToken, process.env.JWT_SECRET);
 
             // Create a new user and save the new user document to the database
-            await new User({
-                name: user.name,
-                email: user.email,
-                password: await bcrypt.hash(user.password, 10)
-            }).save();
+            const user = await new User({
+                name: decoded.name,
+                email: decoded.email,
+                password: await bcrypt.hash(decoded.password, 10)
+            });
+
+            await user.save();
 
             res.status(201).json({ message: 'User account registered successfully' });
         } else {
             if (name && email && password) {
+                if (await User.findOne({ email: email })) return res.status(400).json({ message: 'Email already exists' });
+
                 const token = jwt.sign(
                     {
                         name, 
@@ -67,9 +69,6 @@ exports.logIn = async (req, res) => {
                 userId: user._id,
                 name: user.name,
                 email: user.email,
-                favorites: user.favorites,
-                liked: user.liked,
-                commented: user.commented,
                 timestamp: user.timestamp
             }, 
             process.env.JWT_SECRET, // Secret key from environment variables for signing the token
@@ -151,10 +150,7 @@ exports.updateName = async (req, res) => {
                 userId: user._id,
                 name: user.name,
                 email: user.email,
-                timestamp: user.timestamp,
-                favorites: user.favorites,
-                liked: user.liked,
-                commented: user.commented
+                timestamp: user.timestamp
             }, 
             process.env.JWT_SECRET, // Secret key from environment variables for signing the token
             {
@@ -184,10 +180,7 @@ exports.updateEmail = async (req, res) => {
                     userId: user._id,
                     name: user.name,
                     email: user.email,
-                    timestamp: user.timestamp,
-                    favorites: user.favorites,
-                    liked: user.liked,
-                    commented: user.commented
+                    timestamp: user.timestamp
                 }, 
                 process.env.JWT_SECRET, // Secret key from environment variables for signing the token
                 {

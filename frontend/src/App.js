@@ -37,7 +37,7 @@ const App = () => {
                     <Route path='/:page/:pageNumber/recipe-view/:recipeId' element={<RecipeView />} />
                     <Route path='/:page/:pageNumber/recipe-view/:recipeId/comments' element={<CommentsContainer />} />
                     <Route path='/:page/account' element={<Account />} />
-                    <Route path='/:page/account/verify-new-email/:verificationToken' element={<VerifyNewEmail />} />
+                    <Route path='/account/verify-new-email/:verificationToken' element={<VerifyNewEmail />} />
                     <Route path='/:page/favorite-recipes' element={<FavoriteRecipes />} />
                     <Route path='/:page/liked-recipes' element={<LikedRecipes />} />
                     <Route path='/:page/commented-recipes' element={<CommentedRecipes />} />

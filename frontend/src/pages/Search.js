@@ -18,14 +18,13 @@ const Search = () => {
 
     useEffect(() => {
         const pageNumber = localStorage.getItem('pageNumber');
+        const recipe = localStorage.getItem('recipe');
 
-        if (pageNumber) {
+        if (pageNumber && recipe) {
             localStorage.removeItem('pageNumber');
-            const recipe = JSON.parse(localStorage.getItem('recipe'));
             localStorage.removeItem('recipe');
-            setCurrentPage(JSON.parse(pageNumber));
-            setTempRecipe(recipe);
-            searchRecipes(recipe, pageNumber);
+            setTempRecipe(JSON.parse(recipe));
+            searchRecipes(JSON.parse(recipe), pageNumber);
         } else {
             if (tempRecipe) {
                 searchRecipes(tempRecipe, currentPage);

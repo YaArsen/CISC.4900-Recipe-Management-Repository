@@ -14,7 +14,7 @@ const Recipes = () => {
     const [user, setUser] = useState(null);
     const [recipes, setRecipes] = useState(null); // State to hold user's recipes
     const [message, setMessage] = useState(''); // State for displaying user notifications
-    const [activeManageId, setActiveManageId] = useState('');
+    const [activeManageId, setActiveManageId] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const navigate = useNavigate();

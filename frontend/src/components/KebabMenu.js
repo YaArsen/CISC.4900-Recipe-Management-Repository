@@ -9,7 +9,7 @@ const KebabMenu = ({ setActiveManageId, activeManageId, id }) => {
                 className='manage-button'
                 onClick={(e) => {
                     e.stopPropagation();
-                    setActiveManageId(activeManageId === id ? '' : id.toString());
+                    setActiveManageId(activeManageId === id ? null : id);
                 }}
             >
                 <img src={threeVerticalDots} alt='manage' />

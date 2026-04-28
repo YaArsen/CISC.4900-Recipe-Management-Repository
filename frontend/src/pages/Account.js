@@ -50,7 +50,7 @@ const Account = () => {
         if (!user.email.trim()) return;
 
         try {
-            const data = await fetchUpdateEmail({ page, email: user.email.trim(), password: user.passwordToChangeEmail.trim() });
+            const data = await fetchUpdateEmail({ email: user.email.trim(), password: user.passwordToChangeEmail.trim() });
             setMessage(data.message);
             setUser({ ...user, email: '', passwordToChangeEmail: '' });
         } catch (error) {
