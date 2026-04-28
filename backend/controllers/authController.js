@@ -162,20 +162,6 @@ exports.updateName = async (req, res) => {
             }
         );
 
-        await Recipe.updateMany({ user: userId }, { username: name });
-
-        for (const recipeId of user.commented.keys()) {
-            const recipe = await Recipe.findById({ _id: recipeId });
-
-            if (recipe) {
-                recipe.comments.map(comment => comment.user.toString() === userId.toString() ? comment.username = name : comment);
-                await recipe.save();
-            } else {
-                user.commented.delete(recipeId);
-                await user.save();
-            }
-        }
-
         res.status(200).json({ token, message: 'Username updated successfully'});
     } catch (error) {
         res.status(500).json({ message: error.message });

@@ -35,7 +35,7 @@ const CommentsContainer = () => {
             try {
                 const data = await fetchGetRecipe(recipeId);
                 setRecipe(data.recipe);
-                setComments(data.recipe.comments);
+                setComments(data.comments);
             } catch (error) {
                 alert(error);
             }
@@ -54,7 +54,7 @@ const CommentsContainer = () => {
         }
     };
 
-    if (!user || !comments || !recipe) return <p className='loading'>Loading...</p>; // Simple loading state
+    if (!user || !comments) return <p className='loading'>Loading...</p>; // Simple loading state
 
     // Filter to get only top-level comments (those without a parentId) and sort them by timestamp (newest first)
     const topLevelComments = mergeSort(comments.filter(c => !c.parentId));

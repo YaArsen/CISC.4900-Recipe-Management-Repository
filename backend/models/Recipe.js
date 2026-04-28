@@ -18,7 +18,7 @@ const recipeSchema = new mongoose.Schema({
     category: { type: String, required: true },
     difficulty: { type: String, required: true },
     likes: { type: Number, default: 0 },
-    comments: [commentSchema],
+    comments: { type: Map, of: commentSchema, default: new Map() },
     username: String,
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     timestamp: { type: Date, default: Date.now }

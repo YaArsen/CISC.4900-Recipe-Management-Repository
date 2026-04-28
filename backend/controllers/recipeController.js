@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Recipe = require('../models/Recipe');
+const mongoose = require('mongoose');
 
 exports.postRecipe = async (req, res) => {
     const { userId, name } = req.user; // From the decoded JWT
@@ -60,10 +61,22 @@ exports.getRecipe = async (req, res) => {
 
     try {
         const recipe = await Recipe.findById({ _id: recipeId });
-        const user = await User.findById({ _id: userId });
-        const isFavoriteButtonActivated = user.favorites.includes(recipeId);
-        const isLikeButtonActivated = user.liked.includes(recipeId);
-        res.status(200).json({ recipe, isFavoriteButtonActivated, isLikeButtonActivated });
+        const user = await User.findById({ _id: recipe.user });
+
+        if (user.name !== recipe.username) {
+            for (const comment of recipe.comments.values()) {
+                if (comment.user.equals(user._id)) {
+                    comment.username = user.name;
+                }
+            }
+
+            recipe.username = user.name;
+            await recipe.save();
+        }
+
+        const isFavoriteButtonActivated = user.favorites.has(recipeId);
+        const isLikeButtonActivated = user.liked.has(recipeId);
+        res.status(200).json({ recipe, comments: [...recipe.comments.values()], isFavoriteButtonActivated, isLikeButtonActivated });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -129,13 +142,13 @@ exports.toggleFavorite = async (req, res) => {
 
     try {
         const user = await User.findById({ _id: userId });
-        const isFavorite = user.favorites.includes(recipeId);
+        const isFavorite = user.favorites.has(recipeId);
         let isActivated = false;
 
         if (isFavorite) {
-            user.favorites.pull(recipeId);
+            user.favorites.delete(recipeId);
         } else {
-            user.favorites.push(recipeId);
+            user.favorites.set(recipeId, 0);
             isActivated = true;
         }
 
@@ -153,15 +166,15 @@ exports.toggleLike = async (req, res) => {
     try {
         const user = await User.findById({ _id: userId });
         const recipe = await Recipe.findById({ _id: recipeId });
-        const isLiked = user.liked.includes(recipeId);
+        const isLiked = user.liked.has(recipeId);
         let isActivated = false;
 
         if (isLiked) {
             recipe.likes -= 1;
-            user.liked.pull(recipeId);
+            user.liked.delete(recipeId);
         } else {
             recipe.likes += 1;
-            user.liked.push(recipeId);
+            user.liked.set(recipeId, 0);
             isActivated = true;
         }
 
@@ -180,8 +193,10 @@ exports.postComment = async (req, res) => {
 
     try {
         const recipe = await Recipe.findById({ _id: recipeId });
+        const commentId = new mongoose.Types.ObjectId();
 
-        recipe.comments.push({
+        recipe.comments.set(commentId, {
+            _id: commentId,
             username: name,
             parentId: parentId,
             content: content,
@@ -191,15 +206,10 @@ exports.postComment = async (req, res) => {
         await recipe.save();
 
         const user = await User.findById({ _id: userId });
-
-        if (!user.commented.has(recipeId)) {
-            user.commented.set(recipeId, 0);
-        }
-
-        user.commented.set(recipeId, user.commented.get(recipeId) + 1);
+        user.commented.set(recipeId, 0);
         await user.save();
 
-        res.status(201).json(recipe.comments);
+        res.status(201).json([...recipe.comments.values()]);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -211,12 +221,12 @@ exports.updateComment = async (req, res) => {
 
     try {
         const recipe = await Recipe.findById({ _id: recipeId });
-        const comment = recipe.comments.id(commentId);
+        const comment = recipe.comments.get(commentId);
 
         comment.content = content;
         comment.timestamp = new Date();
         await recipe.save();
-        res.status(200).json(recipe.comments);
+        res.status(200).json([...recipe.comments.values()]);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -226,43 +236,39 @@ exports.deleteComment = async (req, res) => {
     const { userId } = req.user;
     const { recipeId, commentId } = req.params;
     let topLevelCommentId = commentId; // topLevelCommentId is an ID of the comment the user wants to delete
-    const stack = []; // Used to track sub comments that need to be checked
-    const set = new Set(); // Stores IDs of comments to be deleted
-    set.add(topLevelCommentId);
+    const stack1 = []; // Used to track sub comments that need to be checked
+    const stack2 = [topLevelCommentId]; // Stores IDs of comments to be deleted
 
     try {
         const recipe = await Recipe.findById({ _id: recipeId });
 
         // Find all sub comments of the comment
         while (topLevelCommentId !== null) {
-            for (let i = 0; i < recipe.comments.length; i++) {
-                const parentId = recipe.comments[i].parentId;
+            for (const comment of recipe.comments.values()) {
+                const parentId = comment.parentId;
 
                 // Check if current comment in loop is a sub comment of the current comment
-                if (!parentId ? false : topLevelCommentId.toString() === parentId.toString()) {
-                    const subCommentId = recipe.comments[i]._id.toString();
-                    stack.push(subCommentId);
-                    set.add(subCommentId);
+                if (!parentId ? false : parentId.equals(topLevelCommentId)) {
+                    const subCommentId = comment._id;
+                    stack1.push(subCommentId);
+                    stack2.push(subCommentId);
                 }
             }
 
             // Move to the next nested comment, or break while loop
-            if (stack.length !== 0) {
-                topLevelCommentId = stack.pop();
+            if (stack1.length !== 0) {
+                topLevelCommentId = stack1.pop();
             } else {
                 topLevelCommentId = null;
             }
         }
 
-        const user = await User.findById({ _id: userId });
-        const count = recipe.comments.filter(comment => comment.user.toString() === userId.toString() && set.has(comment._id.toString())).length;
-        user.commented.set(recipeId, user.commented.get(recipeId) - count);
-        if (user.commented.get(recipeId) === 0) user.commented.delete(recipeId);
-        await user.save();
+        while (stack2.length !== 0) {
+            recipe.comments.delete(stack2.pop()); // Pull all gathered comments by their IDs from the recipe document
+        }
 
-        for (const commentId of set) recipe.comments.pull(commentId); // Pull all gathered comments by their IDs from the recipe document
         await recipe.save();
-        res.status(200).json(recipe.comments);
+        res.status(200).json([...recipe.comments.values()]);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -342,14 +348,14 @@ exports.getFavoriteRecipes = async (req, res) => {
     try {
         const user = await User.findById({ _id: userId });
         const startIndex = (page - 1) * limit;
-        const recipesIds = user.favorites.slice(startIndex, startIndex + limit);
+        const recipesIds = [...user.favorites.keys()].slice(startIndex, startIndex + limit);
         const recipes = [];
 
         for (let i = 0; i < recipesIds.length; i++) {
             const recipe = await Recipe.findById({ _id: recipesIds[i] });
 
             if (!recipe) {
-                user.favorites.pull(recipesIds[i]);
+                user.favorites.delete(recipesIds[i]);
                 await user.save();
             } else {
                 recipes.push(recipe);
@@ -369,14 +375,14 @@ exports.getLikedRecipes = async (req, res) => {
     try {
         const user = await User.findById({ _id: userId });
         const startIndex = (page - 1) * limit;
-        const recipesIds = user.liked.slice(startIndex, startIndex + limit);
+        const recipesIds = [...user.liked.keys()].slice(startIndex, startIndex + limit);
         const recipes = [];
 
         for (let i = 0; i < recipesIds.length; i++) {
             const recipe = await Recipe.findById({ _id: recipesIds[i] });
 
             if (!recipe) {
-                user.liked.pull(recipesIds[i]);
+                user.liked.delete(recipesIds[i]);
                 await user.save();
             } else {
                 recipes.push(recipe);
@@ -397,13 +403,20 @@ exports.getCommentedRecipes = async (req, res) => {
         const user = await User.findById({ _id: userId });
         const startIndex = (page - 1) * limit;
         const recipeIds = [...user.commented.keys()].slice(startIndex, startIndex + limit);
+        let isEqual = false;
         const recipes = [];
 
         for (let i = 0; i < recipeIds.length; i++) {
             const recipe = await Recipe.findById({ _id: recipeIds[i] });
-            const contains = recipe.comments.find(comment => comment.user.toString() === userId.toString());
 
-            if (!recipe || !contains) {
+            for (const comment of recipe.comments.values()) {
+                if (comment.user.equals(userId)) {
+                    isEqual = true;
+                    break;
+                }
+            }
+
+            if (!recipe || !isEqual) {
                 user.commented.delete(recipeIds[i]);
                 await user.save();
             } else {
