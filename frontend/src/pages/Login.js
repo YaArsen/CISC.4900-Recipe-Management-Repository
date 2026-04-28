@@ -37,7 +37,7 @@ const LogIn = () => {
     const handleChange = (e) => {
         setUser({ ...user, [e.target.name]: e.target.value }); // Updates the user state dynamically based on the input field's name attribute.
     };
-
+ 
     return (
         <>
             <div className='log-in-toast-notification'>

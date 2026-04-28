@@ -1,4 +1,4 @@
-const Fetch = async (url, obj = {}) => {
+const fetchData = async (url, obj = {}) => {
     const par = {}; // Initialize parameters for fetch
 
     if (obj.method) par.method = obj.method; // 1. Set HTTP method if provided (defaults to GET in fetch)
@@ -12,4 +12,4 @@ const Fetch = async (url, obj = {}) => {
     return await fetch(url, par); // 4. Perform the fetch request with structured parameters
 };
 
-export default Fetch;
+export default fetchData;
