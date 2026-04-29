@@ -6,13 +6,13 @@ const KebabMenu = ({ setActiveManageId, activeManageId, id }) => {
             {/* Edit button sets the active recipe ID and switches view */}
             <button
                 type='button'
-                className='manage-button'
+                className='kebab-menu'
                 onClick={(e) => {
                     e.stopPropagation();
                     setActiveManageId(activeManageId === id ? null : id);
                 }}
             >
-                <img src={threeVerticalDots} alt='manage' />
+                <img src={threeVerticalDots} alt='kebab-menu' />
             </button>
         </>
     );

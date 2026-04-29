@@ -53,7 +53,7 @@ const SearchForm = ({ initialRecipe, onSubmit, isFetched, length }) => {
                     <img src={SearchOutline} alt='Search' />
                 </button>
 
-                {isFetched && length === 0 && <h2 className='search-page-h2'>No recipes found</h2>}
+                {isFetched && length === 0 && <h2>No recipes found</h2>}
             </div>
 
             {/* Advanced Filters Section: conditionally rendered */}

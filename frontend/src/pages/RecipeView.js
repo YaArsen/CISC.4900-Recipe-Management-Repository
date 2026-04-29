@@ -52,7 +52,7 @@ const RecipeView = () => {
     if (!recipe || isLikeButtonActivated === null) return <p className='loading'>Loading...</p>; // Render loading state while data is being fetched
 
     return (
-        <div className='recipe-view'>
+        <div className='recipe-view-container'>
             <div className='recipe-header'>
                 <h4>{recipe.title}</h4>
 
