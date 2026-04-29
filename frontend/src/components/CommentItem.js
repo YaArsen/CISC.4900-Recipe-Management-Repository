@@ -30,7 +30,7 @@ const CommentItem = ({ userId, recipeId, comment, allComments, onAddReply, setCo
                         id={comment._id}
                     />
 
-                    {activeManageId === comment._id && userId.toString() === comment.user.toString() && (
+                    {activeManageId === comment._id && userId === comment.user && (
                         <div className='is-managing-container'>
                             <EditComment
                                 setActiveManageId={setActiveManageId}

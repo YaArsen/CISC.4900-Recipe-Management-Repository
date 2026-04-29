@@ -107,7 +107,7 @@ body {
 }
 
 .recipes-header h1,
-.recipe-view .likes-container h4 {
+.recipe-view-container .likes-container h4 {
     align-self: center;
 }
 
@@ -118,8 +118,12 @@ body {
 .pagination input:hover,
 .pagination .page:hover,
 .pagination .page.show:hover,
-.form-button:hover,
+.profile-header .search-button:hover,
+.profile-header .recipes-button:hover,
+.search-results button:hover,
+.filters .form-button:hover,
 .recipes-header button:hover,
+.recipe-form-container .form-button:hover,
 .account-container button:hover:not(.account-container .close-button) {
     background: #333;
     cursor: pointer;
@@ -330,12 +334,6 @@ input[type='radio'] {
     color: #fff;
 }
 
-.profile-header .search-button:hover,
-.profile-header .recipes-button:hover {
-    background: #333;
-    cursor: pointer;
-}
-
 .profile-header .search-button.show,
 .profile-header .recipes-button.show {
     box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.5);
@@ -387,6 +385,7 @@ input[type='radio'] {
     border: 2px solid aqua;
     cursor: pointer;
 }
+
 .recipe-details-container .recipe-details img:not(.recipe-details-container .recipe-details .kebab-menu img) {
     width: 100%;
     height: 200px;
@@ -424,11 +423,6 @@ input[type='radio'] {
     height: 50px;
     width: 100px;
     border-radius: 8px;
-}
-
-.search-results button:hover {
-    background: #333;
-    cursor: pointer;
 }
 
 .search-results input {
