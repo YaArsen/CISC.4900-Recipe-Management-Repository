@@ -35,6 +35,7 @@ const CommentedRecipes = () => {
 
     const handlePageChange = (page) => getCommentedRecipes(page);
 
+    if (page !== 'search' && page !== 'recipes') return <div>404 Not Found</div>;
     if (!recipes) return <p className='loading'>Loading...</p>; // Loading state
 
     return (

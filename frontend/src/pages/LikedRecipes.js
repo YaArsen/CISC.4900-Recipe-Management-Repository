@@ -35,6 +35,7 @@ const LikedRecipes = () => {
 
     const handlePageChange = (page) => getLikedRecipes(page);
 
+    if (page !== 'search' && page !== 'recipes') return <div>404 Not Found</div>;
     if (!recipes) return <p className='loading'>Loading...</p>; // Loading state
 
     return (

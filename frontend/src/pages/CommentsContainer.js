@@ -1,4 +1,4 @@
-import { fetchGetRecipe, fetchPostComment } from '../api';
+import { fetchGetRecipe, fetchGetRecipeComments, fetchPostComment } from '../api';
 import mergeSort from '../utils/sortingAlgorithm';
 import CommentItem from '../components/CommentItem';
 import CommentForm from '../components/CommentForm';
@@ -34,14 +34,23 @@ const CommentsContainer = () => {
         const getRecipe = async () => {
             try {
                 const data = await fetchGetRecipe(recipeId);
-                setRecipe(data.recipe);
-                setComments(data.comments);
+                setRecipe(data);
+            } catch (error) {
+                alert(error);
+            }
+        };
+
+        const getRecipeComments = async () => {
+            try {
+                const data = await fetchGetRecipeComments(recipeId);
+                setComments(data);
             } catch (error) {
                 alert(error);
             }
         };
 
         getRecipe();
+        getRecipeComments();
     }, [recipeId]);
 
     // Function to handle submitting a new comment or reply
@@ -54,7 +63,9 @@ const CommentsContainer = () => {
         }
     };
 
-    if (!user || !comments) return <p className='loading'>Loading...</p>; // Simple loading state
+    const array = page.split(' ');
+    if (page !== 'search' && page !== 'recipes' && array[0] !== 'search' && array[0] !== 'recipes') return <div>404 Not Found</div>;
+    if (!user || !recipe || !comments) return <p className='loading'>Loading...</p>; // Simple loading state
 
     // Filter to get only top-level comments (those without a parentId) and sort them by timestamp (newest first)
     const topLevelComments = mergeSort(comments.filter(c => !c.parentId));

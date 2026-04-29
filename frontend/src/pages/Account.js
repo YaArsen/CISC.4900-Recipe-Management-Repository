@@ -78,6 +78,7 @@ const Account = () => {
         setUser({ ...user, [e.target.name]: e.target.value }); // Updates the user state dynamically based on the input field's name attribute.
     };
 
+    if (page !== 'search' && page !== 'recipes') return <div>404 Not Found</div>;
     if (!userData) return <p className='loading'>Loading...</p>;
 
     return (

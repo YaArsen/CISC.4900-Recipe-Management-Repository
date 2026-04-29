@@ -46,6 +46,14 @@ export const fetchGetRecipe = async (recipeId) => {
     return data;
 };
 
+export const fetchGetIsActivated = async (recipeId) => {
+    const token = localStorage.getItem('token');
+    const res = await fetchData(`/api/recipes/${recipeId}/recipe/isActivated`, { token });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    return data;
+};
+
 export const fetchUpdateRecipe = async (recipeId, recipe) => {
     const token = localStorage.getItem('token');
     const res = await fetchData(`/api/recipes/${recipeId}`, { method: 'PUT', token, body: recipe });
@@ -89,6 +97,14 @@ export const fetchSearchRecipes = async (recipe, page) => {
 export const fetchPostComment = async (recipeId, comment) => {
     const token = localStorage.getItem('token');
     const res = await fetchData(`/api/recipes/${recipeId}/comments`, { method: 'POST', token, body: comment });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    return data;
+};
+
+export const fetchGetRecipeComments = async (recipeId) => {
+    const token = localStorage.getItem('token');
+    const res = await fetchData(`/api/recipes/${recipeId}/recipe/comments`, { token });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message);
     return data;

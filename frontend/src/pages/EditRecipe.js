@@ -13,7 +13,7 @@ const EditRecipe = () => {
         const getRecipe = async () => {
             try {
                 const data = await fetchGetRecipe(recipeId);
-                setRecipe(data.recipe);
+                setRecipe(data);
             } catch (error) {
                 return alert(error);
             }

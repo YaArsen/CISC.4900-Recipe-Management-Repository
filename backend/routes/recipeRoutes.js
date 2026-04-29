@@ -6,6 +6,7 @@ const router = express.Router();
 router.post('/', auth, recipeController.postRecipe);
 router.get('/:page/:limit', auth, recipeController.getAllUserRecipes);
 router.get('/:recipeId', auth, recipeController.getRecipe);
+router.get('/:recipeId/recipe/isActivated', auth, recipeController.isActivated);
 router.put('/:recipeId', auth, recipeController.updateRecipe);
 router.delete('/:recipeId/:page/:limit', auth, recipeController.deleteRecipe);
 
@@ -13,6 +14,7 @@ router.put('/:recipeId/favorites', auth, recipeController.toggleFavorite);
 router.put('/:recipeId/likes', auth, recipeController.toggleLike);
 
 router.post('/:recipeId/comments', auth, recipeController.postComment);
+router.get('/:recipeId/recipe/comments', auth, recipeController.getRecipeComments);
 router.put('/:recipeId/comments/:commentId', auth, recipeController.updateComment);
 router.delete('/:recipeId/comments/delete-comment/:commentId', auth, recipeController.deleteComment);
 

@@ -23,7 +23,7 @@ exports.postRecipe = async (req, res) => {
             instructions: instructions,
             base64File: file,
             isPublic: isPublic,
-            cookingTime: Number(cookingTime),
+            cookingTime: cookingTime,
             category: category,
             difficulty: difficulty,
             username: name,
@@ -59,7 +59,6 @@ exports.getAllUserRecipes = async (req, res) => {
 };
 
 exports.getRecipe = async (req, res) => {
-    const { userId } = req.user;
     const { recipeId } = req.params;
 
     try {
@@ -68,19 +67,30 @@ exports.getRecipe = async (req, res) => {
         const user = await User.findById({ _id: recipe.user });
 
         if (user.name !== recipe.username) {
-            for (const comment of recipe.comments.values()) {
-                if (comment.user.equals(user._id)) {
-                    comment.username = user.name;
-                }
-            }
-
             recipe.username = user.name;
             await recipe.save();
         }
 
+        res.status(200).json(recipe);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+exports.isActivated = async (req, res) => {
+    const { userId } = req.user;
+    const { recipeId } = req.params;
+
+    try {
+        const user = await User.findById({ _id: userId });
+        if (!user) return res.status(404).json({ message: 'User not found' });
+        const recipe = await Recipe.findById({ _id: recipeId });
+        if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
+
         const isFavoriteButtonActivated = user.favorites.has(recipeId);
         const isLikeButtonActivated = user.liked.has(recipeId);
-        res.status(200).json({ recipe, comments: [...recipe.comments.values()], isFavoriteButtonActivated, isLikeButtonActivated });
+
+        res.status(200).json({ isFavoriteButtonActivated, isLikeButtonActivated });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -110,7 +120,7 @@ exports.updateRecipe = async (req, res) => {
         recipe.instructions = instructions;
         recipe.base64File = file || recipe.base64File;
         recipe.isPublic = isPublic;
-        recipe.cookingTime = Number(cookingTime);
+        recipe.cookingTime = cookingTime;
         recipe.category = category;
         recipe.difficulty = difficulty;
         recipe.timestamp = new Date();
@@ -227,6 +237,28 @@ exports.postComment = async (req, res) => {
     }
 };
 
+exports.getRecipeComments = async (req, res) => {
+    const { recipeId } = req.params;
+
+    try {
+        const recipe = await Recipe.findById({ _id: recipeId });
+        if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
+
+        for (const comment of recipe.comments.values()) {
+            const user = await User.findById({ _id: comment.user });
+
+            if (user.name !== comment.username) {
+                comment.username = user.name;
+                await recipe.save();
+            }
+        }
+
+        res.status(200).json([...recipe.comments.values()]);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 exports.updateComment = async (req, res) => {
     const { recipeId, commentId } = req.params;
     const { content } = req.body;
@@ -290,9 +322,9 @@ exports.searchRecipes = async (req, res) => {
     const { title, cookingTime, difficulty, category, likes, startDate, endDate } = req.body;
     const query = { isPublic: true };
 
-    if (title.trim()) query.title = { $regex: title.trim(), $options: 'i' };
-    if (cookingTime) query.cookingTime = { $lte: Number(cookingTime) };
-    if (likes) query.likes = { $gte: Number(likes) };
+    if (title && title.trim()) query.title = { $regex: title.trim(), $options: 'i' };
+    if (cookingTime) query.cookingTime = { $lte: cookingTime };
+    if (likes) query.likes = { $gte: likes };
     if (difficulty) query.difficulty = difficulty;
     if (category) query.category = category;
 
@@ -397,6 +429,12 @@ exports.getCommentedRecipes = async (req, res) => {
         for (let i = 0; i < recipeIds.length; i++) {
             const recipe = await Recipe.findById({ _id: recipeIds[i] });
 
+            if (!recipe) {
+                user.commented.delete(recipeIds[i]);
+                await user.save();
+                continue;
+            }
+
             for (const comment of recipe.comments.values()) {
                 if (comment.user.equals(userId)) {
                     isEqual = true;
@@ -404,11 +442,12 @@ exports.getCommentedRecipes = async (req, res) => {
                 }
             }
 
-            if (!recipe || !isEqual) {
+            if (!isEqual) {
                 user.commented.delete(recipeIds[i]);
                 await user.save();
             } else {
                 recipes.push(recipe);
+                isEqual = false;
             }
         }
 

@@ -1,4 +1,4 @@
-import { fetchGetRecipe } from '../api';
+import { fetchGetRecipe, fetchGetIsActivated } from '../api';
 import ToggleFavoriteButton from '../components/ToggleFavoriteButton';
 import ToggleLikeButton from '../components/ToggleLikeButton';
 import { useState, useEffect } from 'react';
@@ -27,7 +27,15 @@ const RecipeView = () => {
         const getRecipe = async () => {
             try {
                 const data = await fetchGetRecipe(recipeId);
-                setRecipe(data.recipe);
+                setRecipe(data);
+            } catch (error) {
+                alert(error);
+            }
+        };
+
+        const getIsActivated = async () => {
+            try {
+                const data = await fetchGetIsActivated(recipeId);
                 setIsFavoriteButtonActivated(data.isFavoriteButtonActivated);
                 setIsLikeButtonActivated(data.isLikeButtonActivated);
             } catch (error) {
@@ -36,9 +44,12 @@ const RecipeView = () => {
         };
 
         getRecipe();
+        getIsActivated();
     }, [recipeId]);
 
-    if (isLikeButtonActivated === null) return <p className='loading'>Loading...</p>; // Render loading state while data is being fetched
+    const array = page.split(' ');
+    if (page !== 'search' && page !== 'recipes' && array[0] !== 'search' && array[0] !== 'recipes') return <div>404 Not Found</div>;
+    if (!recipe || isLikeButtonActivated === null) return <p className='loading'>Loading...</p>; // Render loading state while data is being fetched
 
     return (
         <div className='recipe-view'>
@@ -51,7 +62,6 @@ const RecipeView = () => {
                     onClick={() => {
                         if (tempRecipe) localStorage.setItem('recipe', JSON.stringify(tempRecipe));
                         localStorage.setItem('pageNumber', pageNumber);
-                        const array = page.split(' ');
                         array.length === 2 ? navigate(`/${array[0]}/${array[1]}`) : navigate(`/${page}`);
                     }}
                 >
