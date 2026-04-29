@@ -4,9 +4,9 @@ const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, unique: true, required: true, index: true },
     password: { type: String, required: true },
-    favorites: { type: Map, of: undefined, default: new Map() },
-    liked: { type: Map, of: undefined, default: new Map() },
-    commented: { type: Map, of: undefined, default: new Map() },
+    favorites: { type: Map, of: Boolean, default: new Map() },
+    liked: { type: Map, of: Boolean, default: new Map() },
+    commented: { type: Map, of: Boolean, default: new Map() },
     recipes: { type: Number, default: 0 },
     timestamp: { type: Date, default: Date.now }
 });

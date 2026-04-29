@@ -166,7 +166,7 @@ exports.toggleFavorite = async (req, res) => {
         if (isFavorite) {
             user.favorites.delete(recipeId);
         } else {
-            user.favorites.set(recipeId, undefined);
+            user.favorites.set(recipeId, true);
             isActivated = true;
         }
 
@@ -194,7 +194,7 @@ exports.toggleLike = async (req, res) => {
             user.liked.delete(recipeId);
         } else {
             recipe.likes += 1;
-            user.liked.set(recipeId, undefined);
+            user.liked.set(recipeId, true);
             isActivated = true;
         }
 
@@ -228,7 +228,7 @@ exports.postComment = async (req, res) => {
 
         const user = await User.findById({ _id: userId });
         if (!user) return res.status(404).json({ message: 'User not found' });
-        user.commented.set(recipeId, undefined);
+        user.commented.set(recipeId, true);
         await user.save();
 
         res.status(201).json([...recipe.comments.values()]);
