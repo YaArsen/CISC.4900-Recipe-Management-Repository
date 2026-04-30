@@ -43,7 +43,7 @@ const CommentedRecipes = () => {
             <div className='activity-page-header'>
                 <input type='button' value='<' className='previous-button' onClick={() => navigate(`/${page}`)} />
                 <h1>Commented Recipes</h1>
-            </div>`
+            </div>
 
             {recipes.length === 0 ? (
                 <p>No commented recipes!</p>

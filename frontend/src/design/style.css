@@ -19,6 +19,53 @@ body {
     font-family: Arial, sans-serif;
 }
 
+.log-in-toast-notification,
+.recipes-toast-notification,
+.account-toast-notification {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.log-in-toast-notification .toast-notification,
+.recipes-toast-notification .toast-notification,
+.account-toast-notification .toast-notification {
+    position: absolute;
+    margin: 30px 0;
+    z-index: 1;
+}
+
+.recipes-page-p,
+.loading {
+    text-align: center;
+}
+
+.register-form button:hover,
+.log-in-form button:hover,
+.email-form button:hover,
+.password-reset-form button:hover,
+.pagination input:hover,
+.pagination .page:hover,
+.pagination .page.show:hover,
+.header .search-button:hover,
+.header .recipes-button:hover,
+.search-results button:hover,
+.filters .form-button:hover,
+.recipes-header button:hover,
+.recipe-form-container .form-button:hover,
+.account-container button:hover:not(.account-container .close-button:hover) {
+    background: #333;
+    cursor: pointer;
+}
+
+input[type='radio'] {
+    margin: 10px;
+}
+
+/* =========================================
+   Register/LogIn/Email/PasswordReset Styles
+   ========================================= */
 .register-container,
 .log-in-container,
 .email-container,
@@ -50,35 +97,7 @@ body {
 .register-form button,
 .log-in-form button,
 .register-form input,
-.log-in-form input {
-    height: 50px;
-    width: 100%;
-    border-radius: 5px;
-}
-
-.log-in-form a,
-.register-form p {
-    display: flex;
-    align-self: flex-start;
-}
-
-.log-in-toast-notification,
-.recipes-toast-notification,
-.account-toast-notification {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-}
-
-.log-in-toast-notification .toast-notification,
-.recipes-toast-notification .toast-notification,
-.account-toast-notification .toast-notification {
-    position: absolute;
-    margin: 30px 0;
-    z-index: 1;
-}
-
+.log-in-form input,
 .email-form button,
 .email-form input,
 .password-reset-form button,
@@ -88,58 +107,19 @@ body {
     border-radius: 5px;
 }
 
-.profile-header .search-button,
-.profile-header .recipes-button,
-.recipes-header button {
-    align-self: center;
-    height: 50px;
-    width: 500px;
-    border-radius: 10px;
-}
-
 .register-form,
-.log-in-form,
-.recipes-page-p,
-.recipe-details h1,
-.activity-page-container p,
-.loading {
+.log-in-form {
     text-align: center;
 }
 
-.recipes-header h1,
-.recipe-view-container .likes-container h4 {
-    align-self: center;
+.log-in-form a,
+.register-form p {
+    align-self: flex-start;
 }
 
-.register-form button:hover,
-.log-in-form button:hover,
-.email-form button:hover,
-.password-reset-form button:hover,
-.pagination input:hover,
-.pagination .page:hover,
-.pagination .page.show:hover,
-.profile-header .search-button:hover,
-.profile-header .recipes-button:hover,
-.search-results button:hover,
-.filters .form-button:hover,
-.recipes-header button:hover,
-.recipe-form-container .form-button:hover,
-.account-container button:hover:not(.account-container .close-button) {
-    background: #333;
-    cursor: pointer;
-}
-
-input[type='radio'] {
-    margin: 10px;
-}
-
-.filters p,
-.recipe-form-container p {
-    margin: 10px;
-    font-weight: bold;
-}
-
-/* Toast Notification */
+/* =========================================
+   ToastNotification Styles
+   ========================================= */
 .toast-notification {
     visibility: hidden;
     background-color: lightgreen;
@@ -156,9 +136,10 @@ input[type='radio'] {
     opacity: 1;
     transition: visibility 0.5s linear, opacity 0.5s linear;
 }
-/* ========================================= */
 
-/* Password Requirement */
+/* =========================================
+   PasswordRequirements Styles
+   ========================================= */
 .password-requirement {
     color: red;
 }
@@ -166,9 +147,10 @@ input[type='radio'] {
 .password-requirement.matching {
     color: green;
 }
-/* ========================================= */
 
-/* Pagination */
+/* =========================================
+   Pagination Styles
+   ========================================= */
 .pagination {
     display: flex;
     justify-content: center;
@@ -193,9 +175,10 @@ input[type='radio'] {
 .pagination .page.show {
     background: aqua;
 }
-/* ========================================= */
 
-/* Kebab Menu */
+/* =========================================
+   KebabMenu Styles
+   ========================================= */
 .kebab-menu {
     background: none;
     border: none;
@@ -237,9 +220,10 @@ input[type='radio'] {
     background-color: #f0f0f0;
     cursor: pointer;
 }
-/* ========================================= */
 
-/* Hamburger Menu */
+/* =========================================
+   HamburgerMenu Styles
+   ========================================= */
 .hamburger-menu {
     margin: 30px;
 }
@@ -269,9 +253,7 @@ input[type='radio'] {
 .hamburger-menu.change span:nth-child(3) {
     transform: rotate(45deg) translate(-6px, -6px);
 }
-/* ========================================= */
 
-/* Navigation Menu */
 .nav-menu {
     position: absolute;
     display: none;
@@ -292,7 +274,6 @@ input[type='radio'] {
 }
 
 .nav-menu button {
-    display: flex;
     align-self: flex-start;
     background: 0;
     border: 0;
@@ -305,10 +286,11 @@ input[type='radio'] {
     background-color: #222;
     cursor: pointer;
 }
-/* ========================================= */
 
-/* Header */
-.profile-header {
+/* =========================================
+   Header Styles
+   ========================================= */
+.header {
     display: flex;
     gap: 10px;
     justify-content: space-between;
@@ -329,18 +311,27 @@ input[type='radio'] {
     position: relative;
 }
 
-.profile-header h2 {
+.header h2 {
     margin: 10px;
     color: #fff;
 }
 
-.profile-header .search-button.show,
-.profile-header .recipes-button.show {
+.header .search-button,
+.header .recipes-button {
+    align-self: center;
+    height: 50px;
+    width: 500px;
+    border-radius: 10px;
+}
+
+.header .search-button.show,
+.header .recipes-button.show {
     box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.5);
 }
-/* ========================================= */
 
-/* Close Button */
+/* =========================================
+   Close Button Styles
+   ========================================= */
 .close-button {
     background: none;
     border: 1px solid #ddd;
@@ -359,9 +350,10 @@ input[type='radio'] {
     background-color: #e0e0e0;
     cursor: pointer;
 }
-/* ========================================= */
 
-/* Recipe Details Container */
+/* =========================================
+   Recipe Details Container Styles
+   ========================================= */
 .recipe-details-container {
     display: flex;
     align-content: flex-start;
@@ -381,6 +373,10 @@ input[type='radio'] {
     margin: 8px 12px;
 }
 
+.recipe-details-container .recipe-details h1 {
+    text-align: center;
+}
+
 .recipe-details-container .recipe-details:hover {
     border: 2px solid aqua;
     cursor: pointer;
@@ -392,18 +388,19 @@ input[type='radio'] {
     object-fit: cover;
 }
 
-.recipe-details h4 {
+.recipe-details-container .recipe-details h4 {
     margin: 0 10px;
 }
 
-.recipe-details .is-managing-container {
+.recipe-details-container .recipe-details .is-managing-container {
     position: absolute;
     bottom: 0;
     left: 20px;
 }
-/* ========================================= */
 
-/* Search Page */
+/* =========================================
+   SearchForm Styles
+   ========================================= */
 .search-results {
     display: flex;
     gap: 5px;
@@ -454,6 +451,11 @@ input[type='radio'] {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+.filters p {
+    margin: 10px;
+    font-weight: bold;
+}
+
 .filters .form-button {
     width: 100%;
     padding: 10px;
@@ -466,9 +468,10 @@ input[type='radio'] {
     margin: 0 5px;
     padding: 10px;
 }
-/* ========================================= */
 
-/* Recipes Page */
+/* =========================================
+   Recipes Styles
+   ========================================= */
 .recipes-header {
     display: flex;
     justify-content: space-between;
@@ -476,6 +479,20 @@ input[type='radio'] {
     padding: 0 12px;
 }
 
+.recipes-header h1 {
+    align-self: center;
+}
+
+.recipes-header button {
+    align-self: center;
+    height: 50px;
+    width: 500px;
+    border-radius: 10px;
+}
+
+/* =========================================
+   RecipeForm Styles
+   ========================================= */
 /* Responsive Recipe Form Styles */
 .recipe-form-container {
     display: flex;
@@ -511,6 +528,11 @@ input[type='radio'] {
     padding: 10px;
 }
 
+.recipe-form-container p {
+    margin: 10px;
+    font-weight: bold;
+}
+
 /* Flex wrapper for ingredients */
 .recipe-form-container .ingredient-row {
     display: flex;
@@ -540,10 +562,9 @@ input[type='radio'] {
     display: flex;
     justify-content: space-between;
 }
-/* ========================================= */
 
 /* =========================================
-   Likes/Favorites buttons
+   ToggleLikeButton/ToggleFavoriteButton Styles
 ========================================= */
 .favorites-button.activated {
     background-color: #e5e51a;
@@ -580,10 +601,9 @@ input[type='radio'] {
     color: aqua;
     cursor: pointer;
 }
-/* ========================================= */
 
 /* =========================================
-   Recipe View Container Styles
+   RecipeView Styles
 ========================================= */
 .recipe-view-container {
     display: flex;
@@ -658,6 +678,10 @@ input[type='radio'] {
     gap: 5px;
 }
 
+.recipe-view-container .likes-container h4 {
+    align-self: center;
+}
+
 .recipe-view-container .recipe-footer {
     display: flex;
     flex-direction: column;
@@ -675,7 +699,6 @@ input[type='radio'] {
     text-decoration: underline;
     cursor: pointer;
 }
-/* ========================================= */
 
 /* =========================================
    CommentsContainer Styles
@@ -850,10 +873,9 @@ input[type='radio'] {
     text-decoration: underline;
     cursor: pointer;
 }
-/* ========================================= */
 
 /* =========================================
-   Account Page Styles
+   Account Styles
    ========================================= */
 .account-container {
     display: flex;
@@ -890,21 +912,24 @@ input[type='radio'] {
 .account-container p {
     font-size: 14px;
 }
-/* ========================================= */
 
 /* =========================================
-   Likes/Favorite/Commented Recipes Pages Styles
+   LikedRecipes/FavoriteRecipes/CommentedRecipes Styles
    ========================================= */
-.activity-page-header {
+.activity-page-container p {
+    text-align: center;
+}
+
+.activity-page-container .activity-page-header {
     display: flex;
 }
 
-.activity-page-header h1,
-.activity-page-header .previous-button {
+.activity-page-container .activity-page-header h1 {
     margin: 10px;
 }
 
-.previous-button {
+.activity-page-container .previous-button {
+    margin: 10px;
     padding: 8px 16px;
     background-color: white;
     border-radius: 50%;
@@ -914,11 +939,10 @@ input[type='radio'] {
     transition: background-color 0.2s;
 }
 
-.previous-button:hover {
+.activity-page-container .previous-button:hover {
     background-color: #e0e0e0;
     cursor: pointer;
 }
-/* ========================================= */
 
 @media only screen and (max-width: 600px) {
     .recipes-header {
@@ -929,18 +953,18 @@ input[type='radio'] {
         width: 200px;
     }
 
-    .profile-header {
+    .header {
         height: auto; /* Allow height to grow with stacked content */
         flex-direction: column; /* Stack children vertically */
         padding-bottom: 10px; /* Add space at the bottom */
     }
 
-    .profile-header h2 {
+    .header h2 {
         margin: 10px auto; /* Center the title */
     }
 
-    .profile-header .search-button,
-    .profile-header .recipes-button {
+    .header .search-button,
+    .header .recipes-button {
         width: 90%; /* Buttons take up most of the width */
         margin: 5px auto; /* Center buttons */
     }

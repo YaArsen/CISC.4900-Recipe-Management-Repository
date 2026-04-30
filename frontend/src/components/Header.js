@@ -5,7 +5,7 @@ const Header = ({ user, page }) => {
     const navigate = useNavigate();
 
     return (
-        <div className='profile-header'>
+        <div className='header'>
             <h2>Welcome, {user.name.split(' ')[0]}</h2>
 
             {/* Navigation Buttons */}
