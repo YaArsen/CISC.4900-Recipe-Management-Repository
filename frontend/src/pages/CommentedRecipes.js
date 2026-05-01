@@ -52,7 +52,11 @@ const CommentedRecipes = () => {
                     <div className='recipe-details-container'>
                         {recipes.map((recipe) => (
                             // Clickable area to view full recipe details
-                            <div key={recipe._id} className='recipe-details' onClick={() => navigate(`/${page} commented-recipes/${currentPage}/recipe-view/${recipe._id}`)}>
+                            <div
+                                key={recipe._id}
+                                className='recipe-details'
+                                onClick={() => navigate(`/${page} commented-recipes/${currentPage}/recipe-view/${recipe._id}`)}
+                            >
                                 <RecipeDetails recipe={recipe} />
                             </div>
                         ))}

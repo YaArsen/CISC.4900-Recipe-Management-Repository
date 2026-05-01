@@ -41,7 +41,7 @@ const LogIn = () => {
     return (
         <>
             <div className='log-in-toast-notification'>
-                <ToastNotification message={message} setMessage={setMessage} />
+                <ToastNotification message={message} setMessage={setMessage} /> {/* Display notification */}
             </div>
 
             <div className='log-in-container'>

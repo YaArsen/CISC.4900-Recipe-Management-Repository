@@ -84,7 +84,7 @@ const Account = () => {
     return (
         <div className='account-container'>
             <div className='account-toast-notification'>
-                <ToastNotification message={message} setMessage={setMessage} />
+                <ToastNotification message={message} setMessage={setMessage} /> {/* Display notification */}
             </div>
 
             <button type='button' className='close-button' onClick={() => navigate(`/${page}`)}>x</button>
