@@ -12,8 +12,8 @@ import { jwtDecode } from 'jwt-decode';
 
 const Recipes = () => {
     const [user, setUser] = useState(null);
-    const [recipes, setRecipes] = useState(null); // State to hold user's recipes
-    const [message, setMessage] = useState(''); // State for displaying user notifications
+    const [recipes, setRecipes] = useState(null); // State to hold user's posted recipes
+    const [message, setMessage] = useState(''); // State for displaying notifications
     const [activeManageId, setActiveManageId] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);

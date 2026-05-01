@@ -21,7 +21,7 @@ const RecipeView = () => {
         }
     }, []);
 
-    // Fetch recipe data and like status when component mounts or recipeId changes
+    // Fetch recipe data and like/favorite statuses when component mounts or recipeId changes
     useEffect(() => {
         // API call to get detailed recipe information
         const getRecipe = async () => {

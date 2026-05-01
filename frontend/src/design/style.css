@@ -254,7 +254,7 @@ input[type='radio'] {
     transform: rotate(45deg) translate(-6px, -6px);
 }
 
-.nav-menu {
+.navigation-menu {
     position: absolute;
     display: none;
     background: #333;
@@ -268,12 +268,12 @@ input[type='radio'] {
     right: 10px;
 }
 
-.nav-menu.show {
+.navigation-menu.show {
     display: flex;
     flex-direction: column;
 }
 
-.nav-menu button {
+.navigation-menu button {
     align-self: flex-start;
     background: 0;
     border: 0;
@@ -282,7 +282,7 @@ input[type='radio'] {
     padding: 10px;
 }
 
-.nav-menu button:hover {
+.navigation-menu button:hover {
     background-color: #222;
     cursor: pointer;
 }
@@ -511,7 +511,7 @@ input[type='radio'] {
 /* Make textarea responsive */
 .recipe-form-container textarea {
     width: 100%; /* Full width */
-    height: 100px; /* Slightly taller */
+    height: 100px;
     resize: vertical;
 }
 
@@ -540,7 +540,7 @@ input[type='radio'] {
 }
 
 .recipe-form-container .ingredient-row button {
-    height: 40px; /* Smaller height */
+    height: 40px;
     width: 40px;
     border-radius: 5px;
     background-color: #ff4d4d;

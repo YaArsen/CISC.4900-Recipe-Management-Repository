@@ -29,7 +29,7 @@ const LogIn = () => {
             localStorage.setItem('token', data.token); // Store the returned token in localStorage for authentication purposes
             navigate('/search'); // Navigate the user to the profile page upon successful login
         } catch (error) {
-            alert(error); // If an error occurs during login, display an alert with the error message
+            alert(error); // If an error occurs during logging in, display an alert with the error message
         }
     };
 

@@ -62,7 +62,7 @@ const Search = () => {
     return (
         <>
             <Header user={user} page={'search'} />
-            <SearchForm initialRecipe={tempRecipe} onSubmit={setTempRecipe} isFetched={isFetched} length={recipes.length} /> {/* Search form component, calling searchRecipes on submission */}
+            <SearchForm initialRecipe={tempRecipe} onSubmit={setTempRecipe} isFetched={isFetched} length={recipes.length} />
 
             {/* Conditional rendering: display recipes if found, or message if not */}
             {isFetched && recipes.length > 0 && (

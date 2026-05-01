@@ -17,7 +17,7 @@ const HamburgerMenu = ({ page }) => {
             </div>
 
             {/* Conditionally render the navigation menu only if isOpen is true */}
-            <div className={`nav-menu ${isOpen ? 'show' : ''}`}>
+            <div className={`navigation-menu ${isOpen ? 'show' : ''}`}>
                 <button type='button' onClick={() => navigate(`/${page}/account`)}>Account</button>
                 <button type='button' onClick={() => navigate(`/${page}/liked-recipes`)}>Liked Recipes</button>
                 <button type='button' onClick={() => navigate(`/${page}/favorite-recipes`)}>Favorite Recipes</button>
