@@ -47,6 +47,7 @@ const RecipeView = () => {
         getIsActivated();
     }, [recipeId]);
 
+    if (page.length > 25) return <div>404 Not Found</div>;
     const array = page.split(' ');
     if (page !== 'search' && page !== 'recipes' && array[0] !== 'search' && array[0] !== 'recipes') return <div>404 Not Found</div>;
     if (!recipe || isLikeButtonActivated === null) return <p className='loading'>Loading...</p>; // Render loading state while data is being fetched

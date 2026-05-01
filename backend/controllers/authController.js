@@ -145,6 +145,9 @@ exports.updateName = async (req, res) => {
         user.name = name;
         await user.save();
 
+        const now = Math.floor(Date.now() / 1000);
+        const remainingTime = exp - now;
+
         const token = jwt.sign(
             {
                 userId: user._id,
@@ -154,7 +157,7 @@ exports.updateName = async (req, res) => {
             }, 
             process.env.JWT_SECRET, // Secret key from environment variables for signing the token
             {
-                expiresIn: exp
+                expiresIn: remainingTime
             }
         );
 
@@ -175,6 +178,9 @@ exports.updateEmail = async (req, res) => {
             user.email = decoded.email;
             await user.save();
 
+            const now = Math.floor(Date.now() / 1000);
+            const remainingTime = exp - now;
+
             const token = jwt.sign(
                 {
                     userId: user._id,
@@ -184,7 +190,7 @@ exports.updateEmail = async (req, res) => {
                 }, 
                 process.env.JWT_SECRET, // Secret key from environment variables for signing the token
                 {
-                    expiresIn: exp
+                    expiresIn: remainingTime
                 }
             );
 
