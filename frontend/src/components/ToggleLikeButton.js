@@ -1,7 +1,6 @@
 import { fetchToggleLike } from '../api';
 
 const ToggleLikeButton = ({ isActivated, setIsActivated, recipeId, setRecipe }) => {
-    // Handles the API call and state updates when the button is clicked
     const toggleLike = async () => {
         try {
             const data = await fetchToggleLike(recipeId); // Send request to backend to toggle like status
