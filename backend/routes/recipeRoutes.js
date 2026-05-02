@@ -13,15 +13,15 @@ router.delete('/:recipeId/:page/:limit', auth, recipeController.deleteRecipe);
 router.put('/:recipeId/favorites', auth, recipeController.toggleFavorite);
 router.put('/:recipeId/likes', auth, recipeController.toggleLike);
 
-router.post('/:recipeId/comments', auth, recipeController.postComment);
-router.get('/:recipeId/recipe/comments', auth, recipeController.getRecipeComments);
-router.put('/:recipeId/comments/:commentId', auth, recipeController.updateComment);
-router.delete('/:recipeId/comments/delete-comment/:commentId', auth, recipeController.deleteComment);
+router.post('/search/:page/:limit', auth, recipeController.searchRecipes);
 
 router.get('/favorite-recipes/:page/:limit', auth, recipeController.getFavoriteRecipes);
 router.get('/liked-recipes/:page/:limit', auth, recipeController.getLikedRecipes);
 router.get('/commented-recipes/:page/:limit', auth, recipeController.getCommentedRecipes);
 
-router.post('/search/:page/:limit', auth, recipeController.searchRecipes);
+router.post('/:recipeId/comments', auth, recipeController.postComment);
+router.get('/:recipeId/recipe/comments', auth, recipeController.getRecipeComments);
+router.put('/:recipeId/comments/:commentId', auth, recipeController.updateComment);
+router.delete('/:recipeId/comments/delete-comment/:commentId', auth, recipeController.deleteComment);
 
 module.exports = router;

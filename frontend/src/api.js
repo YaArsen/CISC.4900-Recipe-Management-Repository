@@ -8,7 +8,7 @@ export const fetchRegister = async (user) => {
 };
 
 export const fetchLogIn = async (user) => {
-    const res = await fetchData('/api/auth/login', { method: 'POST', body: user });
+    const res = await fetchData('/api/auth/log-in', { method: 'POST', body: user });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message);
     return data;

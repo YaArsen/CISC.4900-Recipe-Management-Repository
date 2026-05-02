@@ -4,7 +4,7 @@ const auth = require('../middleware/auth');
 const router = express.Router();
 
 router.post('/register', authController.register);
-router.post('/login', authController.logIn);
+router.post('/log-in', authController.logIn);
 router.delete('/delete', auth, authController.deleteAccount);
 router.put('/reset-password', authController.resetPassword);
 
