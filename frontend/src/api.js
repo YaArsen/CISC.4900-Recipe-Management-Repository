@@ -46,9 +46,17 @@ export const fetchGetRecipe = async (recipeId) => {
     return data;
 };
 
-export const fetchGetIsActivated = async (recipeId) => {
+export const fetchGetIsFavorite = async (recipeId) => {
     const token = localStorage.getItem('token');
-    const res = await fetchData(`/api/recipes/${recipeId}/recipe/isActivated`, { token });
+    const res = await fetchData(`/api/recipes/${recipeId}/recipe/isFavorite`, { token });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    return data;
+};
+
+export const fetchGetIsLiked = async (recipeId) => {
+    const token = localStorage.getItem('token');
+    const res = await fetchData(`/api/recipes/${recipeId}/recipe/isLiked`, { token });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message);
     return data;

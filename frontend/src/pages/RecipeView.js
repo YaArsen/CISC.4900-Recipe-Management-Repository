@@ -1,4 +1,4 @@
-import { fetchGetRecipe, fetchGetIsActivated } from '../api';
+import { fetchGetRecipe, fetchGetIsFavorite, fetchGetIsLiked } from '../api';
 import ToggleFavoriteButton from '../components/ToggleFavoriteButton';
 import ToggleLikeButton from '../components/ToggleLikeButton';
 import { useState, useEffect } from 'react';
@@ -8,8 +8,8 @@ const RecipeView = () => {
     const { page, pageNumber, recipeId } = useParams();
     const [recipe, setRecipe] = useState(null); // State to store the fetched recipe data
     const [tempRecipe, setTempRecipe] = useState(null);
-    const [isFavoriteButtonActivated, setIsFavoriteButtonActivated] = useState(null);
-    const [isLikeButtonActivated, setIsLikeButtonActivated] = useState(null); // State to check if the current user has liked the recipe
+    const [isFavorite, setIsFavorite] = useState(null);
+    const [isLiked, setIsLiked] = useState(null); // State to check if the current user has liked the recipe
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -21,9 +21,8 @@ const RecipeView = () => {
         }
     }, []);
 
-    // Fetch recipe data and like/favorite statuses when component mounts or recipeId changes
+    // Fetch recipe data
     useEffect(() => {
-        // API call to get detailed recipe information
         const getRecipe = async () => {
             try {
                 const data = await fetchGetRecipe(recipeId);
@@ -33,24 +32,41 @@ const RecipeView = () => {
             }
         };
 
-        const getIsActivated = async () => {
+        getRecipe();
+    }, [recipeId]);
+
+    // Fetch recipe favorite status
+    useEffect(() => {
+        const getIsFavorite = async () => {
             try {
-                const data = await fetchGetIsActivated(recipeId);
-                setIsFavoriteButtonActivated(data.isFavoriteButtonActivated);
-                setIsLikeButtonActivated(data.isLikeButtonActivated);
+                const data = await fetchGetIsFavorite(recipeId);
+                setIsFavorite(data);
             } catch (error) {
                 alert(error);
             }
         };
 
-        getRecipe();
-        getIsActivated();
+        getIsFavorite();
+    }, [recipeId]);
+
+    // Fetch recipe like status
+    useEffect(() => {
+        const getIsLiked = async () => {
+            try {
+                const data = await fetchGetIsLiked(recipeId);
+                setIsLiked(data);
+            } catch (error) {
+                alert(error);
+            }
+        };
+
+        getIsLiked();
     }, [recipeId]);
 
     if (page.length > 25) return <div>404 Not Found</div>;
     const array = page.split(' ');
     if (page !== 'search' && page !== 'recipes' && array[0] !== 'search' && array[0] !== 'recipes') return <div>404 Not Found</div>;
-    if (!recipe || isLikeButtonActivated === null) return <p className='loading'>Loading...</p>; // Render loading state while data is being fetched
+    if (!recipe || isFavorite === null ||  isLiked === null) return <p className='loading'>Loading...</p>; // Render loading state while data is being fetched
 
     return (
         <div className='recipe-view-container'>
@@ -91,19 +107,19 @@ const RecipeView = () => {
             <div className='action-button-container'>
                 <div className='likes-container'>
                     <ToggleLikeButton
-                        isActivated={isLikeButtonActivated}
+                        isLiked={isLiked}
                         recipeId={recipe._id}
                         setRecipe={setRecipe}
-                        setIsActivated={setIsLikeButtonActivated}
+                        setIsLiked={setIsLiked}
                     />
 
                     <h4>{recipe.likes}</h4>
                 </div>
 
                 <ToggleFavoriteButton
-                    isActivated={isFavoriteButtonActivated}
+                    isFavorite={isFavorite}
                     recipeId={recipe._id}
-                    setIsActivated={setIsFavoriteButtonActivated}
+                    setIsFavorite={setIsFavorite}
                 />
             </div>
 

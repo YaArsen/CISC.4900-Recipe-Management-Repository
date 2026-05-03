@@ -1,11 +1,11 @@
 import { fetchToggleLike } from '../api';
 
-const ToggleLikeButton = ({ isActivated, setIsActivated, recipeId, setRecipe }) => {
+const ToggleLikeButton = ({ isLiked, setIsLiked, recipeId, setRecipe }) => {
     const toggleLike = async () => {
         try {
             const data = await fetchToggleLike(recipeId); // Send request to backend to toggle like status
             setRecipe(data.recipe); // Update the recipe details (e.g., like count) in the parent component
-            setIsActivated(data.isActivated); // Update the local button activation state (true/false)
+            setIsLiked(data.isActivated); // Update the local button activation state (true/false)
         } catch (error) {
             alert(error);
         }
@@ -14,10 +14,10 @@ const ToggleLikeButton = ({ isActivated, setIsActivated, recipeId, setRecipe }) 
     return (
         <button
             type='button'
-            className={`likes-button ${isActivated ? 'activated' : ''}`} 
+            className={`likes-button ${isLiked ? 'activated' : ''}`} 
             onClick={toggleLike}
         >
-            {!isActivated ? 'Like' : 'Unlike'}
+            {!isLiked ? 'Like' : 'Unlike'}
         </button>
     );
 };

@@ -40,6 +40,10 @@ const CommentsContainer = () => {
             }
         };
 
+        getRecipe();
+    }, [recipeId]);
+
+    useEffect(() => {
         const getRecipeComments = async () => {
             try {
                 const data = await fetchGetRecipeComments(recipeId);
@@ -49,7 +53,6 @@ const CommentsContainer = () => {
             }
         };
 
-        getRecipe();
         getRecipeComments();
     }, [recipeId]);
 

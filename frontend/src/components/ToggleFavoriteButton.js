@@ -1,11 +1,11 @@
 import { fetchToggleFavorite } from '../api';
 
-const ToggleFavoriteButton = ({ isActivated, setIsActivated, recipeId }) => {
+const ToggleFavoriteButton = ({ isFavorite, setIsFavorite, recipeId }) => {
 
     const toggleFavorite = async () => {
         try {
             const data = await fetchToggleFavorite(recipeId);
-            setIsActivated(data);
+            setIsFavorite(data);
         } catch (error) {
             alert(error);
         }
@@ -14,10 +14,10 @@ const ToggleFavoriteButton = ({ isActivated, setIsActivated, recipeId }) => {
     return (
         <button
             type='button'
-            className={`favorites-button ${isActivated ? 'activated' : ''}`}
+            className={`favorites-button ${isFavorite ? 'activated' : ''}`}
             onClick={toggleFavorite}
         >
-            {!isActivated ? 'Add to favorites' : 'Remove from favorites'}
+            {!isFavorite ? 'Add to favorites' : 'Remove from favorites'}
         </button>
     );
 };

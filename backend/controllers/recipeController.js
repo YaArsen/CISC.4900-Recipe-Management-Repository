@@ -77,7 +77,7 @@ exports.getRecipe = async (req, res) => {
     }
 };
 
-exports.isActivated = async (req, res) => {
+exports.getIsFavorite = async (req, res) => {
     const { userId } = req.user;
     const { recipeId } = req.params;
 
@@ -86,11 +86,24 @@ exports.isActivated = async (req, res) => {
         if (!user) return res.status(404).json({ message: 'User not found' });
         const recipe = await Recipe.findById({ _id: recipeId });
         if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
+        const isFavorite = user.favorites.has(recipeId);
+        res.status(200).json(isFavorite);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 
-        const isFavoriteButtonActivated = user.favorites.has(recipeId);
-        const isLikeButtonActivated = user.liked.has(recipeId);
+exports.getIsLiked = async (req, res) => {
+    const { userId } = req.user;
+    const { recipeId } = req.params;
 
-        res.status(200).json({ isFavoriteButtonActivated, isLikeButtonActivated });
+    try {
+        const user = await User.findById({ _id: userId });
+        if (!user) return res.status(404).json({ message: 'User not found' });
+        const recipe = await Recipe.findById({ _id: recipeId });
+        if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
+        const isLiked = user.liked.has(recipeId);
+        res.status(200).json(isLiked);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
