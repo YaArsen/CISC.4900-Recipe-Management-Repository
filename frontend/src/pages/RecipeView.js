@@ -78,7 +78,7 @@ const RecipeView = () => {
         }
     };
 
-    if (!recipe || isFavorite === null ||  isLiked === null) return <p className='loading'>Loading...</p>; // Render loading state while data is being fetched
+    if (!recipe || isFavorite === null ||  isLiked === null) return <div className='loader-container'><div className='loader'></div></div>; // Render loading state while data is being fetched
 
     return (
         <div className='recipe-view-container'>

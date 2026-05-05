@@ -55,7 +55,7 @@ const Search = () => {
         setUser(user);
     }, []);
 
-    if (!user) return <p className='loading'>Loading...</p>;
+    if (!user) return <div className='loader-container'><div className='loader'></div></div>;
 
     return (
         <>

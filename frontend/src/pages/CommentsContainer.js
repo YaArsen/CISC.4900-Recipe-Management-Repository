@@ -72,7 +72,7 @@ const CommentsContainer = () => {
         navigate(`/${page}/${pageNumber}/recipe-view/${recipeId}`);
     };
 
-    if (!user || !recipe || !comments) return <p className='loading'>Loading...</p>; // Simple loading state
+    if (!user || !recipe || !comments) return <div className='loader-container'><div className='loader'></div></div>; // Simple loading state
 
     // Filter to get only top-level comments (those without a parentId) and sort them by timestamp (newest first)
     const topLevelComments = mergeSort(comments.filter(c => !c.parentId));

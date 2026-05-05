@@ -33,7 +33,7 @@ const FavoriteRecipes = () => {
         }
     };
 
-    if (!recipes) return <p className='loading'>Loading...</p>; // Loading state
+    if (!recipes) return <div className='loader-container'><div className='loader'></div></div>; // Loading state
 
     return (
         <div className='activity-page-container'>

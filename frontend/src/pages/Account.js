@@ -78,7 +78,7 @@ const Account = () => {
         setUser({ ...user, [e.target.name]: e.target.value }); // Updates the user state dynamically based on the input field's name attribute.
     };
 
-    if (!userData) return <p className='loading'>Loading...</p>;
+    if (!userData) return <div className='loader-container'><div className='loader'></div></div>;
 
     return (
         <div className='account-container'>

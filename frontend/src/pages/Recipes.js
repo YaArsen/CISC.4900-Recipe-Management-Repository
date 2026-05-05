@@ -56,7 +56,7 @@ const Recipes = () => {
         setUser(user);
     }, []);
 
-    if (!user || !recipes) return <p className='loading'>Loading...</p>; // Loading state
+    if (!user || !recipes) return <div className='loader-container'><div className='loader'></div></div>; // Loading state
 
     return (
         <>
