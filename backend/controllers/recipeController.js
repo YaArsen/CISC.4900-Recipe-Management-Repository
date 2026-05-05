@@ -307,7 +307,7 @@ exports.deleteComment = async (req, res) => {
             for (const comment of recipe.comments.values()) {
                 const parentId = comment.parentId;
 
-                // Check if current comment in loop is a sub comment of the current comment
+                // Check if a current comment in loop is a sub comment of a current top level comment
                 if (parentId && parentId.equals(topLevelCommentId)) {
                     const subCommentId = comment._id;
                     stack.push(subCommentId);
