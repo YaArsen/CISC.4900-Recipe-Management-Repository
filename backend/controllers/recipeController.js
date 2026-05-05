@@ -389,7 +389,7 @@ exports.getFavoriteRecipes = async (req, res) => {
             if (index === startIndex + limit) break;
 
             if (index >= startIndex && index < startIndex + limit) {
-                recipeIds.push(k);
+                recipesIds.push(k);
             }
         }
 
@@ -428,7 +428,7 @@ exports.getLikedRecipes = async (req, res) => {
             if (index === startIndex + limit) break;
 
             if (index >= startIndex && index < startIndex + limit) {
-                recipeIds.push(k);
+                recipesIds.push(k);
             }
         }
 
@@ -457,7 +457,7 @@ exports.getCommentedRecipes = async (req, res) => {
         const user = await User.findById({ _id: userId });
         if (!user) return res.status(404).json({ message: 'User not found' });
         const startIndex = (page - 1) * limit;
-        const recipeIds = [];
+        const recipesIds = [];
         let isEqual = false;
         const recipes = [];
         let index = 0;
@@ -468,15 +468,15 @@ exports.getCommentedRecipes = async (req, res) => {
             if (index === startIndex + limit) break;
 
             if (index >= startIndex && index < startIndex + limit) {
-                recipeIds.push(k);
+                recipesIds.push(k);
             }
         }
 
-        for (let i = 0; i < recipeIds.length; i++) {
-            const recipe = await Recipe.findById({ _id: recipeIds[i] });
+        for (let i = 0; i < recipesIds.length; i++) {
+            const recipe = await Recipe.findById({ _id: recipesIds[i] });
 
             if (!recipe) {
-                user.commented.delete(recipeIds[i]);
+                user.commented.delete(recipesIds[i]);
                 await user.save();
                 continue;
             }
@@ -489,7 +489,7 @@ exports.getCommentedRecipes = async (req, res) => {
             }
 
             if (!isEqual) {
-                user.commented.delete(recipeIds[i]);
+                user.commented.delete(recipesIds[i]);
                 await user.save();
             } else {
                 recipes.push(recipe);

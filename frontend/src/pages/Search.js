@@ -27,8 +27,25 @@ const Search = () => {
             setTempRecipe(JSON.parse(recipe));
         }
 
+        // Async function to handle search submission
+        const searchRecipes = async () => {
+            setIsFetched(false); // Reset status before fetching
+            setRecipes([]); // Clear previous results
+
+            try {
+                const data = await fetchSearchRecipes(tempRecipe, currentPage); // Fetch data from API
+                setRecipes(data.recipes); // Set results in state
+                setTotalPages(data.totalPages);
+                setCurrentPage(data.currentPage);
+                setIsFetched(true); // Mark fetch as complete
+            } catch (error) {
+                setIsFetched(true);
+                alert(error); // Alert error if request fails
+            }
+        };
+
         if (tempRecipe) {
-            searchRecipes(tempRecipe, currentPage);
+            searchRecipes();
         }
     }, [tempRecipe, currentPage]);
 
@@ -37,23 +54,6 @@ const Search = () => {
         const user = jwtDecode(token);
         setUser(user);
     }, []);
-
-    // Async function to handle search submission
-    const searchRecipes = async (recipe, page) => {
-        setIsFetched(false); // Reset status before fetching
-        setRecipes([]); // Clear previous results
-
-        try {
-            const data = await fetchSearchRecipes(recipe, page); // Fetch data from API
-            setRecipes(data.recipes); // Set results in state
-            setTotalPages(data.totalPages);
-            setCurrentPage(data.currentPage);
-            setIsFetched(true); // Mark fetch as complete
-        } catch (error) {
-            setIsFetched(true);
-            alert(error); // Alert error if request fails
-        }
-    };
 
     if (!user) return <p className='loading'>Loading...</p>;
 

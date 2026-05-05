@@ -24,9 +24,20 @@ const Recipes = () => {
 
         if (pageNumber) {
             localStorage.removeItem('pageNumber');
-            getRecipes(pageNumber);
+            setCurrentPage(pageNumber);
         } else {
-            getRecipes(currentPage);
+            const getRecipes = async () => {
+                try {
+                    const data = await fetchGetAllUserRecipes(currentPage);
+                    setRecipes(data.recipes);
+                    setTotalPages(data.totalPages);
+                    setCurrentPage(data.currentPage);
+                } catch (error) {
+                    alert(error);
+                }
+            };
+
+            getRecipes();
         }
     }, [currentPage]);
 
@@ -44,19 +55,6 @@ const Recipes = () => {
         const user = jwtDecode(token);
         setUser(user);
     }, []);
-
-    const getRecipes = async (page) => {
-        try {
-            const data = await fetchGetAllUserRecipes(page);
-            setRecipes(data.recipes);
-            setTotalPages(data.totalPages);
-            setCurrentPage(data.currentPage);
-        } catch (error) {
-            alert(error);
-        }
-    };
-
-    const handlePageChange = (page) => getRecipes(page);
 
     if (!user || !recipes) return <p className='loading'>Loading...</p>; // Loading state
 
@@ -120,7 +118,6 @@ const Recipes = () => {
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
                         totalPages={totalPages}
-                        handlePageChange={handlePageChange}
                     />
                 </>
             )}

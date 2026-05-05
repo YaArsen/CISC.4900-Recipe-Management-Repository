@@ -33,9 +33,6 @@ const CommentedRecipes = () => {
         }
     };
 
-    const handlePageChange = (page) => getCommentedRecipes(page);
-
-    if (page !== 'search' && page !== 'recipes') return <div>404 Not Found</div>;
     if (!recipes) return <p className='loading'>Loading...</p>; // Loading state
 
     return (
@@ -55,7 +52,13 @@ const CommentedRecipes = () => {
                             <div
                                 key={recipe._id}
                                 className='recipe-details'
-                                onClick={() => navigate(`/${page} commented-recipes/${currentPage}/recipe-view/${recipe._id}`)}
+                                onClick={() => {
+                                    if (page === 'search' || page === 'recipes') {
+                                        navigate(`/${page} commented-recipes/${currentPage}/recipe-view/${recipe._id}`);
+                                    } else {
+                                        navigate('/');
+                                    }
+                                }}
                             >
                                 <RecipeDetails recipe={recipe} />
                             </div>
@@ -66,7 +69,6 @@ const CommentedRecipes = () => {
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
                         totalPages={totalPages}
-                        handlePageChange={handlePageChange}
                     />
                 </>
             )}

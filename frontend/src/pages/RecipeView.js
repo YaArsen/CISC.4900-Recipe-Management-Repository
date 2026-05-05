@@ -63,27 +63,28 @@ const RecipeView = () => {
         getIsLiked();
     }, [recipeId]);
 
-    if (page.length > 25) return <div>404 Not Found</div>;
-    const array = page.split(' ');
-    if (page !== 'search' && page !== 'recipes' && array[0] !== 'search' && array[0] !== 'recipes') return <div>404 Not Found</div>;
+    // Navigation helper
+    const handleClose = () => {
+        if (tempRecipe) localStorage.setItem('recipe', JSON.stringify(tempRecipe));
+        localStorage.setItem('pageNumber', pageNumber);
+        const partsPath = page.split(' ');
+
+        if (partsPath.length === 2) {
+            navigate(`/${partsPath[0]}/${partsPath[1]}`);
+        } else if (page === 'search' || page === 'recipes') {
+            navigate(`/${page}`);
+        } else {
+            navigate('/');
+        }
+    };
+
     if (!recipe || isFavorite === null ||  isLiked === null) return <p className='loading'>Loading...</p>; // Render loading state while data is being fetched
 
     return (
         <div className='recipe-view-container'>
             <div className='recipe-header'>
                 <h4>{recipe.title}</h4>
-
-                <button
-                    type='button'
-                    className='close-button'
-                    onClick={() => {
-                        if (tempRecipe) localStorage.setItem('recipe', JSON.stringify(tempRecipe));
-                        localStorage.setItem('pageNumber', pageNumber);
-                        array.length === 2 ? navigate(`/${array[0]}/${array[1]}`) : navigate(`/${page}`);
-                    }}
-                >
-                    x
-                </button>
+                <button type='button' className='close-button' onClick={handleClose}>x</button>
             </div>
 
             {/* Recipe Details Display */}

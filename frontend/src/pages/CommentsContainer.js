@@ -66,8 +66,12 @@ const CommentsContainer = () => {
         }
     };
 
-    const array = page.split(' ');
-    if (page !== 'search' && page !== 'recipes' && array[0] !== 'search' && array[0] !== 'recipes') return <div>404 Not Found</div>;
+    // Navigation helper
+    const handleClose = () => {
+        if (tempRecipe) localStorage.setItem('recipe', JSON.stringify(tempRecipe));
+        navigate(`/${page}/${pageNumber}/recipe-view/${recipeId}`);
+    };
+
     if (!user || !recipe || !comments) return <p className='loading'>Loading...</p>; // Simple loading state
 
     // Filter to get only top-level comments (those without a parentId) and sort them by timestamp (newest first)
@@ -82,17 +86,7 @@ const CommentsContainer = () => {
 
             <div className='comments-header-row'>
                 <h1>Recipe comments {comments.length}</h1> {/* Header displaying the total number of comments */}
-
-                <button
-                    type='button'
-                    className='close-button'
-                    onClick={() => {
-                        if (tempRecipe) localStorage.setItem('recipe', JSON.stringify(tempRecipe));
-                        navigate(`/${page}/${pageNumber}/recipe-view/${recipeId}`);
-                    }}
-                >
-                    x
-                </button>
+                <button type='button' className='close-button' onClick={handleClose}>x</button>
             </div>
 
             <CommentForm parentId={undefined} onSubmit={(content) => postComment(undefined, content)} /> {/* Form to submit a new top-level comment */}
