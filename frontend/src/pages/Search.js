@@ -23,12 +23,12 @@ const Search = () => {
         if (pageNumber && recipe) {
             localStorage.removeItem('pageNumber');
             localStorage.removeItem('recipe');
+            setCurrentPage(JSON.parse(pageNumber));
             setTempRecipe(JSON.parse(recipe));
-            searchRecipes(JSON.parse(recipe), pageNumber);
-        } else {
-            if (tempRecipe) {
-                searchRecipes(tempRecipe, currentPage);
-            }
+        }
+
+        if (tempRecipe) {
+            searchRecipes(tempRecipe, currentPage);
         }
     }, [tempRecipe, currentPage]);
 
@@ -54,8 +54,6 @@ const Search = () => {
             alert(error); // Alert error if request fails
         }
     };
-
-    const handlePageChange = (page) => searchRecipes(tempRecipe, page);
 
     if (!user) return <p className='loading'>Loading...</p>;
 
@@ -87,7 +85,6 @@ const Search = () => {
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
                         totalPages={totalPages}
-                        handlePageChange={handlePageChange}
                     />
                 </>
             )}

@@ -154,6 +154,8 @@ input[type='radio'] {
 .pagination {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap; /* Allows items to move to a new line */
+    gap: 10px;      /* Optional: adds spacing between rows/items */
 }
 
 .pagination input {
@@ -174,6 +176,11 @@ input[type='radio'] {
 
 .pagination .page.show {
     background: aqua;
+}
+
+.pagination div {
+    width: 100%; 
+    text-align: center; 
 }
 
 /* =========================================

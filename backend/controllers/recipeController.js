@@ -379,8 +379,19 @@ exports.getFavoriteRecipes = async (req, res) => {
         const user = await User.findById({ _id: userId });
         if (!user) return res.status(404).json({ message: 'User not found' });
         const startIndex = (page - 1) * limit;
-        const recipesIds = [...user.favorites.keys()].slice(startIndex, startIndex + limit);
+        const recipesIds = [];
         const recipes = [];
+        let index = 0;
+
+        for (const k of user.favorites.keys()) {
+            index++;
+
+            if (index === startIndex + limit) break;
+
+            if (index >= startIndex && index < startIndex + limit) {
+                recipeIds.push(k);
+            }
+        }
 
         for (let i = 0; i < recipesIds.length; i++) {
             const recipe = await Recipe.findById({ _id: recipesIds[i] });
@@ -407,8 +418,19 @@ exports.getLikedRecipes = async (req, res) => {
         const user = await User.findById({ _id: userId });
         if (!user) return res.status(404).json({ message: 'User not found' });
         const startIndex = (page - 1) * limit;
-        const recipesIds = [...user.liked.keys()].slice(startIndex, startIndex + limit);
+        const recipesIds = [];
         const recipes = [];
+        let index = 0;
+
+        for (const k of user.liked.keys()) {
+            index++;
+
+            if (index === startIndex + limit) break;
+
+            if (index >= startIndex && index < startIndex + limit) {
+                recipeIds.push(k);
+            }
+        }
 
         for (let i = 0; i < recipesIds.length; i++) {
             const recipe = await Recipe.findById({ _id: recipesIds[i] });
@@ -435,9 +457,20 @@ exports.getCommentedRecipes = async (req, res) => {
         const user = await User.findById({ _id: userId });
         if (!user) return res.status(404).json({ message: 'User not found' });
         const startIndex = (page - 1) * limit;
-        const recipeIds = [...user.commented.keys()].slice(startIndex, startIndex + limit);
+        const recipeIds = [];
         let isEqual = false;
         const recipes = [];
+        let index = 0;
+
+        for (const k of user.commented.keys()) {
+            index++;
+
+            if (index === startIndex + limit) break;
+
+            if (index >= startIndex && index < startIndex + limit) {
+                recipeIds.push(k);
+            }
+        }
 
         for (let i = 0; i < recipeIds.length; i++) {
             const recipe = await Recipe.findById({ _id: recipeIds[i] });
