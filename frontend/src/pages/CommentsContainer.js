@@ -36,7 +36,7 @@ const CommentsContainer = () => {
                 const data = await fetchGetRecipe(recipeId);
                 setRecipe(data);
             } catch (error) {
-                alert(error);
+                console.error(error);
             }
         };
 
@@ -49,7 +49,7 @@ const CommentsContainer = () => {
                 const data = await fetchGetRecipeComments(recipeId);
                 setComments(data);
             } catch (error) {
-                alert(error);
+                console.error(error);
             }
         };
 
@@ -62,7 +62,7 @@ const CommentsContainer = () => {
             const data = await fetchPostComment(recipeId, { parentId, content });
             setComments(data); // Update local state with the new list of comments returned from the API
         } catch (error) {
-            alert(error);
+            console.error(error);
         }
     };
 

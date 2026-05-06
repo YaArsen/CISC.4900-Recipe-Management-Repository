@@ -12,7 +12,7 @@ const Header = ({ user, page }) => {
             <button
                 type='button'
                 className={`search-button ${page === 'search' ? 'show' : ''}`}
-                onClick={() => navigate('/search')}
+                onClick={() => navigate(`/search/page-number/1`)}
             >
                 Search
             </button>
@@ -20,7 +20,7 @@ const Header = ({ user, page }) => {
             <button
                 type='button'
                 className={`recipes-button ${page === 'recipes' ? 'show' : ''}`}
-                onClick={() => navigate('/recipes')}
+                onClick={() => navigate(`/recipes/page-number/1`)}
             >
                 Recipes
             </button>

@@ -14,7 +14,7 @@ const VerifyNewEmail = () => {
                 localStorage.setItem('token', data.token);
                 navigate(`/${page}/account`);
             } catch (error) {
-                alert(error);
+                console.error(error);
             }
         };
 

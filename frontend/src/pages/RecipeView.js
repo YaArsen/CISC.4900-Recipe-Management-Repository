@@ -28,7 +28,7 @@ const RecipeView = () => {
                 const data = await fetchGetRecipe(recipeId);
                 setRecipe(data);
             } catch (error) {
-                alert(error);
+                console.error(error);
             }
         };
 
@@ -42,7 +42,7 @@ const RecipeView = () => {
                 const data = await fetchGetIsFavorite(recipeId);
                 setIsFavorite(data);
             } catch (error) {
-                alert(error);
+                console.error(error);
             }
         };
 
@@ -56,7 +56,7 @@ const RecipeView = () => {
                 const data = await fetchGetIsLiked(recipeId);
                 setIsLiked(data);
             } catch (error) {
-                alert(error);
+                console.error(error);
             }
         };
 
@@ -66,16 +66,13 @@ const RecipeView = () => {
     // Navigation helper
     const handleClose = () => {
         if (tempRecipe) localStorage.setItem('recipe', JSON.stringify(tempRecipe));
-        localStorage.setItem('pageNumber', pageNumber);
         const partsPath = page.split(' ');
 
         if (partsPath.length === 2) {
-            navigate(`/${partsPath[0]}/${partsPath[1]}`);
-        } else if (page === 'search' || page === 'recipes') {
-            navigate(`/${page}`);
-        } else {
-            navigate('/');
+            return navigate(`/${partsPath[0]}/${partsPath[1]}`);
         }
+
+        navigate(`/${page}/page-number/${pageNumber}`);
     };
 
     if (!recipe || isFavorite === null ||  isLiked === null) return <div className='loader-container'><div className='loader'></div></div>; // Render loading state while data is being fetched
@@ -134,7 +131,7 @@ const RecipeView = () => {
                     className='comments-button'
                     onClick={() => {
                         if (tempRecipe) localStorage.setItem('recipe', JSON.stringify(tempRecipe));
-                        navigate(`/${page}/${pageNumber}/recipe-view/${recipe._id}/comments`);
+                        navigate(`/${page}/page-number/${pageNumber}/recipe-view/${recipe._id}/comments`);
                     }}
                 >
                     Comments

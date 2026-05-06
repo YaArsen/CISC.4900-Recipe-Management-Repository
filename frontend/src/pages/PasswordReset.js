@@ -21,7 +21,7 @@ const PasswordReset = () => {
             localStorage.setItem('message', data.message);
             navigate('/');
         } catch (error) {
-            alert(error);
+            console.error(error);
         }
     };
 

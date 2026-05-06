@@ -7,7 +7,7 @@ const ToggleFavoriteButton = ({ isFavorite, setIsFavorite, recipeId }) => {
             const data = await fetchToggleFavorite(recipeId);
             setIsFavorite(data);
         } catch (error) {
-            alert(error);
+            console.error(error);
         }
     };
 

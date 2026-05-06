@@ -8,7 +8,7 @@ const EditRecipe = ({ currentPage, recipeId }) => {
             type='button'
             onClick={(e) => {
                 e.stopPropagation();
-                navigate(`/recipes/${currentPage}/edit-recipe/${recipeId}`);
+                navigate(`/recipes/page-number/${currentPage}/edit-recipe/${recipeId}`);
             }}
         >
             Edit

@@ -27,9 +27,9 @@ const LogIn = () => {
         try {
             const data = await fetchLogIn({ email: user.email.trim(), password: user.password.trim() }); // Call the API function to fetch login data using the user state
             localStorage.setItem('token', data.token); // Store the returned token in localStorage for authentication purposes
-            navigate('/search'); // Navigate the user to the profile page upon successful login
+            navigate('/search/page-number/1'); // Navigate the user to the profile page upon successful login
         } catch (error) {
-            alert(error); // If an error occurs during logging in, display an alert with the error message
+            console.error(error);
         }
     };
 

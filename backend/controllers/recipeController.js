@@ -86,7 +86,7 @@ exports.getIsFavorite = async (req, res) => {
         if (!user) return res.status(404).json({ message: 'User not found' });
         const recipe = await Recipe.findById({ _id: recipeId });
         if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
-        const isFavorite = user.favorites.has(recipeId);
+        const isFavorite = user.favorites.includes(recipeId);
         res.status(200).json(isFavorite);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -102,7 +102,7 @@ exports.getIsLiked = async (req, res) => {
         if (!user) return res.status(404).json({ message: 'User not found' });
         const recipe = await Recipe.findById({ _id: recipeId });
         if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
-        const isLiked = user.liked.has(recipeId);
+        const isLiked = user.liked.includes(recipeId);
         res.status(200).json(isLiked);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -136,7 +136,7 @@ exports.updateRecipe = async (req, res) => {
         recipe.cookingTime = cookingTime;
         recipe.category = category;
         recipe.difficulty = difficulty;
-        recipe.timestamp = new Date();
+        recipe.timestamp = Date.now();
 
         await recipe.save();
 
@@ -173,13 +173,13 @@ exports.toggleFavorite = async (req, res) => {
     try {
         const user = await User.findById({ _id: userId });
         if (!user) return res.status(404).json({ message: 'User not found' });
-        const isFavorite = user.favorites.has(recipeId);
+        const isFavorite = user.favorites.includes(recipeId);
         let isActivated = false;
 
         if (isFavorite) {
-            user.favorites.delete(recipeId);
+            user.favorites.pull(recipeId);
         } else {
-            user.favorites.set(recipeId, true);
+            user.favorites.push(recipeId);
             isActivated = true;
         }
 
@@ -199,15 +199,15 @@ exports.toggleLike = async (req, res) => {
         if (!user) return res.status(404).json({ message: 'User not found' });
         const recipe = await Recipe.findById({ _id: recipeId });
         if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
-        const isLiked = user.liked.has(recipeId);
+        const isLiked = user.liked.includes(recipeId);
         let isActivated = false;
 
         if (isLiked) {
             recipe.likes -= 1;
-            user.liked.delete(recipeId);
+            user.liked.pull(recipeId);
         } else {
             recipe.likes += 1;
-            user.liked.set(recipeId, true);
+            user.liked.push(recipeId);
             isActivated = true;
         }
 
@@ -241,7 +241,7 @@ exports.postComment = async (req, res) => {
 
         const user = await User.findById({ _id: userId });
         if (!user) return res.status(404).json({ message: 'User not found' });
-        user.commented.set(recipeId, true);
+        user.commented.push(recipeId);
         await user.save();
 
         res.status(201).json([...recipe.comments.values()]);
@@ -283,7 +283,7 @@ exports.updateComment = async (req, res) => {
         if (!comment) return res.status(404).json({ message: 'Comment not found' });
 
         comment.content = content;
-        comment.timestamp = new Date();
+        comment.timestamp = Date.now();
         await recipe.save();
         res.status(200).json([...recipe.comments.values()]);
     } catch (error) {
@@ -379,32 +379,21 @@ exports.getFavoriteRecipes = async (req, res) => {
         const user = await User.findById({ _id: userId });
         if (!user) return res.status(404).json({ message: 'User not found' });
         const startIndex = (page - 1) * limit;
-        const recipesIds = [];
+        const recipesIds = user.favorites.slice(startIndex, startIndex + limit);
         const recipes = [];
-        let index = 0;
-
-        for (const k of user.favorites.keys()) {
-            index++;
-
-            if (index === startIndex + limit) break;
-
-            if (index >= startIndex && index < startIndex + limit) {
-                recipesIds.push(k);
-            }
-        }
 
         for (let i = 0; i < recipesIds.length; i++) {
             const recipe = await Recipe.findById({ _id: recipesIds[i] });
 
             if (!recipe) {
-                user.favorites.delete(recipesIds[i]);
+                user.favorites.pull(recipesIds[i]);
                 await user.save();
             } else {
                 recipes.push(recipe);
             }
         }
 
-        res.status(200).json({ recipes, totalPages: Math.ceil(user.favorites.size / limit), currentPage: parseInt(page) });
+        res.status(200).json({ recipes, totalPages: Math.ceil(user.favorites.length / limit), currentPage: parseInt(page) });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -418,32 +407,22 @@ exports.getLikedRecipes = async (req, res) => {
         const user = await User.findById({ _id: userId });
         if (!user) return res.status(404).json({ message: 'User not found' });
         const startIndex = (page - 1) * limit;
-        const recipesIds = [];
+        const recipesIds = user.liked.slice(startIndex, startIndex + limit);
         const recipes = [];
         let index = 0;
-
-        for (const k of user.liked.keys()) {
-            index++;
-
-            if (index === startIndex + limit) break;
-
-            if (index >= startIndex && index < startIndex + limit) {
-                recipesIds.push(k);
-            }
-        }
 
         for (let i = 0; i < recipesIds.length; i++) {
             const recipe = await Recipe.findById({ _id: recipesIds[i] });
 
             if (!recipe) {
-                user.liked.delete(recipesIds[i]);
+                user.liked.pull(recipesIds[i]);
                 await user.save();
             } else {
                 recipes.push(recipe);
             }
         }
 
-        res.status(200).json({ recipes, totalPages: Math.ceil(user.liked.size / limit), currentPage: parseInt(page) });
+        res.status(200).json({ recipes, totalPages: Math.ceil(user.liked.length / limit), currentPage: parseInt(page) });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -457,26 +436,15 @@ exports.getCommentedRecipes = async (req, res) => {
         const user = await User.findById({ _id: userId });
         if (!user) return res.status(404).json({ message: 'User not found' });
         const startIndex = (page - 1) * limit;
-        const recipesIds = [];
-        let isEqual = false;
+        const recipesIds = user.commented.slice(startIndex, startIndex + limit);
         const recipes = [];
-        let index = 0;
-
-        for (const k of user.commented.keys()) {
-            index++;
-
-            if (index === startIndex + limit) break;
-
-            if (index >= startIndex && index < startIndex + limit) {
-                recipesIds.push(k);
-            }
-        }
+        let isEqual = false;
 
         for (let i = 0; i < recipesIds.length; i++) {
             const recipe = await Recipe.findById({ _id: recipesIds[i] });
 
             if (!recipe) {
-                user.commented.delete(recipesIds[i]);
+                user.commented.pull(recipesIds[i]);
                 await user.save();
                 continue;
             }
@@ -489,7 +457,7 @@ exports.getCommentedRecipes = async (req, res) => {
             }
 
             if (!isEqual) {
-                user.commented.delete(recipesIds[i]);
+                user.commented.pull(recipesIds[i]);
                 await user.save();
             } else {
                 recipes.push(recipe);
@@ -497,7 +465,7 @@ exports.getCommentedRecipes = async (req, res) => {
             }
         }
 
-        res.status(200).json({ recipes, totalPages: Math.ceil(user.commented.size / limit), currentPage: parseInt(page) });
+        res.status(200).json({ recipes, totalPages: Math.ceil(user.commented.length / limit), currentPage: parseInt(page) });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

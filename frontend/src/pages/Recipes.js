@@ -7,38 +7,35 @@ import RecipeDetails from '../components/RecipeDetails';
 import KebabMenu from '../components/KebabMenu';
 import ToastNotification from '../components/ToastNotification';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
 const Recipes = () => {
+    const { pageNumber } = useParams();
     const [user, setUser] = useState(null);
     const [recipes, setRecipes] = useState(null); // State to hold user's posted recipes
     const [message, setMessage] = useState(''); // State for displaying notifications
     const [activeManageId, setActiveManageId] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(parseInt(pageNumber) || 1);
     const [totalPages, setTotalPages] = useState(1);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const pageNumber = localStorage.getItem('pageNumber');
+        setCurrentPage(parseInt(pageNumber) || 1);
+    }, [pageNumber]);
 
-        if (pageNumber) {
-            localStorage.removeItem('pageNumber');
-            setCurrentPage(pageNumber);
-        } else {
-            const getRecipes = async () => {
-                try {
-                    const data = await fetchGetAllUserRecipes(currentPage);
-                    setRecipes(data.recipes);
-                    setTotalPages(data.totalPages);
-                    setCurrentPage(data.currentPage);
-                } catch (error) {
-                    alert(error);
-                }
-            };
+    useEffect(() => {
+        const getRecipes = async () => {
+            try {
+                const data = await fetchGetAllUserRecipes(currentPage);
+                setRecipes(data.recipes);
+                setTotalPages(data.totalPages);
+            } catch (error) {
+                console.error(error);
+            }
+        };
 
-            getRecipes();
-        }
+        getRecipes();
     }, [currentPage]);
 
     useEffect(() => {
@@ -68,7 +65,7 @@ const Recipes = () => {
 
             <div className='recipes-header'>
                 <h1>Your Recipes</h1>
-                <button type='button' onClick={() => navigate(`/recipes/${currentPage}/add-recipe`)}>Add a New Recipe</button>
+                <button type='button' onClick={() => navigate(`/recipes/page-number/${currentPage}/add-recipe`)}>Add a New Recipe</button>
             </div>
 
             {recipes.length === 0 ? (
@@ -81,7 +78,7 @@ const Recipes = () => {
                             <div
                                 key={recipe._id}
                                 className='recipe-details'
-                                onClick={() => navigate(`/recipes/${currentPage}/recipe-view/${recipe._id}`)}
+                                onClick={() => navigate(`/recipes/page-number/${currentPage}/recipe-view/${recipe._id}`)}
                             >
                                 <RecipeDetails recipe={recipe} />
                                 <h4>{recipe.isPublic ? 'Public' : 'Private'}</h4>
@@ -116,7 +113,7 @@ const Recipes = () => {
 
                     <Pagination
                         currentPage={currentPage}
-                        setCurrentPage={setCurrentPage}
+                        setCurrentPage={(page) => navigate(`/recipes/page-number/${page}`)}
                         totalPages={totalPages}
                     />
                 </>

@@ -11,10 +11,9 @@ const AddRecipe = () => {
         try {
             const data = await fetchPostRecipe(recipe); // Send recipe data to the API
             localStorage.setItem('message', data.message);
-            localStorage.setItem('pageNumber', pageNumber);
-            navigate('/recipes');
+            navigate(`/recipes/page-number/${pageNumber}`);
         } catch (error) {
-            alert(error);
+            console.error(error);
         }
     };
 

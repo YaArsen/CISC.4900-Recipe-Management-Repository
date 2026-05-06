@@ -17,7 +17,7 @@ const DeleteRecipe = ({ setTotalPages, currentPage, setCurrentPage, setMessage, 
                 setTotalPages(data.totalPages);
             }
         } catch (error) {
-            alert(error); // Alert user if the deletion fails
+            console.error(error);
         }
     };
 

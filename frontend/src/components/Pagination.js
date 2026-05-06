@@ -2,7 +2,7 @@ const Pagination = ({ currentPage, setCurrentPage, totalPages }) => {
     return (
         <div className='pagination'>
             {/* Pagination Buttons */}
-            {currentPage !== 1 && <input type='button' value='<' onClick={() => setCurrentPage(c => c - 1)} />}
+            {currentPage !== 1 && <input type='button' value='<' onClick={() => setCurrentPage(currentPage - 1)} />}
 
             {[...Array(totalPages).keys()].map((_, index) => (
                 <button
@@ -15,7 +15,7 @@ const Pagination = ({ currentPage, setCurrentPage, totalPages }) => {
                 </button>
             ))}
 
-            {currentPage < totalPages && <input type='button' value='>' onClick={() => setCurrentPage(c => c + 1)} />}
+            {currentPage < totalPages && <input type='button' value='>' onClick={() => setCurrentPage(currentPage + 1)} />}
 
             <div>{currentPage}/{totalPages}</div>
         </div>

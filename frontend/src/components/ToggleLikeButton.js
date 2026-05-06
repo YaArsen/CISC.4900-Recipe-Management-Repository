@@ -7,7 +7,7 @@ const ToggleLikeButton = ({ isLiked, setIsLiked, recipeId, setRecipe }) => {
             setRecipe(data.recipe); // Update the recipe details (e.g., like count) in the parent component
             setIsLiked(data.isActivated); // Update the local button activation state (true/false)
         } catch (error) {
-            alert(error);
+            console.error(error);
         }
     };
 

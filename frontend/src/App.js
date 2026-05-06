@@ -30,17 +30,17 @@ const App = () => {
 
                 {/* Protected Routes wrapped in ProtectedRoute */}
                 <Route element={<ProtectedRoute />}>
-                    <Route path='/search' element={<Search />} />
-                    <Route path='/recipes' element={<Recipes />} />
-                    <Route path='/recipes/:pageNumber/add-recipe' element={<AddRecipe />} />
-                    <Route path='/recipes/:pageNumber/edit-recipe/:recipeId' element={<EditRecipe />} />
-                    <Route path='/:page/:pageNumber/recipe-view/:recipeId' element={<RecipeView />} />
-                    <Route path='/:page/:pageNumber/recipe-view/:recipeId/comments' element={<CommentsContainer />} />
+                    <Route path='/search/page-number/:pageNumber' element={<Search />} />
+                    <Route path='/recipes/page-number/:pageNumber' element={<Recipes />} />
+                    <Route path='/recipes/page-number/:pageNumber/add-recipe' element={<AddRecipe />} />
+                    <Route path='/recipes/page-number/:pageNumber/edit-recipe/:recipeId' element={<EditRecipe />} />
+                    <Route path='/:page/page-number/:pageNumber/recipe-view/:recipeId' element={<RecipeView />} />
+                    <Route path='/:page/page-number/:pageNumber/recipe-view/:recipeId/comments' element={<CommentsContainer />} />
                     <Route path='/:page/account' element={<Account />} />
                     <Route path='/account/verify-new-email/:verificationToken' element={<VerifyNewEmail />} />
-                    <Route path='/:page/favorite-recipes' element={<FavoriteRecipes />} />
-                    <Route path='/:page/liked-recipes' element={<LikedRecipes />} />
-                    <Route path='/:page/commented-recipes' element={<CommentedRecipes />} />
+                    <Route path='/:page/page-number/:pageNumber/favorite-recipes' element={<FavoriteRecipes />} />
+                    <Route path='/:page/page-number/:pageNumber/liked-recipes' element={<LikedRecipes />} />
+                    <Route path='/:page/page-number/:pageNumber/commented-recipes' element={<CommentedRecipes />} />
                 </Route>
 
                 <Route path='*' element={<div>404 Not Found</div>} />

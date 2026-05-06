@@ -5,40 +5,36 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const FavoriteRecipes = () => {
-    const { page } = useParams();
+    const { page, pageNumber } = useParams();
     const [recipes, setRecipes] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(parseInt(pageNumber) || 1);
     const [totalPages, setTotalPages] = useState(1);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const pageNumber = localStorage.getItem('pageNumber');
+        setCurrentPage(parseInt(pageNumber) || 1);
+    }, [pageNumber]);
 
-        if (pageNumber) {
-            localStorage.removeItem('pageNumber');
-            getFavoriteRecipes(pageNumber);
-        } else {
-            getFavoriteRecipes(currentPage);
-        }
+    useEffect(() => {
+        const getFavoriteRecipes = async () => {
+            try {
+                const data = await fetchGetFavoriteRecipes(currentPage);
+                setRecipes(data.recipes);
+                setTotalPages(data.totalPages);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        getFavoriteRecipes();
     }, [currentPage]);
-
-    const getFavoriteRecipes = async (page) => {
-        try {
-            const data = await fetchGetFavoriteRecipes(page);
-            setRecipes(data.recipes);
-            setTotalPages(data.totalPages);
-            setCurrentPage(data.currentPage);
-        } catch (error) {
-            alert(error);
-        }
-    };
 
     if (!recipes) return <div className='loader-container'><div className='loader'></div></div>; // Loading state
 
     return (
         <div className='activity-page-container'>
             <div className='activity-page-header'>
-                <input type='button' value='<' className='previous-button' onClick={() => navigate(`/${page}`)} />
+                <input type='button' value='<' className='previous-button' onClick={() => navigate(`/${page}/page-number/1`)} />
                 <h1>Favorite Recipes</h1>
             </div>
 
@@ -52,13 +48,7 @@ const FavoriteRecipes = () => {
                             <div
                                 key={recipe._id}
                                 className='recipe-details'
-                                onClick={() => {
-                                    if (page === 'search' || page === 'recipes') {
-                                        navigate(`/${page} favorite-recipes/${currentPage}/recipe-view/${recipe._id}`);
-                                    } else {
-                                        navigate('/');
-                                    }
-                                }}
+                                onClick={() => navigate(`/${page} favorite-recipes/page-number/${currentPage}/recipe-view/${recipe._id}`)}
                             >
                                 <RecipeDetails recipe={recipe} />
                             </div>
@@ -67,7 +57,7 @@ const FavoriteRecipes = () => {
 
                     <Pagination
                         currentPage={currentPage}
-                        setCurrentPage={setCurrentPage}
+                        setCurrentPage={(page) => navigate(`/${page}/page-number/${pageNumber}/favorite-recipes`)}
                         totalPages={totalPages}
                     />
                 </>

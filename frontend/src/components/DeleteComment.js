@@ -7,7 +7,7 @@ const DeleteComment = ({ recipeId, commentId, setComments }) => {
             const data = await fetchDeleteComment(recipeId, commentId); // 1. Call API to delete the comment on the server
             setComments(data); // 2. Update the local state with the new list of comments returned by the API
         } catch (error) {
-            alert(error); // 3. Handle network or API errors
+            console.error(error); // 3. Handle network or API errors
         }
     };
 

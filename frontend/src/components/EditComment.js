@@ -22,7 +22,7 @@ const EditComment = ({ setActiveManageId, recipeId, commentId, currentContent, s
             setIsEditing(false);
             setActiveManageId('');
         } catch (error) {
-            alert(error); // Basic error handling
+            console.error(error);
         }
     };
 

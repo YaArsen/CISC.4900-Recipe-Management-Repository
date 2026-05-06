@@ -4,26 +4,29 @@ import Pagination from '../components/Pagination';
 import SearchForm from '../components/SearchForm'; // Import component for user search input
 import RecipeDetails from '../components/RecipeDetails';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Hook for navigation/routing
+import { useNavigate, useParams  } from 'react-router-dom'; // Hook for navigation/routing
 import { jwtDecode } from 'jwt-decode';
 
 const Search = () => {
+    const { pageNumber } = useParams();
     const [tempRecipe, setTempRecipe] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(parseInt(pageNumber) || 1);
     const [totalPages, setTotalPages] = useState(1);
     const [user, setUser] = useState(null);
     const [recipes, setRecipes] = useState([]); // State to store fetched recipes
     const [isFetched, setIsFetched] = useState(false); // State to track if the API request has finished
     const navigate = useNavigate(); // Initialize navigation function
 
+     useEffect(() => {
+        setCurrentPage(parseInt(pageNumber) || 1);
+    }, [pageNumber]);
+
+
     useEffect(() => {
-        const pageNumber = localStorage.getItem('pageNumber');
         const recipe = localStorage.getItem('recipe');
 
-        if (pageNumber && recipe) {
-            localStorage.removeItem('pageNumber');
+        if (recipe) {
             localStorage.removeItem('recipe');
-            setCurrentPage(JSON.parse(pageNumber));
             setTempRecipe(JSON.parse(recipe));
         }
 
@@ -36,11 +39,10 @@ const Search = () => {
                 const data = await fetchSearchRecipes(tempRecipe, currentPage); // Fetch data from API
                 setRecipes(data.recipes); // Set results in state
                 setTotalPages(data.totalPages);
-                setCurrentPage(data.currentPage);
                 setIsFetched(true); // Mark fetch as complete
             } catch (error) {
                 setIsFetched(true);
-                alert(error); // Alert error if request fails
+                console.error(error);
             }
         };
 
@@ -62,6 +64,10 @@ const Search = () => {
             <Header user={user} page={'search'} />
             <SearchForm initialRecipe={tempRecipe} onSubmit={setTempRecipe} isFetched={isFetched} length={recipes.length} />
 
+            {!isFetched && tempRecipe && (
+                <div className='search-page-loader'><div className='loader'></div></div>
+            )}
+
             {/* Conditional rendering: display recipes if found, or message if not */}
             {isFetched && recipes.length > 0 && (
                 <>
@@ -73,7 +79,7 @@ const Search = () => {
                                 className='recipe-details'
                                 onClick={() => {
                                     if (tempRecipe) localStorage.setItem('recipe', JSON.stringify(tempRecipe));
-                                    navigate(`/search/${currentPage}/recipe-view/${recipe._id}`);
+                                    navigate(`/search/page-number/${currentPage}/recipe-view/${recipe._id}`);
                                 }}
                             >
                                 <RecipeDetails recipe={recipe} />
@@ -83,7 +89,7 @@ const Search = () => {
 
                     <Pagination
                         currentPage={currentPage}
-                        setCurrentPage={setCurrentPage}
+                        setCurrentPage={(page) => navigate(`/search/page-number/${page}`)} 
                         totalPages={totalPages}
                     />
                 </>

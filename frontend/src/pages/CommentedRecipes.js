@@ -5,40 +5,36 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const CommentedRecipes = () => {
-    const { page } = useParams();
+    const { page, pageNumber } = useParams();
     const [recipes, setRecipes] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(parseInt(pageNumber) || 1);
     const [totalPages, setTotalPages] = useState(1);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const pageNumber = localStorage.getItem('pageNumber');
+        setCurrentPage(parseInt(pageNumber) || 1);
+    }, [pageNumber]);
 
-        if (pageNumber) {
-            localStorage.removeItem('pageNumber');
-            getCommentedRecipes(pageNumber);
-        } else {
-            getCommentedRecipes(currentPage);
-        }
+    useEffect(() => {
+        const getCommentedRecipes = async () => {
+            try {
+                const data = await fetchGetCommentedRecipes(currentPage);
+                setRecipes(data.recipes);
+                setTotalPages(data.totalPages);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        getCommentedRecipes();
     }, [currentPage]);
-
-    const getCommentedRecipes = async (page) => {
-        try {
-            const data = await fetchGetCommentedRecipes(page);
-            setRecipes(data.recipes);
-            setTotalPages(data.totalPages);
-            setCurrentPage(data.currentPage);
-        } catch (error) {
-            alert(error);
-        }
-    };
 
     if (!recipes) return <div className='loader-container'><div className='loader'></div></div>; // Loading state
 
     return (
         <div className='activity-page-container'>
             <div className='activity-page-header'>
-                <input type='button' value='<' className='previous-button' onClick={() => navigate(`/${page}`)} />
+                <input type='button' value='<' className='previous-button' onClick={() => navigate(`/${page}/page-number/1`)} />
                 <h1>Commented Recipes</h1>
             </div>
 
@@ -52,13 +48,7 @@ const CommentedRecipes = () => {
                             <div
                                 key={recipe._id}
                                 className='recipe-details'
-                                onClick={() => {
-                                    if (page === 'search' || page === 'recipes') {
-                                        navigate(`/${page} commented-recipes/${currentPage}/recipe-view/${recipe._id}`);
-                                    } else {
-                                        navigate('/');
-                                    }
-                                }}
+                                onClick={() => navigate(`/${page} commented-recipes/page-number/${currentPage}/recipe-view/${recipe._id}`)}
                             >
                                 <RecipeDetails recipe={recipe} />
                             </div>
@@ -67,7 +57,7 @@ const CommentedRecipes = () => {
 
                     <Pagination
                         currentPage={currentPage}
-                        setCurrentPage={setCurrentPage}
+                        setCurrentPage={(page) => navigate(`/${page}/page-number/${pageNumber}/commented-recipes`)}
                         totalPages={totalPages}
                     />
                 </>

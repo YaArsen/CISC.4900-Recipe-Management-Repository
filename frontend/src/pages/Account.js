@@ -41,7 +41,7 @@ const Account = () => {
             setUser({ ...user, password: '', newPassword: '', repeatPassword: '' });
             setCheckPassword({});
         } catch (error) {
-            alert(error);
+            console.error(error);
         }
     };
 
@@ -54,7 +54,7 @@ const Account = () => {
             setMessage(data.message);
             setUser({ ...user, email: '', passwordToChangeEmail: '' });
         } catch (error) {
-            alert(error);
+            console.error(error);
         }
     };
 
@@ -69,7 +69,7 @@ const Account = () => {
             setUserData({ ...userData, name: user.name.trim() });
             localStorage.setItem('token', data.token);
         } catch (error) {
-            alert(error);
+            console.error(error);
         }
     };
 
@@ -86,7 +86,7 @@ const Account = () => {
                 <ToastNotification message={message} setMessage={setMessage} /> {/* Display notification */}
             </div>
 
-            <button type='button' className='close-button' onClick={() => navigate(`/${page}`)}>x</button>
+            <button type='button' className='close-button' onClick={() => navigate(`/${page}/page-number/1`)}>x</button>
 
             <h4>User email: {userData.email}</h4>
             <form onSubmit={updateEmail}>

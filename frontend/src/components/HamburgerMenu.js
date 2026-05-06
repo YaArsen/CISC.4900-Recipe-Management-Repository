@@ -19,9 +19,9 @@ const HamburgerMenu = ({ page }) => {
             {/* Conditionally render the navigation menu only if isOpen is true */}
             <div className={`navigation-menu ${isOpen ? 'show' : ''}`}>
                 <button type='button' onClick={() => navigate(`/${page}/account`)}>Account</button>
-                <button type='button' onClick={() => navigate(`/${page}/liked-recipes`)}>Liked Recipes</button>
-                <button type='button' onClick={() => navigate(`/${page}/favorite-recipes`)}>Favorite Recipes</button>
-                <button type='button' onClick={() => navigate(`/${page}/commented-recipes`)}>Commented Recipes</button>
+                <button type='button' onClick={() => navigate(`/${page}/page-number/1/liked-recipes`)}>Liked Recipes</button>
+                <button type='button' onClick={() => navigate(`/${page}/page-number/1/favorite-recipes`)}>Favorite Recipes</button>
+                <button type='button' onClick={() => navigate(`/${page}/page-number/1/commented-recipes`)}>Commented Recipes</button>
                 <Delete />
                 <LogOut />
             </div>

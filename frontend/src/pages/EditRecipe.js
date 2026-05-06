@@ -27,10 +27,9 @@ const EditRecipe = () => {
         try {
             const data = await fetchUpdateRecipe(recipeId, recipe);
             localStorage.setItem('message', data.message);
-            localStorage.setItem('pageNumber', pageNumber);
-            navigate('/recipes');
+            navigate(`/recipes/page-number/${pageNumber}`);
         } catch (error) {
-            alert(error); // Basic error handling for updates
+            console.error(error);
         }
     };
 

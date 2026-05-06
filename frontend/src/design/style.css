@@ -19,6 +19,13 @@ body {
     font-family: Arial, sans-serif;
 }
 
+/* =========================================
+   Loader Styles
+   ========================================= */
+.search-page-loader .loader {
+    margin: 0 auto;
+}
+
 .loader-container {
     display: flex;
     justify-content: center;
@@ -36,8 +43,8 @@ body {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .log-in-toast-notification,
@@ -178,7 +185,6 @@ input[type='radio'] {
     padding: 8px 12px;
     border: 1px solid gray;
     color: black;
-    margin: 0 4px;
     border-radius: 5px;
 }
 
@@ -186,7 +192,6 @@ input[type='radio'] {
     padding: 8px 12px;
     border: 1px solid gray;
     color: black;  
-    margin: 0 4px;
     border-radius: 5px;
 }
 

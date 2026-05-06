@@ -11,7 +11,7 @@ const Delete = () => {
             localStorage.setItem('message', data.message); // Store a success message in local storage to be displayed on the redirected page.
             navigate('/'); // Redirect the user to the login page ('/').
         } catch (error) {
-            alert(error);
+            console.error(error);
         }
     };
 
