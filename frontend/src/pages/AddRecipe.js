@@ -17,7 +17,7 @@ const AddRecipe = () => {
         }
     };
 
-    return <RecipeForm onSubmit={postRecipe} page={'Add Recipe'} />;
+    return <RecipeForm onSubmit={postRecipe} page='Add Recipe' />;
 };
 
 export default AddRecipe;

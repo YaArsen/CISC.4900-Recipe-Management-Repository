@@ -42,7 +42,7 @@ const EditRecipe = () => {
         );
     }
 
-    return <RecipeForm initialData={recipe} onSubmit={updateRecipe} page={'Edit Recipe'} />;
+    return <RecipeForm initialData={recipe} onSubmit={updateRecipe} page='Edit Recipe' />;
 };
 
 export default EditRecipe;
