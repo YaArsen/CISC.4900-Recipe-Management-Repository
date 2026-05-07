@@ -50,6 +50,7 @@ exports.getAllUserRecipes = async (req, res) => {
     try {
         const user = await User.findById({ _id: userId });
         if (!user) return res.status(404).json({ message: 'User not found' });
+        if (user.recipes === 0) return res.status(200).json({ recipes: [], totalPages: 1, currentPage: parseInt(page) });
         const startIndex = (page - 1) * limit;
         const recipes = await Recipe.find({ user: userId }).skip(startIndex).limit(parseInt(limit));
         res.status(200).json({ recipes, totalPages: Math.ceil(user.recipes / limit), currentPage: parseInt(page) });
