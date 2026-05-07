@@ -69,10 +69,16 @@ const CommentsContainer = () => {
     // Navigation helper
     const handleClose = () => {
         if (tempRecipe) localStorage.setItem('recipe', JSON.stringify(tempRecipe));
-        navigate(`/${page}/${pageNumber}/recipe-view/${recipeId}`);
+        navigate(`/${page}/page-number/${pageNumber}/recipe-view/${recipeId}`);
     };
 
-    if (!user || !recipe || !comments) return <div className='loader-container'><div className='loader'></div></div>; // Simple loading state
+    if (!user || !recipe || !comments) {
+        return (
+            <div className='loader-container'>
+                <div className='loader'></div>
+            </div>
+        );
+    }
 
     // Filter to get only top-level comments (those without a parentId) and sort them by timestamp (newest first)
     const topLevelComments = mergeSort(comments.filter(c => !c.parentId));

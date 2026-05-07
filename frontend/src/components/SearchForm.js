@@ -141,10 +141,7 @@ const SearchForm = ({ initialRecipe, onSubmit, isFetched, length }) => {
                         <button
                             className='form-button'
                             type='button'
-                            onClick={() => {
-                                setIsFilterOpen(false);
-                                clear();
-                            }}
+                            onClick={() => setIsFilterOpen(false)}
                         >
                             Close Filters
                         </button>

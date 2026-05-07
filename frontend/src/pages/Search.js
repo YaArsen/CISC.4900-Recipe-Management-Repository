@@ -10,7 +10,7 @@ import { jwtDecode } from 'jwt-decode';
 const Search = () => {
     const { pageNumber } = useParams();
     const [tempRecipe, setTempRecipe] = useState(null);
-    const [currentPage, setCurrentPage] = useState(parseInt(pageNumber) || 1);
+    const [currentPage, setCurrentPage] = useState(parseInt(pageNumber));
     const [totalPages, setTotalPages] = useState(1);
     const [user, setUser] = useState(null);
     const [recipes, setRecipes] = useState([]); // State to store fetched recipes
@@ -18,7 +18,7 @@ const Search = () => {
     const navigate = useNavigate(); // Initialize navigation function
 
      useEffect(() => {
-        setCurrentPage(parseInt(pageNumber) || 1);
+        setCurrentPage(parseInt(pageNumber));
     }, [pageNumber]);
 
 
@@ -57,15 +57,25 @@ const Search = () => {
         setUser(user);
     }, []);
 
-    if (!user) return <div className='loader-container'><div className='loader'></div></div>;
+    // Loading state
+    if (!user) {
+        return (
+            <div className='loader-container'>
+                <div className='loader'></div>
+            </div>
+        );
+    }
 
     return (
         <>
             <Header user={user} page={'search'} />
             <SearchForm initialRecipe={tempRecipe} onSubmit={setTempRecipe} isFetched={isFetched} length={recipes.length} />
 
+            {/* Loading state */}
             {!isFetched && tempRecipe && (
-                <div className='search-page-loader'><div className='loader'></div></div>
+                <div className='search-page-loader'>
+                    <div className='loader'></div>
+                </div>
             )}
 
             {/* Conditional rendering: display recipes if found, or message if not */}

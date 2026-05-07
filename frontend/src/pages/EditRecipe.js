@@ -33,7 +33,14 @@ const EditRecipe = () => {
         }
     };
 
-    if (!recipe) return <div className='loader-container'><div className='loader'></div></div>; // Show loading message while fetching data
+    // Show loading message while fetching data
+    if (!recipe) {
+        return (
+            <div className='loader-container'>
+                <div className='loader'></div>
+            </div>
+        );
+    }
 
     return <RecipeForm initialData={recipe} onSubmit={updateRecipe} page={'Edit Recipe'} />;
 };

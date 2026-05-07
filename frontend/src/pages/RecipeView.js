@@ -66,16 +66,23 @@ const RecipeView = () => {
     // Navigation helper
     const handleClose = () => {
         if (tempRecipe) localStorage.setItem('recipe', JSON.stringify(tempRecipe));
-        const partsPath = page.split(' ');
+        const pathParts = page.split(' ');
 
-        if (partsPath.length === 2) {
-            return navigate(`/${partsPath[0]}/${partsPath[1]}`);
+        if (pathParts.length === 2) {
+            return navigate(`/${pathParts[0]}/page-number/${pageNumber}/${pathParts[1]}`);
         }
 
         navigate(`/${page}/page-number/${pageNumber}`);
     };
 
-    if (!recipe || isFavorite === null ||  isLiked === null) return <div className='loader-container'><div className='loader'></div></div>; // Render loading state while data is being fetched
+    // Render loading state while data is being fetched
+    if (!recipe || isFavorite === null ||  isLiked === null) {
+        return (
+            <div className='loader-container'>
+                <div className='loader'></div>
+            </div>
+        );
+    }
 
     return (
         <div className='recipe-view-container'>

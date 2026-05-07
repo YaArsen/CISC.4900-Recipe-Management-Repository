@@ -7,12 +7,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 const LikedRecipes = () => {
     const { page, pageNumber } = useParams();
     const [recipes, setRecipes] = useState(null);
-    const [currentPage, setCurrentPage] = useState(parseInt(pageNumber) || 1);
+    const [currentPage, setCurrentPage] = useState(parseInt(pageNumber));
     const [totalPages, setTotalPages] = useState(1);
     const navigate = useNavigate();
 
     useEffect(() => {
-        setCurrentPage(parseInt(pageNumber) || 1);
+        setCurrentPage(parseInt(pageNumber));
     }, [pageNumber]);
 
     useEffect(() => {
@@ -29,7 +29,14 @@ const LikedRecipes = () => {
         getLikedRecipes();
     }, [currentPage]);
 
-    if (!recipes) return <div className='loader-container'><div className='loader'></div></div>; // Loading state
+    // Loading state
+    if (!recipes) {
+        return (
+            <div className='loader-container'>
+                <div className='loader'></div>
+            </div>
+        );
+    }
 
     return (
         <div className='activity-page-container'>
@@ -57,7 +64,7 @@ const LikedRecipes = () => {
 
                     <Pagination
                         currentPage={currentPage}
-                        setCurrentPage={(page) => navigate(`/${page}/page-number/${pageNumber}/liked-recipes`)}
+                        setCurrentPage={(pageNumber) => navigate(`/${page}/page-number/${pageNumber}/liked-recipes`)}
                         totalPages={totalPages}
                     />
                 </>

@@ -16,12 +16,12 @@ const Recipes = () => {
     const [recipes, setRecipes] = useState(null); // State to hold user's posted recipes
     const [message, setMessage] = useState(''); // State for displaying notifications
     const [activeManageId, setActiveManageId] = useState(null);
-    const [currentPage, setCurrentPage] = useState(parseInt(pageNumber) || 1);
+    const [currentPage, setCurrentPage] = useState(parseInt(pageNumber));
     const [totalPages, setTotalPages] = useState(1);
     const navigate = useNavigate();
 
     useEffect(() => {
-        setCurrentPage(parseInt(pageNumber) || 1);
+        setCurrentPage(parseInt(pageNumber));
     }, [pageNumber]);
 
     useEffect(() => {
@@ -53,7 +53,14 @@ const Recipes = () => {
         setUser(user);
     }, []);
 
-    if (!user || !recipes) return <div className='loader-container'><div className='loader'></div></div>; // Loading state
+    // Loading state
+    if (!user || !recipes) {
+        return (
+            <div className='loader-container'>
+                <div className='loader'></div>
+            </div>
+        );
+    }
 
     return (
         <>
@@ -99,7 +106,6 @@ const Recipes = () => {
                                         {/* Delete component handles API call and state update */}
                                         <DeleteRecipe
                                             setTotalPages={setTotalPages}
-                                            setCurrentPage={setCurrentPage}
                                             currentPage={currentPage}
                                             setMessage={setMessage}
                                             recipeId={recipe._id}

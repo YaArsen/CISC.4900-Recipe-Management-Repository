@@ -1,6 +1,9 @@
 import { fetchDeleteRecipe } from '../api';
+import { useNavigate } from 'react-router-dom';
 
-const DeleteRecipe = ({ setTotalPages, currentPage, setCurrentPage, setMessage, recipeId, setRecipes }) => {
+const DeleteRecipe = ({ setTotalPages, currentPage, setMessage, recipeId, setRecipes }) => {
+    const navigate = useNavigate();
+
     // Handles the deletion process
     const deleteRecipe = async (e) => {
         e.stopPropagation();
@@ -11,7 +14,7 @@ const DeleteRecipe = ({ setTotalPages, currentPage, setCurrentPage, setMessage, 
             setMessage(data.message);
 
             if (data.recipes.length === 0 && data.currentPage !== 1) {
-                setCurrentPage(c => c - 1);
+                navigate(`/recipes/page-number/${currentPage - 1}`);
             } else {
                 setRecipes(data.recipes);
                 setTotalPages(data.totalPages);
