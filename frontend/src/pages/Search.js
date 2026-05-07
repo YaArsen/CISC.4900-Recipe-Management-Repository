@@ -68,7 +68,7 @@ const Search = () => {
 
     return (
         <>
-            <Header user={user} page={'search'} />
+            <Header user={user} page='search' />
             <SearchForm initialRecipe={tempRecipe} onSubmit={setTempRecipe} isFetched={isFetched} length={recipes.length} />
 
             {/* Loading state */}

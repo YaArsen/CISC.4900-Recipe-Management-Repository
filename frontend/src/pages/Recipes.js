@@ -64,7 +64,7 @@ const Recipes = () => {
 
     return (
         <>
-            <Header user={user} page={'recipes'} />
+            <Header user={user} page='recipes' />
 
             <div className='recipes-toast-notification'>
                 <ToastNotification message={message} setMessage={setMessage} /> {/* Display notification */}
