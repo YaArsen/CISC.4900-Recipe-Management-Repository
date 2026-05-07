@@ -242,7 +242,7 @@ exports.postComment = async (req, res) => {
 
         const user = await User.findById({ _id: userId });
         if (!user) return res.status(404).json({ message: 'User not found' });
-        user.commented.push(recipeId);
+        if (!user.commented.find(id => id.equals(recipeId))) user.commented.push(recipeId);
         await user.save();
 
         res.status(201).json([...recipe.comments.values()]);

@@ -3,14 +3,14 @@ import fetchData from './utils/fetchData';
 export const fetchRegister = async (user) => {
     const res = await fetchData('/api/auth/register', { method: 'POST', body: user });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.message);
+    if (!res.ok) throw new Error({ status: data.status, message: data.message });
     return data;
 };
 
 export const fetchLogIn = async (user) => {
     const res = await fetchData('/api/auth/log-in', { method: 'POST', body: user });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.message);
+    if (!res.ok) throw new Error({ status: data.status, message: data.message });
     return data;
 };
 
@@ -153,7 +153,7 @@ export const fetchUpdateEmail = async (user) => {
     const token = localStorage.getItem('token');
     const res = await fetchData('/api/auth/update-email', { method: 'PUT', token, body: user });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.message);
+    if (!res.ok) throw new Error({ status: data.status, message: data.message });
     return data;
 };
 
@@ -161,7 +161,7 @@ export const fetchUpdatePassword = async (user) => {
     const token = localStorage.getItem('token');
     const res = await fetchData('/api/auth/update-password', { method: 'PUT', token, body: user });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.message);
+    if (!res.ok) throw new Error({ status: data.status, message: data.message });
     return data;
 };
 

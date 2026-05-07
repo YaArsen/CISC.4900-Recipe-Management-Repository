@@ -41,7 +41,8 @@ const Account = () => {
             setUser({ ...user, password: '', newPassword: '', repeatPassword: '' });
             setCheckPassword({});
         } catch (error) {
-            console.error(error);
+            if (error.status === 401) return alert(error.message);
+            console.error(error.message);
         }
     };
 
@@ -54,7 +55,8 @@ const Account = () => {
             setMessage(data.message);
             setUser({ ...user, email: '', passwordToChangeEmail: '' });
         } catch (error) {
-            console.error(error);
+            if (error.status === 400 || error.status === 401) return alert(error.message);
+            console.error(error.message);
         }
     };
 
