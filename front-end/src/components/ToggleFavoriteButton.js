@@ -1,7 +1,6 @@
 import { fetchToggleFavorite } from '../api';
 
 const ToggleFavoriteButton = ({ isFavorite, setIsFavorite, recipeId }) => {
-
     const toggleFavorite = async () => {
         try {
             const data = await fetchToggleFavorite(recipeId);
