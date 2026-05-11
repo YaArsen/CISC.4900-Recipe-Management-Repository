@@ -124,7 +124,7 @@ exports.resetPassword = async (req, res) => {
                     text: 'Reset your password',
                     html: `
                         <p>Click on the link to navigate on a password reset page</p>
-                        <a href='${process.env.URL_PARTS}/reset-password/${token}>Password reset page</a>
+                        <a href='${process.env.URL_PARTS}/reset-password/${token}'>Password reset page</a>
                     `
                 });
 
@@ -219,7 +219,7 @@ exports.updateEmail = async (req, res) => {
                     text: 'Please verify your email',
                     html: `
                         <p>Click on the link to verify your email</p>
-                        <a href='${process.env.URL_PARTS}/${page}/account/verify-new-email/${token}'>Verify Email</a>
+                        <a href='${process.env.URL_PARTS}/account/verify-new-email/${token}'>Verify Email</a>
                     `
                 });
 

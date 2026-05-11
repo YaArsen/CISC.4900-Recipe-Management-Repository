@@ -29,8 +29,7 @@ const LogIn = () => {
             localStorage.setItem('token', data.token); // Store the returned token in localStorage for authentication purposes
             navigate('/search/page-number/1'); // Navigate the user to the profile page upon successful login
         } catch (error) {
-            if (error.status === 401) return alert(error.message);
-            console.error(error.message);
+            console.error(error);
         }
     };
 
